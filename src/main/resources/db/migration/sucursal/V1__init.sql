@@ -82,13 +82,9 @@ CREATE TABLE producto_pintura_sucursal (
 
 CREATE TABLE producto_precio_stock (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-
     -- ID de producto en la base de datos GENERAL
     producto_general_id BIGINT NOT NULL,
-
     precio DOUBLE NOT NULL,
-    stock INT NOT NULL
-
-    -- índice recomendado
-        INDEX idx_prod_general_id (producto_general_id)
+    stock INT NOT NULL,
+    INDEX idx_prod_general_id (producto_general_id)
 );

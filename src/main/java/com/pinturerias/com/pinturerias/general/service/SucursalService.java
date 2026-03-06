@@ -53,6 +53,7 @@ public class SucursalService {
         );
 
         System.out.println("✅ Sucursal registrada y migrada: " + s.getCodigo());
+
         return guardada;
     }
 
@@ -70,10 +71,12 @@ public class SucursalService {
 
         Flyway flyway = Flyway.configure()
                 .dataSource(jdbcUrl, user, pass)
-                .locations("classpath:db/migration/tenant") // 🔹 ruta de migraciones tenant
+                .locations("classpath:db/migration/sucursal") // 🔹 ruta de migraciones tenant  cambie a sucursal
                 .baselineOnMigrate(true)
                 .load();
 
         flyway.migrate();
+        var result = flyway.migrate();
+        System.out.println("Migraciones ejecutadas: " + result.migrationsExecuted);
     }
 }
