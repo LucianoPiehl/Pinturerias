@@ -1,6 +1,7 @@
 package com.pinturerias.com.pinturerias.general.controller;
 
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.com.pinturerias.compartidos.entity.Producto;
 import com.pinturerias.com.pinturerias.compartidos.enumerate.Contexto;
 import com.pinturerias.com.pinturerias.general.service.ProductoGeneralService;
@@ -42,7 +43,7 @@ public class ProductoGeneralController {
     }
 
     @PostMapping("/pintura")
-    public Producto crearPintura(@RequestBody ProductoDTO dto) {
+    public Producto crearPintura(@RequestBody ProductoPinturaDTO dto) {
         dto.setContexto(Contexto.GENERAL);
         return service.crearPintura(dto);
     }

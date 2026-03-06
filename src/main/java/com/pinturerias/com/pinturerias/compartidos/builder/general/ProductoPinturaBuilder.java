@@ -78,7 +78,7 @@ public class ProductoPinturaBuilder implements ProductoBuilderBase {
 
     @Override
     public void setCategoria(String idCategoria) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        producto.setCategoria(idCategoria);
     }
 
     

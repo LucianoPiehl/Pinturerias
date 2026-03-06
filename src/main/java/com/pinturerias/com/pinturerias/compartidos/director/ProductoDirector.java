@@ -49,6 +49,7 @@ public class ProductoDirector {
         builder.setMarca(dto.getMarca());
         builder.setPrecioFinal(dto.getPrecioFinal());
         builder.setCategoria(dto.getIdCategoria());
+        builder.setEtiqueta(dto.getEtiquetas());
 
         // ----------- Entidades Pintura --------------
     

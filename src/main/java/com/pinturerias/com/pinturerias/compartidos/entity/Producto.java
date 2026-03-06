@@ -47,7 +47,7 @@ public abstract class Producto {
         return marca;
     }
 
-    public void setMarca(String nombre) {
+    public void setMarca(String marca) {
         this.marca = marca;
     }
 
