@@ -58,4 +58,10 @@ public class ProductoGeneralController {
     public void eliminarPintura(@PathVariable Long id) {
         service.eliminarPintura(id);
     }
+
+    //ACTUALIZAR
+    @PutMapping("/pintura")
+    public void actualizarPintura(@RequestBody ProductoPinturaDTO dto){
+        service.actualizarPintura(dto);
+    }
 }

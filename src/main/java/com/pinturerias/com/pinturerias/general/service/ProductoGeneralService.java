@@ -1,7 +1,9 @@
 package com.pinturerias.com.pinturerias.general.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import org.springframework.stereotype.Service;
 
 import com.pinturerias.com.pinturerias.compartidos.director.ProductoDirector;
@@ -38,7 +40,7 @@ public class ProductoGeneralService {
         return repoOtro.save(p);
     }
 
-    public ProductoPinturaGeneral crearPintura(ProductoDTO dto) {
+    public ProductoPinturaGeneral crearPintura(ProductoPinturaDTO dto) {
         Producto producto = director.construirProducto(dto);
         ProductoPinturaGeneral p = (ProductoPinturaGeneral) producto;
         return repoPintura.save(p);
@@ -50,5 +52,11 @@ public class ProductoGeneralService {
     public void eliminarPintura(Long id) {
         repoPintura.deleteById(id);
     }
-    
+
+    public void actualizarPintura(ProductoPinturaDTO dto)
+    {
+        Optional<ProductoPinturaGeneral> opt = repoPintura.findById(dto.getId());
+        // validar el optional, y en caso de que el producto este vacio o no se encuentre arrojar error http 505
+        throw new UnsupportedOperationException("Este método aún no está implementado");
+    }
 }
