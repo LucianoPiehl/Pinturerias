@@ -1,17 +1,23 @@
 package com.pinturerias.com.pinturerias.general.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoDTO;
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.com.pinturerias.compartidos.entity.Producto;
-import com.pinturerias.com.pinturerias.compartidos.enumerate.Contexto;
-import com.pinturerias.com.pinturerias.general.service.ProductoGeneralService;
-
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoOtroGeneral;
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoPinturaGeneral;
+import com.pinturerias.com.pinturerias.compartidos.enumerate.Contexto;
+import com.pinturerias.com.pinturerias.general.service.ProductoGeneralService;
 
 
 @RestController
@@ -59,9 +65,20 @@ public class ProductoGeneralController {
         service.eliminarPintura(id);
     }
 
-    //ACTUALIZAR
-    @PutMapping("/pintura")
-    public void actualizarPintura(@RequestBody ProductoPinturaDTO dto){
-        service.actualizarPintura(dto);
+    @PutMapping("/pintura/{id}")
+    public ProductoPinturaGeneral actualizarPintura(
+            @PathVariable Long id,
+            @RequestBody ProductoPinturaDTO dto) {
+
+        return service.actualizarPintura(id, dto);
     }
+
+    @PutMapping("/otro/{id}")
+    public ProductoOtroGeneral actualizarOtro(
+            @PathVariable Long id,
+            @RequestBody ProductoDTO dto) {
+
+        return service.actualizarOtro(id, dto);
+    }
+    
 }

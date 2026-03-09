@@ -1,18 +1,18 @@
 package com.pinturerias.com.pinturerias.general.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import org.springframework.stereotype.Service;
 
 import com.pinturerias.com.pinturerias.compartidos.director.ProductoDirector;
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.com.pinturerias.compartidos.entity.Producto;
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoOtroGeneral;
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoPinturaGeneral;
 import com.pinturerias.com.pinturerias.general.repository.ProductoOtroGeneralRepository;
 import com.pinturerias.com.pinturerias.general.repository.ProductoPinturaGeneralRepository;
+import com.pinturerias.excepciones.RecursoNoEncontradoException;
 
 @Service
 public class ProductoGeneralService {
@@ -53,10 +53,39 @@ public class ProductoGeneralService {
         repoPintura.deleteById(id);
     }
 
-    public void actualizarPintura(ProductoPinturaDTO dto)
-    {
-        Optional<ProductoPinturaGeneral> opt = repoPintura.findById(dto.getId());
-        // validar el optional, y en caso de que el producto este vacio o no se encuentre arrojar error http 505
-        throw new UnsupportedOperationException("Este método aún no está implementado");
+    public ProductoPinturaGeneral actualizarPintura(Long id, ProductoPinturaDTO dto) {
+
+        ProductoPinturaGeneral producto = repoPintura.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto pintura no encontrado"));
+
+        // campos base
+        producto.setNombre(dto.getNombre());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setMarca(dto.getMarca());
+        producto.setPrecioFinal(dto.getPrecioFinal());
+        producto.setCategoria(dto.getIdCategoria());
+        producto.setEtiqueta(dto.getEtiquetas());
+
+        // campos específicos
+        producto.setTipoPintura(dto.getTipoPintura());
+        producto.setColor(dto.getColor());
+        producto.setTamEnv(dto.getTamanoEnv());
+
+        return repoPintura.save(producto);
     }
+
+    public ProductoOtroGeneral actualizarOtro(Long id, ProductoDTO dto) {
+
+    ProductoOtroGeneral producto = repoOtro.findById(id)
+            .orElseThrow(() -> new RecursoNoEncontradoException("Producto pintura no encontrado"));
+
+    producto.setNombre(dto.getNombre());
+    producto.setDescripcion(dto.getDescripcion());
+    producto.setMarca(dto.getMarca());
+    producto.setPrecioFinal(dto.getPrecioFinal());
+    producto.setCategoria(dto.getIdCategoria());
+    producto.setEtiqueta(dto.getEtiquetas());
+
+    return repoOtro.save(producto);
+}
 }
