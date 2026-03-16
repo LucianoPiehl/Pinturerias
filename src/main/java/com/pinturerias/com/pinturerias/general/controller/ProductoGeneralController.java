@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pinturerias.com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.com.pinturerias.compartidos.dto.ProductoOtroDTO;
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.com.pinturerias.compartidos.entity.Producto;
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoOtroGeneral;
@@ -43,7 +43,7 @@ public class ProductoGeneralController {
 
     // CREAR
     @PostMapping("/otro")
-    public Producto crearOtro(@RequestBody ProductoDTO dto) {
+    public Producto crearOtro(@RequestBody ProductoOtroDTO dto) {
         dto.setContexto(Contexto.GENERAL);
         return service.crearOtro(dto);
     }
@@ -76,7 +76,7 @@ public class ProductoGeneralController {
     @PutMapping("/otro/{id}")
     public ProductoOtroGeneral actualizarOtro(
             @PathVariable Long id,
-            @RequestBody ProductoDTO dto) {
+            @RequestBody ProductoOtroDTO dto) {
 
         return service.actualizarOtro(id, dto);
     }

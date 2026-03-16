@@ -1,7 +1,5 @@
 package com.pinturerias.com.pinturerias.general.controller;
 
-import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
-import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoPinturaGeneral;
 import com.pinturerias.com.pinturerias.general.entity.Sucursal;
 import com.pinturerias.com.pinturerias.general.service.SucursalService;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +14,7 @@ public class AdminSucursalController {
 
     public AdminSucursalController(SucursalService service) {
         this.service = service;
+
     }
 
     @GetMapping
@@ -31,6 +30,8 @@ public class AdminSucursalController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         service.eliminar(id);
+    
+    
     }
     @PutMapping("/{id}")
     public Sucursal actualizarSucursal(

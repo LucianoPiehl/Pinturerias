@@ -60,22 +60,22 @@ public class ProductoOtroBuilder implements ProductoBuilderBase  {
 
     @Override
     public void setCategoria(String idCategoria) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        producto.setCategoria(idCategoria);
     }
 
     @Override
     public void setTamanoEnvase(String idTamanoEnvase) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       //ESTO ROMPE SOLID :D
     }
 
     @Override
     public void setColor(String idColor) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       //ESTO ROMPE SOLID :D
     }
 
     @Override
     public void setTipoPintura(String idTipoPintura) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //ESTO ROMPE SOLID :D
     }
 }
  

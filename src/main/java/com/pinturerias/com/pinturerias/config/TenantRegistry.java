@@ -30,6 +30,7 @@ public class TenantRegistry {
     }
 
     public synchronized void removeTenant(String tenantId) {
+        System.out.println("Tenants actuales: " + tenantDataSources.keySet());
         Object ds = tenantDataSources.remove(tenantId);
         if (ds instanceof AutoCloseable ac) {
             try { ac.close(); } catch (Exception ignored) {}
