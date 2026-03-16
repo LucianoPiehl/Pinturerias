@@ -3,6 +3,8 @@ package com.pinturerias.com.pinturerias.general.service;
 import com.pinturerias.com.pinturerias.config.TenantRegistry;
 import com.pinturerias.com.pinturerias.general.entity.Sucursal;
 import com.pinturerias.com.pinturerias.general.repository.SucursalRepository;
+import com.pinturerias.excepciones.RecursoNoEncontradoException;
+
 import org.flywaydb.core.Flyway;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,21 +14,21 @@ import java.util.List;
 @Service
 public class SucursalService {
 
-    private final SucursalRepository repo;
+    private final SucursalRepository repoSucursal;
     private final TenantRegistry tenantRegistry;
 
     public SucursalService(SucursalRepository repo, TenantRegistry tenantRegistry) {
-        this.repo = repo;
+        this.repoSucursal = repo;
         this.tenantRegistry = tenantRegistry;
     }
 
     public List<Sucursal> listar() {
-        return repo.findAll();
+        return repoSucursal.findAll();
     }
 
     @Transactional
     public Sucursal registrar(Sucursal s) {
-        if (repo.findByCodigo(s.getCodigo()).isPresent()) {
+        if (repoSucursal.findByCodigo(s.getCodigo()).isPresent()) {
             throw new IllegalArgumentException("Código de sucursal ya existente");
         }
 
@@ -39,7 +41,7 @@ public class SucursalService {
         s.setJdbcUrl(jdbcUrl);
 
         // Guarda la sucursal en la BD general
-        Sucursal guardada = repo.save(s);
+        Sucursal guardada = repoSucursal.save(s);
 
         // 1️⃣ Ejecuta Flyway sobre la base nueva de la sucursal
         inicializarBaseSucursal(jdbcUrl, s.getUsername(), s.getPassword());
@@ -58,9 +60,9 @@ public class SucursalService {
     }
 
     public void eliminar(Long id) {
-        Sucursal s = repo.findById(id)
+        Sucursal s = repoSucursal.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Sucursal no encontrada"));
-        repo.delete(s);
+        repoSucursal.delete(s);
         tenantRegistry.removeTenant(s.getCodigo());
         System.out.println("❌ Sucursal eliminada: " + s.getCodigo());
     }
@@ -79,4 +81,18 @@ public class SucursalService {
         var result = flyway.migrate();
         System.out.println("Migraciones ejecutadas: " + result.migrationsExecuted);
     }
+    public Sucursal actualizarSucursal(Long id, Sucursal s){
+        Sucursal sucursalVieja = repoSucursal.findById(id)
+            .orElseThrow(() -> new RecursoNoEncontradoException("Sucursal no encontrada"));
+        sucursalVieja.setCodigo(s.getCodigo());
+        sucursalVieja.setNombre(s.getNombre());
+        sucursalVieja.setJdbcUrl(s.getJdbcUrl());
+        sucursalVieja.setUsername(s.getUsername());
+        sucursalVieja.setPassword(s.getPassword());
+        sucursalVieja.setHabilitada(s.getHabilitada());
+
+        return repoSucursal.save(sucursalVieja);
+    }
+
+
 }

@@ -59,4 +59,8 @@ public class Sucursal {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean getHabilitada() {
+        return habilitada;
+    }
 }
