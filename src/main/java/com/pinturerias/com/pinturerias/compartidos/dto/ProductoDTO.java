@@ -105,4 +105,16 @@ public abstract class ProductoDTO {
     public String getIdCategoria() {
         return idCategoria;
     }
+
+    public void setEtiqueta(List<String> etiquetas) {
+        this.etiquetas = etiquetas;
+    }
+
+    public void setIdCategoria(String categoria) {
+        this.idCategoria = categoria;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 }

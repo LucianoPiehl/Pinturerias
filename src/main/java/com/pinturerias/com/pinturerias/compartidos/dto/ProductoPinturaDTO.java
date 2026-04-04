@@ -32,4 +32,5 @@ public class ProductoPinturaDTO extends ProductoDTO{
     public String getTamanoEnv(){
         return this.tamanoEnvId;
     }
+
 }

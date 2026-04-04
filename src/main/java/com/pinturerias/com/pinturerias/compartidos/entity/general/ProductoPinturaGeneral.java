@@ -19,4 +19,16 @@ public class ProductoPinturaGeneral extends Producto {
     public void setTamEnv(String tamEnv){
         this.tamEnv = tamEnv;
     }
+
+    public String getColor() {
+        return  color;
+    }
+
+    public String getTamanoEnv() {
+        return tamEnv;
+    }
+
+    public String getTipoPintura() {
+        return tipoPintura;
+    }
 }

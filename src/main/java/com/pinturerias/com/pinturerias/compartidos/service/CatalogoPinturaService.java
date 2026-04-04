@@ -17,14 +17,14 @@ import java.util.List;
 
 
 @Service
-public class CatalogoService {
+public class CatalogoPinturaService {
 
     private final ProductoGeneralService productoGeneralService;
     private final ProductoSucursalService productoSucursalService;
     private final TenantExecutor tenantExecutor;
 
     // Inyección por constructor
-    public CatalogoService(
+    public CatalogoPinturaService(
             ProductoGeneralService ProductoGeneralService, ProductoGeneralService productoGeneralService,
             ProductoSucursalService productoSucursalService,
             TenantExecutor tenantExecutor
@@ -40,7 +40,7 @@ public class CatalogoService {
     tenantId → identificador de la sucursal
     @return lista combinada de productos
      */
-    public List<ProductoPinturaDTO> obtenerCatalogoCompletoPintura(String tenantId) {
+    public List<ProductoPinturaDTO> listarProductosPintura(String tenantId) {
 
         // 🔹 1. Obtener pinturas globales (BD general)
         List<ProductoPinturaDTO> productosGeneral = tenantExecutor.ejecutarEnTenant(null, () ->
@@ -85,16 +85,13 @@ public class CatalogoService {
         dto.setTipo(Tipo.PINTURA);
         dto.setContexto(Contexto.GENERAL);
         //no se puede setear el stock que tiene la sucursal de un producto general, se debe obtener una lista aparte de la sucursal.
-        dto.setIdCategoria(producto.getIdCategoria());
+        dto.setIdCategoria(producto.getCategoria());
         dto.setTipoPintura(producto.getTipoPintura());
         dto.setTamanoEnv(producto.getTamanoEnv());
         dto.setColor(producto.getColor());
         return dto;
     }
 
-    /**
-     * Overload para ProductoSucursal
-     */
     private ProductoDTO mapToDTO(ProductoPinturaSucursal producto) {
 
         ProductoPinturaDTO dto = new ProductoPinturaDTO();
@@ -106,10 +103,10 @@ public class CatalogoService {
         dto.setMarca(producto.getMarca());
         dto.setTipo(Tipo.PINTURA);
         dto.setContexto(Contexto.SUCURSAL);
-        dto.setStock(producto.getStock())
-        dto.setIdCategoria(producto.getIdCategoria());
+        dto.setStock(producto.getStock());
+        dto.setIdCategoria(producto.getCategoria());
         dto.setTipoPintura(producto.getTipoPintura());
-        dto.setTamanoEnv(producto.getTamanoEnv());
+        dto.setTamanoEnv(producto.getTamEnv());
         dto.setColor(producto.getColor());
 
 

@@ -70,7 +70,9 @@ public abstract class Producto {
     public void setCategoria(String idCategoria){
         this.idCategoria = idCategoria;
     };
+
     public String getCategoria(){
-        return this.idCategoria;
+        return idCategoria;
     }
+
 }
