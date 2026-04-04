@@ -70,12 +70,3 @@ public class ProductoSucursalController {
     }
 }
 
-
-    // Para un futuro todos los endpoints estaran optimizados asi 
-    // @DeleteMapping("/{id}/{tipo}")
-    // public void eliminar(
-    //         @PathVariable Long id,
-    //         @PathVariable String tipo
-    // ) {
-    //     service.eliminar(id, tipo);
-    // }

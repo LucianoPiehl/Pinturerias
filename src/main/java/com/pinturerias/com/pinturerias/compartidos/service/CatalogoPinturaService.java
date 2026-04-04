@@ -1,6 +1,5 @@
 package com.pinturerias.com.pinturerias.compartidos.service;
 
-import com.pinturerias.com.pinturerias.compartidos.dto.ProductoDTO;
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoPinturaGeneral;
 import com.pinturerias.com.pinturerias.compartidos.entity.sucursal.ProductoPinturaSucursal;
@@ -92,7 +91,7 @@ public class CatalogoPinturaService {
         return dto;
     }
 
-    private ProductoDTO mapToDTO(ProductoPinturaSucursal producto) {
+    private ProductoPinturaDTO mapToDTO(ProductoPinturaSucursal producto) {
 
         ProductoPinturaDTO dto = new ProductoPinturaDTO();
         dto.setIdProducto(producto.getId());

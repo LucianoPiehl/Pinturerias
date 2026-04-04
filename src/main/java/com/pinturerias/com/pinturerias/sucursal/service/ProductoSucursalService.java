@@ -34,30 +34,6 @@ public class ProductoSucursalService {
         this.repoOtro = otroRepo;
         this.ppsService = ppsService;
     };
-
-    // public List<ProductoSucursalViewDTO> listarProductosVisibles() {
-
-    //     List<ProductoSucursalViewDTO> resultado = new ArrayList<>();
-        
-    //     otroRepo.findAll().forEach(p ->
-    //             resultado.add(new ProductoSucursalViewDTO(
-    //                     p.getId(), p.getNombre(), p.getDescripcion(), p.getMarca(),
-    //                     (double) p.getPrecioFinal(), p.getStock(),
-    //                     "SUCURSAL"
-    //             ))
-    //     );
-
-    //     pinturaRepo.findAll().forEach(p ->
-    //             resultado.add(new ProductoSucursalViewDTO(
-    //                     p.getId(), p.getNombre(), p.getDescripcion(), p.getMarca(),
-    //                     (double) p.getPrecioFinal(), p.getStock(),
-    //                     "SUCURSAL"
-    //             ))
-    //     );
-
-    //     return resultado;
-    // }
-
     
     public Producto crearPintura(ProductoDTO dto) {
 
