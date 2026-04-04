@@ -34,7 +34,7 @@ public class ProductoSucursalService {
         this.repoOtro = otroRepo;
         this.ppsService = ppsService;
     };
-    
+
     public Producto crearPintura(ProductoDTO dto) {
 
         Producto producto = director.construirProducto(dto);       
