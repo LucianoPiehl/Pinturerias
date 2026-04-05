@@ -11,6 +11,6 @@ public class TamanoEnvase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    private double capacidad;
+    private Double capacidad;
     private Contexto contexto;
 }

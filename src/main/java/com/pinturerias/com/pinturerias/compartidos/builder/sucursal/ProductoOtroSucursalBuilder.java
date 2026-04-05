@@ -42,7 +42,7 @@ public class ProductoOtroSucursalBuilder implements ProductoBuilderBase {
     }
 
     @Override
-    public void setPrecioFinal(int precioFinal) {
+    public void setPrecioFinal(Double precioFinal) {
         producto.setPrecioFinal(precioFinal);
     }
     

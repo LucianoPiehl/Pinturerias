@@ -42,7 +42,7 @@ public class ProductoOtroBuilder implements ProductoBuilderBase  {
     }
 
     @Override
-    public void setPrecioFinal(int precioFinal) {
+    public void setPrecioFinal(Double precioFinal) {
         // Falta implementar la logica real de como se setea el precio.
         producto.setPrecioFinal(precioFinal);
     }

@@ -9,7 +9,7 @@ public abstract class ProductoDTO {
     private Long idProducto;
     private String nombre;
     private String descripcion;
-    private int precioFinal;
+    private Double precioFinal;
     private String marca;
     private List<String> etiquetas; //nombre : color
     private Tipo tipo;
@@ -25,7 +25,7 @@ public abstract class ProductoDTO {
         // constructor vacío necesario para herencia y frameworks
     }
 
-    public ProductoDTO( Long idProducto, String nombre, String descripcion, int precioFinal, String marca, List<String> etiquetas, Tipo tipo, Contexto contexto) {
+    public ProductoDTO( Long idProducto, String nombre, String descripcion, Double precioFinal, String marca, List<String> etiquetas, Tipo tipo, Contexto contexto) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -63,14 +63,14 @@ public abstract class ProductoDTO {
         this.descripcion = descripcion;
     }
 
-    public int getPrecioFinal() {
+    public Double getPrecioFinal() {
         return precioFinal;
     }
     public List<String> getEtiquetas(){
         return etiquetas;
     }
 
-    public void setPrecioFinal(int precioFinal) {
+    public void setPrecioFinal(Double precioFinal) {
         this.precioFinal = precioFinal;
     }
 

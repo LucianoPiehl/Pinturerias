@@ -36,6 +36,10 @@ public class Sucursal {
         this.codigo = codigo;
     }
 
+    public String getNombre(){return nombre;}
+
+    public void setNombre(String nombre){ this.nombre = nombre;}
+
     public String getJdbcUrl() {
         return jdbcUrl;
     }
@@ -63,4 +67,6 @@ public class Sucursal {
     public boolean getHabilitada() {
         return habilitada;
     }
+
+    public void setHabilitada(boolean habilitada) { this.habilitada = habilitada;}
 }

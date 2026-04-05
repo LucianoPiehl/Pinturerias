@@ -17,7 +17,7 @@ public abstract class Producto {
     protected String nombre;
     protected String descripcion;
     protected String marca;
-    protected int precioFinal;
+    protected Double precioFinal;
     protected List<String> etiquetas;
     protected String idCategoria;
 
@@ -59,11 +59,11 @@ public abstract class Producto {
         this.descripcion = descripcion;
     }
 
-    public int getPrecioFinal() {
+    public Double getPrecioFinal() {
         return precioFinal;
     }
 
-    public void setPrecioFinal(int precioFinal) {
+    public void setPrecioFinal(Double precioFinal) {
         this.precioFinal = precioFinal;
     }
 

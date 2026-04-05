@@ -42,9 +42,9 @@ public class ProductoPinturaBuilder implements ProductoBuilderBase {
     }
 
     @Override
-    public void setPrecioFinal(int precioBase) {
+    public void setPrecioFinal(Double precioBase) {
         // ejemplo: pinturas tienen recargo 10%
-        int precioFinal = (int) (precioBase * 1.10);
+        Double precioFinal =  precioBase * 1.10;
         producto.setPrecioFinal(precioFinal);
     }
 

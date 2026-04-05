@@ -21,18 +21,15 @@ public class ProductoSucursalService {
     private final ProductoDirector director;
     private final ProductoPinturaSucursalRepository repoPintura;
     private final ProductoOtroSucursalRepository repoOtro;
-    private final ProductoPrecioStockService ppsService;
 
     public ProductoSucursalService(
             ProductoDirector director,
             ProductoPinturaSucursalRepository pinturaRepo,
-            ProductoOtroSucursalRepository otroRepo,
-            ProductoPrecioStockService ppsService
+            ProductoOtroSucursalRepository otroRepo
     ) {
         this.director = director;
         this.repoPintura = pinturaRepo;
         this.repoOtro = otroRepo;
-        this.ppsService = ppsService;
     };
 
     public Producto crearPintura(ProductoDTO dto) {

@@ -11,7 +11,7 @@ public interface ProductoBuilderBase  {
     void setNombre(String nombre);
     void setDescripcion(String descripcion);
     void setMarca(String marca);
-    void setPrecioFinal(int precioFinal);
+    void setPrecioFinal(Double precioFinal);
     void setCategoria(String idCategoria);
     void setEtiqueta(List<String> lista);
     abstract void setTamanoEnvase(String idTamanoEnvase);

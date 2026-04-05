@@ -140,8 +140,7 @@ public class CatalogoPinturaService {
 
             if (dto != null) {
                 // 🔹 Si existe → actualizamos valores
-                dto.setPrecioFinal(pps.getPrecio());// hay que determinar un tipo de dato para todos los precios que se manejen
-                //Se puede castear para evitar el error y hacer una prueba pero no es una solucion correcta.
+                dto.setPrecioFinal(pps.getPrecio());
                 dto.setStock(pps.getStock());
             }
 
