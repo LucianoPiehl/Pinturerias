@@ -63,7 +63,6 @@ public class ProductoGeneralService {
         producto.setDescripcion(dto.getDescripcion());
         producto.setMarca(dto.getMarca());
         producto.setPrecioFinal(dto.getPrecioFinal());
-        producto.setCategoria(dto.getIdCategoria());
         producto.setEtiqueta(dto.getEtiquetas());
 
         // campos específicos
@@ -83,7 +82,6 @@ public class ProductoGeneralService {
     producto.setDescripcion(dto.getDescripcion());
     producto.setMarca(dto.getMarca());
     producto.setPrecioFinal(dto.getPrecioFinal());
-    producto.setCategoria(dto.getIdCategoria());
     producto.setEtiqueta(dto.getEtiquetas());
 
     return repoOtro.save(producto);

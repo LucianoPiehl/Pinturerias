@@ -2,7 +2,6 @@ package com.pinturerias.com.pinturerias.compartidos.service;
 
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoPinturaGeneral;
-import com.pinturerias.com.pinturerias.compartidos.entity.sucursal.ProductoPinturaSucursal;
 import com.pinturerias.com.pinturerias.compartidos.enumerate.Contexto;
 import com.pinturerias.com.pinturerias.compartidos.enumerate.Tipo;
 import com.pinturerias.com.pinturerias.config.TenantExecutor;
@@ -12,7 +11,6 @@ import com.pinturerias.com.pinturerias.sucursal.service.ProductoPrecioStockServi
 import com.pinturerias.com.pinturerias.sucursal.service.ProductoSucursalService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,7 +20,6 @@ import java.util.stream.Collectors;
 public class CatalogoPinturaService {
 
     private final ProductoGeneralService productoGeneralService;
-    private final ProductoSucursalService productoSucursalService;
     private final ProductoPrecioStockService productoPrecioStockService;
     private final TenantExecutor tenantExecutor;
 
@@ -33,17 +30,14 @@ public class CatalogoPinturaService {
             TenantExecutor tenantExecutor
     ) {
         this.productoGeneralService = productoGeneralService;
-        this.productoSucursalService = productoSucursalService;
         this.productoPrecioStockService = productoPrecioStockService;
         this.tenantExecutor = tenantExecutor;
     }
 
     /*
     Obtiene el catálogo completo para una sucursal.
-
-    tenantId → identificador de la sucursal
-    @return lista combinada de productos
      */
+
     public List<ProductoPinturaDTO> listarProductosPintura(String tenantId) {
 
         // Obtener pinturas globales (BD general)
@@ -62,27 +56,9 @@ public class CatalogoPinturaService {
         //Asociamos a cada producto con su stock
         asociarTablasStockProductoGeneral(preciosStock, productosGeneral);
 
-        // Obtener productos propios de la sucursal
-        List<ProductoPinturaDTO> productosSucursal = tenantExecutor.ejecutarEnTenant(tenantId, () ->
-                productoSucursalService.listarProductosPintura()
-                        .stream()
-                        .map(this::mapToDTO)
-                        .toList()
-        );
-
-        // Unimos las listas
-        List<ProductoPinturaDTO> catalogo = new ArrayList<>();
-
-        catalogo.addAll(productosGeneral);      // productos globales
-        catalogo.addAll(productosSucursal);  // productos propios
-
-        return catalogo;
+        return productosGeneral;
     }
 
-    /*
-     Combina productos general con los de sucursal.
-     Convierte entidad a DTO.
-     */
 
     private ProductoPinturaDTO mapToDTO(ProductoPinturaGeneral producto) {
 
@@ -96,35 +72,14 @@ public class CatalogoPinturaService {
         dto.setMarca(producto.getMarca());
         dto.setTipo(Tipo.PINTURA);
         dto.setContexto(Contexto.GENERAL);
-        dto.setIdCategoria(producto.getCategoria());
         dto.setTipoPintura(producto.getTipoPintura());
         dto.setTamanoEnv(producto.getTamanoEnv());
         dto.setColor(producto.getColor());
         return dto;
     }
 
-    private ProductoPinturaDTO mapToDTO(ProductoPinturaSucursal producto) {
 
-        ProductoPinturaDTO dto = new ProductoPinturaDTO();
-        dto.setIdProducto(producto.getId());
-        dto.setNombre(producto.getNombre());
-        dto.setDescripcion(producto.getDescripcion());
-        dto.setEtiqueta(producto.getEtiquetas());
-        dto.setPrecioFinal(producto.getPrecioFinal());
-        dto.setMarca(producto.getMarca());
-        dto.setTipo(Tipo.PINTURA);
-        dto.setContexto(Contexto.SUCURSAL);
-        dto.setStock(producto.getStock());
-        dto.setIdCategoria(producto.getCategoria());
-        dto.setTipoPintura(producto.getTipoPintura());
-        dto.setTamanoEnv(producto.getTamEnv());
-        dto.setColor(producto.getColor());
-
-
-        return dto;
-    }
-
-    private  void asociarTablasStockProductoGeneral(List<ProductoPrecioStock> productosPrecioStock, List<ProductoPinturaDTO> productosGeneral) {
+    private void asociarTablasStockProductoGeneral(List<ProductoPrecioStock> productosPrecioStock, List<ProductoPinturaDTO> productosGeneral) {
         // 🔹 Creamos un mapa para acceso rápido por ID
         Map<Long, ProductoPinturaDTO> mapaDTO = productosGeneral.stream()
                 .collect(Collectors.toMap(

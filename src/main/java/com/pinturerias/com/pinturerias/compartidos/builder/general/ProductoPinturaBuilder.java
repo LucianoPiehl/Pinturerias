@@ -76,10 +76,7 @@ public class ProductoPinturaBuilder implements ProductoBuilderBase {
         return producto;
     }
 
-    @Override
-    public void setCategoria(String idCategoria) {
-        producto.setCategoria(idCategoria);
-    }
+
 
     
 

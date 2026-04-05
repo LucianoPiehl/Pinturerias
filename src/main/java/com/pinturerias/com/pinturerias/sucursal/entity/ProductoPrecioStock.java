@@ -12,7 +12,7 @@ public class ProductoPrecioStock {
     private Long id;
     private Long productoId;
     private int stock;
-    private Double precio;
+    private Double precio; //Precio que el dueno o gerente de la franquicia quiere tener sobre un producto
     // constructor vacío
     public ProductoPrecioStock() {}
 

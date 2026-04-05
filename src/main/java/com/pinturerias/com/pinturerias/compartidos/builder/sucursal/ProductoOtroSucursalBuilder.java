@@ -63,10 +63,6 @@ public class ProductoOtroSucursalBuilder implements ProductoBuilderBase {
         return producto;
     }
 
-    @Override
-    public void setCategoria(String idCategoria) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     @Override
     public void setTamanoEnvase(String idTamanoEnvase) {

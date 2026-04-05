@@ -4,7 +4,6 @@ import com.pinturerias.com.pinturerias.compartidos.dto.ProductoDTO;
 import com.pinturerias.com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.com.pinturerias.compartidos.entity.Producto;
 import com.pinturerias.com.pinturerias.compartidos.entity.sucursal.ProductoOtroSucursal;
-import com.pinturerias.com.pinturerias.compartidos.entity.sucursal.ProductoPinturaSucursal;
 import com.pinturerias.com.pinturerias.compartidos.enumerate.Contexto;
 //import com.pinturerias.com.pinturerias.sucursal.dto.ProductoSucursalViewDTO;
 import com.pinturerias.com.pinturerias.compartidos.service.CatalogoPinturaService;
@@ -49,24 +48,12 @@ public class ProductoSucursalController {
         return service.crearOtro(dto);
     }
 
-    @PostMapping("/pintura")
-    public Producto crearPintura(
-            @PathVariable Long sucursalId,
-            @RequestBody ProductoDTO dto
-    ) {
-        dto.setContexto(Contexto.SUCURSAL);
-        return service.crearPintura(dto);
-    }
-
     // DELETE
     @DeleteMapping("/otro/{id}")
     public void eliminarOtro(@PathVariable Long id) {
         service.eliminarProductoOtro(id);
     }
 
-    @DeleteMapping("/pintura/{id}")
-    public void eliminarPintura(@PathVariable Long id) {
-        service.eliminarProductoPintura(id);
-    }
+
 }
 

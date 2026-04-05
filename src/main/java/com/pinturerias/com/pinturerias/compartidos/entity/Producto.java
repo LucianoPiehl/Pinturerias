@@ -19,7 +19,6 @@ public abstract class Producto {
     protected String marca;
     protected Double precioFinal;
     protected List<String> etiquetas;
-    protected String idCategoria;
 
     public Long getId(){return id;}
 
@@ -66,13 +65,4 @@ public abstract class Producto {
     public void setPrecioFinal(Double precioFinal) {
         this.precioFinal = precioFinal;
     }
-
-    public void setCategoria(String idCategoria){
-        this.idCategoria = idCategoria;
-    };
-
-    public String getCategoria(){
-        return idCategoria;
-    }
-
 }

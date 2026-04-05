@@ -58,10 +58,6 @@ public class ProductoOtroBuilder implements ProductoBuilderBase  {
         return producto;
     }
 
-    @Override
-    public void setCategoria(String idCategoria) {
-        producto.setCategoria(idCategoria);
-    }
 
     @Override
     public void setTamanoEnvase(String idTamanoEnvase) {

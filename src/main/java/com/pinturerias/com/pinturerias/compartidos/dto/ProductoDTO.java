@@ -15,8 +15,7 @@ public abstract class ProductoDTO {
     private Tipo tipo;
     private Contexto contexto;
     private int stock;
-    //Id de entidades (Entero + String [Que determina a que bd pertenece])
-    private String idCategoria;
+
     
 
     
@@ -102,16 +101,8 @@ public abstract class ProductoDTO {
         this.contexto = contexto;
     }
 
-    public String getIdCategoria() {
-        return idCategoria;
-    }
-
     public void setEtiqueta(List<String> etiquetas) {
         this.etiquetas = etiquetas;
-    }
-
-    public void setIdCategoria(String categoria) {
-        this.idCategoria = categoria;
     }
 
     public void setStock(int stock) {
