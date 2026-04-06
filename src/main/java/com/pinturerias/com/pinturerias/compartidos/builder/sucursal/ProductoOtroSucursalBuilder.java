@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.pinturerias.com.pinturerias.compartidos.builder.base.ProductoBuilderBase;
 import com.pinturerias.com.pinturerias.compartidos.entity.sucursal.ProductoOtroSucursal;
+import com.pinturerias.com.pinturerias.general.entity.ColorBase;
+import com.pinturerias.com.pinturerias.general.entity.TamanoEnvase;
+import com.pinturerias.com.pinturerias.general.entity.TipoPintura;
 
 @Component
 public class ProductoOtroSucursalBuilder implements ProductoBuilderBase {
@@ -65,17 +68,17 @@ public class ProductoOtroSucursalBuilder implements ProductoBuilderBase {
 
 
     @Override
-    public void setTamanoEnvase(String idTamanoEnvase) {
+    public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void setColor(String idColor) {
+    public void setColor(ColorBase color) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void setTipoPintura(String idTipoPintura) {
+    public void setTipoPintura(TipoPintura tipoPintura) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

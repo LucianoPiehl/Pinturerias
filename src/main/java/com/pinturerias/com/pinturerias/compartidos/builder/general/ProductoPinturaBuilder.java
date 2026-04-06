@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.pinturerias.com.pinturerias.compartidos.builder.base.ProductoBuilderBase;
 import com.pinturerias.com.pinturerias.compartidos.entity.general.ProductoPinturaGeneral;
+import com.pinturerias.com.pinturerias.general.entity.ColorBase;
+import com.pinturerias.com.pinturerias.general.entity.TamanoEnvase;
+import com.pinturerias.com.pinturerias.general.entity.TipoPintura;
 
 
 @Component
@@ -50,19 +53,19 @@ public class ProductoPinturaBuilder implements ProductoBuilderBase {
 
 
     @Override
-    public void setTamanoEnvase(String tamanoEnvase) {
+    public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
         producto.setTamEnv(tamanoEnvase);
     }
 
 
     @Override
-    public void setTipoPintura(String tipoPintura) {
+    public void setTipoPintura(TipoPintura tipoPintura) {
         producto.setTipoPintura(tipoPintura);
     }
 
 
     @Override
-    public void setColor(String color) {
+    public void setColor(ColorBase color) {
         producto.setColor(color);
     }
 

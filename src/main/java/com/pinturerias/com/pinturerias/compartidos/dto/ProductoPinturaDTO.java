@@ -1,36 +1,40 @@
 package com.pinturerias.com.pinturerias.compartidos.dto;
 
+import com.pinturerias.com.pinturerias.general.entity.ColorBase;
+import com.pinturerias.com.pinturerias.general.entity.TamanoEnvase;
+import com.pinturerias.com.pinturerias.general.entity.TipoPintura;
+
 public class ProductoPinturaDTO extends ProductoDTO{
-    private String tipoPinturaId;
-    private String colorId;
-    private String tamanoEnvId;
+    private TipoPintura tipoPintura;
+    private ColorBase colorBase;
+    private TamanoEnvase tamanoEnv;
 
     public ProductoPinturaDTO() {
         }
 
-    public ProductoPinturaDTO(String tipoPinturaId, String colorId, String tamanoEnvId) {
-        this.tipoPinturaId = tipoPinturaId;
-        this.tamanoEnvId = tamanoEnvId;
-        this.colorId = colorId;
+    public ProductoPinturaDTO(TipoPintura tipoPintura, ColorBase colorBase, TamanoEnvase tamanoEnv) {
+        this.tipoPintura = tipoPintura;
+        this.tamanoEnv = tamanoEnv;
+        this.colorBase = colorBase;
     }
-    public void setTipoPintura(String tipoPintura){
-        this.tipoPinturaId = tipoPintura;
+    public void setTipoPintura(TipoPintura tipoPintura){
+        this.tipoPintura = tipoPintura;
     }
-    public void setColor(String color){
-        this.colorId = color;
+    public void setColor(ColorBase color){
+        this.colorBase = color;
     }
-    public void setTamanoEnv(String tamanoEnv){
-        this.tamanoEnvId = tamanoEnv;
+    public void setTamanoEnv(TamanoEnvase tamanoEnv){
+        this.tamanoEnv = tamanoEnv;
     }
     
-    public String getTipoPintura(){
-        return this.tipoPinturaId;
+    public TipoPintura getTipoPintura(){
+        return this.tipoPintura;
     }
-    public String getColor(){
-        return this.colorId;
+    public ColorBase getColor(){
+        return this.colorBase;
     }
-    public String getTamanoEnv(){
-        return this.tamanoEnvId;
+    public TamanoEnvase getTamanoEnv(){
+        return this.tamanoEnv;
     }
 
 }

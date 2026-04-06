@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.pinturerias.com.pinturerias.compartidos.enumerate.Contexto;
 import com.pinturerias.com.pinturerias.compartidos.enumerate.Tipo;
+import com.pinturerias.com.pinturerias.general.entity.ColorBase;
+import com.pinturerias.com.pinturerias.general.entity.TamanoEnvase;
+import com.pinturerias.com.pinturerias.general.entity.TipoPintura;
 
 public abstract class ProductoDTO {
     private Long idProducto;
@@ -42,9 +45,9 @@ public abstract class ProductoDTO {
     public Long getId(){
         return this.idProducto;
     }
-    public abstract String getTamanoEnv();
-    public abstract String getTipoPintura();
-    public abstract String getColor();
+    public abstract TamanoEnvase getTamanoEnv();
+    public abstract TipoPintura getTipoPintura();
+    public abstract ColorBase getColor();
     
     public String getNombre() {
         return nombre;
