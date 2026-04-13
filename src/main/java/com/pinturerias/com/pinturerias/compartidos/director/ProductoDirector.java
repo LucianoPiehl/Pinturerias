@@ -54,7 +54,7 @@ public class ProductoDirector {
     
         builder.setTamanoEnvase(dto.getTamanoEnv());
         builder.setTipoPintura(dto.getTipoPintura());
-        builder.setColor(dto.getColor());
+        builder.setColor(dto.getColorBase());
 
         // ----------- STOCK SOLO EN SUCURSAL --------------
         builder.setStock(dto.getStock());

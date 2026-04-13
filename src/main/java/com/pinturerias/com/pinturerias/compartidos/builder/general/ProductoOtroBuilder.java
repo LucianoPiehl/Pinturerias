@@ -52,7 +52,7 @@ public class ProductoOtroBuilder implements ProductoBuilderBase  {
 
     @Override
     public void setEtiqueta(List<String> etiquetas){
-        producto.setEtiqueta(etiquetas);
+        producto.setEtiquetas(etiquetas);
     }
 
     

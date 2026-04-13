@@ -47,41 +47,34 @@ public class ProductoPinturaBuilder implements ProductoBuilderBase {
     @Override
     public void setPrecioFinal(Double precioBase) {
         // ejemplo: pinturas tienen recargo 10%
-        Double precioFinal =  precioBase * 1.10;
+        Double precioFinal = precioBase * 1.10;
         producto.setPrecioFinal(precioFinal);
     }
 
-
     @Override
     public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
-        producto.setTamEnv(tamanoEnvase);
-    }
 
+        producto.setTamanoEnv(tamanoEnvase);
+    }
 
     @Override
     public void setTipoPintura(TipoPintura tipoPintura) {
         producto.setTipoPintura(tipoPintura);
     }
 
-
     @Override
     public void setColor(ColorBase color) {
-        producto.setColor(color);
+
+        producto.setColorBase(color);
     }
 
     @Override
-    public void setEtiqueta(List<String> etiquetas){
-        producto.setEtiqueta(etiquetas);
+    public void setEtiqueta(List<String> etiquetas) {
+        producto.setEtiquetas(etiquetas);
     }
 
     @Override
     public ProductoPinturaGeneral build() {
         return producto;
     }
-
-
-
-    
-
-    
 }

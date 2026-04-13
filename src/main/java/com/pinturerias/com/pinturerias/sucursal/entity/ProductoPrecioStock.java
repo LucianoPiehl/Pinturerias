@@ -1,40 +1,29 @@
 package com.pinturerias.com.pinturerias.sucursal.entity;
-
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "Producto_precio_stock")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductoPrecioStock {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long productoId;
+
     private int stock;
-    private Double precio; //Precio que el dueno o gerente de la franquicia quiere tener sobre un producto
-    // constructor vacío
-    public ProductoPrecioStock() {}
 
-    public ProductoPrecioStock(Long productoId, Double precio, Integer stock) {
-        this.productoId = productoId;
-        this.precio = precio;
-        this.stock = stock;
-    }
+    private Double precio; // Precio que el dueño o gerente quiere tener
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Double getPrecio(){return precio;}
-
-    public Long getProductoId(){return productoId;}
-
-    public int getStock() {
-        return stock;
+    public ProductoPrecioStock(Long productoGeneralId, Double precio, Integer stock) {
     }
 }

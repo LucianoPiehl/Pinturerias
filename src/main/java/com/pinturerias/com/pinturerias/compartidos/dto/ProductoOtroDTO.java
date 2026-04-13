@@ -11,7 +11,7 @@ public class ProductoOtroDTO extends ProductoDTO{
     public TipoPintura getTipoPintura(){
         return new TipoPintura();
     }
-    public ColorBase getColor(){
+    public ColorBase getColorBase(){
         return new ColorBase();
     }
     public ProductoOtroDTO() {

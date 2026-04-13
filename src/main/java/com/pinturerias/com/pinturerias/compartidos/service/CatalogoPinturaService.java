@@ -67,14 +67,14 @@ public class CatalogoPinturaService {
         dto.setIdProducto(producto.getId());
         dto.setNombre(producto.getNombre());
         dto.setDescripcion(producto.getDescripcion());
-        dto.setEtiqueta(producto.getEtiquetas());
+        dto.setEtiquetas(producto.getEtiquetas());
         dto.setPrecioFinal(producto.getPrecioFinal());
         dto.setMarca(producto.getMarca());
         dto.setTipo(Tipo.PINTURA);
         dto.setContexto(Contexto.GENERAL);
         dto.setTipoPintura(producto.getTipoPintura());
         dto.setTamanoEnv(producto.getTamanoEnv());
-        dto.setColor(producto.getColor());
+        dto.setColorBase(producto.getColorBase());
         return dto;
     }
 
@@ -83,7 +83,7 @@ public class CatalogoPinturaService {
         // 🔹 Creamos un mapa para acceso rápido por ID
         Map<Long, ProductoPinturaDTO> mapaDTO = productosGeneral.stream()
                 .collect(Collectors.toMap(
-                        ProductoPinturaDTO::getId,
+                        ProductoPinturaDTO::getIdProducto,
                         dto -> dto
                 ));
 

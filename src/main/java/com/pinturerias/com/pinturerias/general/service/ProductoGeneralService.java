@@ -63,12 +63,12 @@ public class ProductoGeneralService {
         producto.setDescripcion(dto.getDescripcion());
         producto.setMarca(dto.getMarca());
         producto.setPrecioFinal(dto.getPrecioFinal());
-        producto.setEtiqueta(dto.getEtiquetas());
+        producto.setEtiquetas(dto.getEtiquetas());
 
         // campos específicos
         producto.setTipoPintura(dto.getTipoPintura());
-        producto.setColor(dto.getColor());
-        producto.setTamEnv(dto.getTamanoEnv());
+        producto.setColorBase(dto.getColorBase());
+        producto.setTamanoEnv(dto.getTamanoEnv());
 
         return repoPintura.save(producto);
     }
@@ -82,7 +82,7 @@ public class ProductoGeneralService {
     producto.setDescripcion(dto.getDescripcion());
     producto.setMarca(dto.getMarca());
     producto.setPrecioFinal(dto.getPrecioFinal());
-    producto.setEtiqueta(dto.getEtiquetas());
+    producto.setEtiquetas(dto.getEtiquetas());
 
     return repoOtro.save(producto);
 }

@@ -89,7 +89,7 @@ public class SucursalService {
         sucursalVieja.setJdbcUrl(s.getJdbcUrl());
         sucursalVieja.setUsername(s.getUsername());
         sucursalVieja.setPassword(s.getPassword());
-        sucursalVieja.setHabilitada(s.getHabilitada());
+        sucursalVieja.setHabilitada(s.isHabilitada());
 
         return repoSucursal.save(sucursalVieja);
     }

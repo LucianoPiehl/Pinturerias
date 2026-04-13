@@ -1,72 +1,46 @@
 package com.pinturerias.com.pinturerias.general.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "sucursal")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sucursal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, unique=true, length=50)
+    @Column(nullable = false, unique = true, length = 50)
     private String codigo; // Ej: "suc-001"
 
-    @Column(nullable=false, length=100)
+    @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable=false, length=300)
+    @Column(nullable = false, length = 300)
     private String jdbcUrl;
 
-    @Column(nullable=false, length=100)
+    @Column(nullable = false, length = 100)
     private String username;
 
-    @Column(nullable=false, length=100)
+    @Column(nullable = false, length = 100)
     private String password;
 
     private boolean habilitada = true;
 
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getNombre(){return nombre;}
-
-    public void setNombre(String nombre){ this.nombre = nombre;}
-
-    public String getJdbcUrl() {
-        return jdbcUrl;
-    }
-
-    public void setJdbcUrl(String jdbcUrl) {
-        this.jdbcUrl = jdbcUrl;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean getHabilitada() {
-        return habilitada;
-    }
-
-    public void setHabilitada(boolean habilitada) { this.habilitada = habilitada;}
+    /**
+     * NOTA SOBRE BOOLEANS:
+     * Lombok para el campo 'habilitada' generará:
+     * - setHabilitada(boolean b)
+     * - isHabilitada() <--- Es el estándar de Java para booleans (en lugar de getHabilitada)
+     * * Si en tu código usabas .getHabilitada(), podés cambiarlo a .isHabilitada()
+     * o dejar el método manual aquí abajo si no querés cambiar el resto del código.
+     */
 }
