@@ -21,26 +21,22 @@ public class ProductoSucursalController {
     private final ProductoSucursalService service;
     private final CatalogoPinturaService catalogoPinturaService; //Servicio utilizado como punto en comun de ambos contexto (general y sucursal) para poder obtener las listas pertenecienteas a estos
 
-    public ProductoSucursalController(ProductoSucursalService service, CatalogoPinturaService catalogoPinturaService) {
-        this.service = service;
-        this.catalogoPinturaService = catalogoPinturaService;
-    }
 
     // GET
     @GetMapping("/otro")
-    public List<ProductoOtroSucursal> listarProductoOtro() {
+    public List<ProductoOtroSucursal> getAllProductoOtro() {
         return service.listarProductosOtro();
     }
 
     @GetMapping("/pintura")
-    public List<ProductoPinturaDTO> listarProductoPintura() {
+    public List<ProductoPinturaDTO> getAllProductoPintura() {
         String tenantId = TenantContext.getTenantId(); //obtenemos el id del contexto (id de sucursal)
         return catalogoPinturaService.listarProductosPintura(tenantId); // pedimos al service todas las pinturas las globales y las propias de sucursal
     }
 
     // POST
     @PostMapping("/otro")
-    public Producto crearOtro(
+    public Producto CreateProductoOtro(
             @PathVariable Long sucursalId,
             @RequestBody ProductoDTO dto
     ) {
@@ -50,10 +46,14 @@ public class ProductoSucursalController {
 
     // DELETE
     @DeleteMapping("/otro/{id}")
-    public void eliminarOtro(@PathVariable Long id) {
+    public void deleteProductoOtro(@PathVariable Long id) {
         service.eliminarProductoOtro(id);
     }
 
+    public ProductoSucursalController(ProductoSucursalService service, CatalogoPinturaService catalogoPinturaService) {
+        this.service = service;
+        this.catalogoPinturaService = catalogoPinturaService;
+    }
 
 }
 

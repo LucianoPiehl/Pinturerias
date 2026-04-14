@@ -42,7 +42,7 @@ public class CatalogoPinturaService {
 
         // Obtener pinturas globales (BD general)
         List<ProductoPinturaDTO> productosGeneral = tenantExecutor.ejecutarEnTenant(null, () ->
-                productoGeneralService.listarProductosPintura()
+                productoGeneralService.getAllProductosPintura()
                         .stream()
                         .map(this::mapToDTO)
                         .toList()
@@ -50,7 +50,7 @@ public class CatalogoPinturaService {
 
         // Obtener el stock y precio que corresponden a los productos generales de la sucursal.
         List<ProductoPrecioStock> preciosStock = tenantExecutor.ejecutarEnTenant(tenantId, () ->
-                productoPrecioStockService.listar()
+                productoPrecioStockService.getAll()
         );
 
         //Asociamos a cada producto con su stock

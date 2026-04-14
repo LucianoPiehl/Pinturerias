@@ -12,33 +12,34 @@ public class AdminSucursalController {
 
     private final SucursalService service;
 
-    public AdminSucursalController(SucursalService service) {
-        this.service = service;
-
-    }
-
     @GetMapping
-    public List<Sucursal> listar() {
+    public List<Sucursal> getAll() {
         return service.listar();
     }
 
     @PostMapping
-    public Sucursal crear(@RequestBody Sucursal s) {
+    public Sucursal create(@RequestBody Sucursal s) {
         return service.registrar(s);
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        service.eliminar(id);
-    
-    
-    }
+
     @PutMapping("/{id}")
-    public Sucursal actualizarSucursal(
+    public Sucursal updateSucursal(
             @PathVariable Long id,
             @RequestBody Sucursal s) {
 
         return service.actualizarSucursal(id, s);
     }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.eliminar(id);
+
+
+    }
+    public AdminSucursalController(SucursalService service) {
+        this.service = service;
+
+    }
+
 
 }

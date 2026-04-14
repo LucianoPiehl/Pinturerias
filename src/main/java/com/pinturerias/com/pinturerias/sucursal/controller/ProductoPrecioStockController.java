@@ -10,40 +10,40 @@ import java.util.List;
 @RequestMapping("/api/sucursal/{sucursalId}/productos-general")
 public class ProductoPrecioStockController {
 
-        private final ProductoPrecioStockService service;
+    private final ProductoPrecioStockService service;
 
-        public ProductoPrecioStockController(ProductoPrecioStockService service) {
-            this.service = service;
-        }
+    @GetMapping
+    public List<ProductoPrecioStock> getAll(@PathVariable Long sucursalId) {
+        return service.getAll();
+    }
 
-        @PostMapping("/{productoGeneralId}")
-        public ProductoPrecioStock crearOActualizar(
-                @PathVariable Long sucursalId,
-                @PathVariable Long productoGeneralId,
-                @RequestParam Double precio,
-                @RequestParam Integer stock) {
+    @GetMapping("/{productoGeneralId}")
+    public ProductoPrecioStock getProductoGeneralId(
+            @PathVariable Long sucursalId,
+            @PathVariable Long productoGeneralId) {
 
-            return service.guardar(productoGeneralId, precio, stock);
-        }
+        return service.getProductogeneralId(productoGeneralId);
+    }
 
-        @GetMapping("/{productoGeneralId}")
-        public ProductoPrecioStock obtener(
-                @PathVariable Long sucursalId,
-                @PathVariable Long productoGeneralId) {
+    @PostMapping("/{productoGeneralId}")
+    public ProductoPrecioStock crearOActualizar(
+            @PathVariable Long sucursalId,
+            @PathVariable Long productoGeneralId,
+            @RequestParam Double precio,
+            @RequestParam Integer stock) {
 
-            return service.obtener(productoGeneralId);
-        }
+        return service.save(productoGeneralId, precio, stock);
+    }
 
-        @GetMapping
-        public List<ProductoPrecioStock> listar(@PathVariable Long sucursalId) {
-            return service.listar();
-        }
+    @DeleteMapping("/{productoGeneralId}")
+    public void delete(
+            @PathVariable Long sucursalId,
+            @PathVariable Long productoGeneralId) {
 
-        @DeleteMapping("/{productoGeneralId}")
-        public void eliminar(
-                @PathVariable Long sucursalId,
-                @PathVariable Long productoGeneralId) {
+        service.delete(productoGeneralId);}
 
-            service.eliminar(productoGeneralId);}
+    public ProductoPrecioStockController(ProductoPrecioStockService service) {
+        this.service = service;
+    }
 }
 

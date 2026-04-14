@@ -26,59 +26,61 @@ public class ProductoGeneralController {
 
     private final ProductoGeneralService service;
 
-    public ProductoGeneralController(ProductoGeneralService service) {
-        this.service = service;
-    }
-
     // LISTAR
     @GetMapping("/otro")
-    public List<ProductoOtroGeneral> listarProductosOtro() {
-        return service.listarProductosOtro();
+    public List<ProductoOtroGeneral> getAllProductosOtro() {
+        return service.getAllProductosOtro();
     }
 
     @GetMapping("/pintura")
-    public List<ProductoPinturaGeneral> listarProductosPintura() {
-        return service.listarProductosPintura();
+    public List<ProductoPinturaGeneral> getAllProductosPintura() {
+        return service.getAllProductosPintura();
     }
 
     // CREAR
     @PostMapping("/otro")
-    public Producto crearOtro(@RequestBody ProductoOtroDTO dto) {
+    public Producto createProductoOtro(@RequestBody ProductoOtroDTO dto) {
         dto.setContexto(Contexto.GENERAL);
-        return service.crearOtro(dto);
+        return service.createProductoOtro(dto);
     }
 
     @PostMapping("/pintura")
-    public Producto crearPintura(@RequestBody ProductoPinturaDTO dto) {
+    public Producto createProductoPintura(@RequestBody ProductoPinturaDTO dto) {
         dto.setContexto(Contexto.GENERAL);
-        return service.crearPintura(dto);
+        return service.createProductoPintura(dto);
     }
 
     // ELIMINAR
     @DeleteMapping("/otro/{id}")
-    public void eliminarOtro(@PathVariable Long id) {
-        service.eliminarOtro(id);
+    public void deleteProductoOtro(@PathVariable Long id) {
+        service.deleteProductoOtro(id);
     }
 
+
     @DeleteMapping("/pintura/{id}")
-    public void eliminarPintura(@PathVariable Long id) {
-        service.eliminarPintura(id);
+    public void deleteProductoPintura(@PathVariable Long id) {
+        service.deleteProductoPintura(id);
     }
 
     @PutMapping("/pintura/{id}")
-    public ProductoPinturaGeneral actualizarPintura(
+    public ProductoPinturaGeneral updateProductoPintura(
             @PathVariable Long id,
             @RequestBody ProductoPinturaDTO dto) {
 
-        return service.actualizarPintura(id, dto);
+        return service.updateProductoPintura(id, dto);
     }
 
     @PutMapping("/otro/{id}")
-    public ProductoOtroGeneral actualizarOtro(
+    public ProductoOtroGeneral updateProductoOtro(
             @PathVariable Long id,
             @RequestBody ProductoOtroDTO dto) {
 
-        return service.actualizarOtro(id, dto);
+        return service.updateProductoOtro(id, dto);
+    }
+
+
+    public ProductoGeneralController(ProductoGeneralService service) {
+        this.service = service;
     }
     
 }

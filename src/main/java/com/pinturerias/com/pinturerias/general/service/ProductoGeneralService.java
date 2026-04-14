@@ -27,33 +27,33 @@ public class ProductoGeneralService {
 
     }
    
-    public List<ProductoOtroGeneral> listarProductosOtro() {
+    public List<ProductoOtroGeneral> getAllProductosOtro() {
         return repoOtro.findAll();
     }
-    public List<ProductoPinturaGeneral> listarProductosPintura() {
+    public List<ProductoPinturaGeneral> getAllProductosPintura() {
         return repoPintura.findAll();
     }
 
-    public Producto crearOtro(ProductoDTO dto) {
+    public Producto createProductoOtro(ProductoDTO dto) {
         Producto producto = director.construirProducto(dto);
         ProductoOtroGeneral p = (ProductoOtroGeneral) producto;
         return repoOtro.save(p);
     }
 
-    public ProductoPinturaGeneral crearPintura(ProductoPinturaDTO dto) {
+    public ProductoPinturaGeneral createProductoPintura(ProductoPinturaDTO dto) {
         Producto producto = director.construirProducto(dto);
         ProductoPinturaGeneral p = (ProductoPinturaGeneral) producto;
         return repoPintura.save(p);
     }
 
-    public void eliminarOtro(Long id) {
+    public void deleteProductoOtro(Long id) {
         repoOtro.deleteById(id);
     }
-    public void eliminarPintura(Long id) {
+    public void deleteProductoPintura(Long id) {
         repoPintura.deleteById(id);
     }
 
-    public ProductoPinturaGeneral actualizarPintura(Long id, ProductoPinturaDTO dto) {
+    public ProductoPinturaGeneral updateProductoPintura(Long id, ProductoPinturaDTO dto) {
 
         ProductoPinturaGeneral producto = repoPintura.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Producto pintura no encontrado"));
@@ -73,7 +73,7 @@ public class ProductoGeneralService {
         return repoPintura.save(producto);
     }
 
-    public ProductoOtroGeneral actualizarOtro(Long id, ProductoDTO dto) {
+    public ProductoOtroGeneral updateProductoOtro(Long id, ProductoDTO dto) {
 
     ProductoOtroGeneral producto = repoOtro.findById(id)
             .orElseThrow(() -> new RecursoNoEncontradoException("Producto pintura no encontrado"));

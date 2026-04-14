@@ -14,7 +14,7 @@ public class ProductoPrecioStockService {
         this.repo = repo;
     }
 
-    public ProductoPrecioStock guardar(Long productoGeneralId, Double precio, Integer stock) {
+    public ProductoPrecioStock save(Long productoGeneralId, Double precio, Integer stock) {
         ProductoPrecioStock pps = repo.findByProductoId(productoGeneralId)
                 .orElse(new ProductoPrecioStock(productoGeneralId, precio, stock));
 
@@ -25,17 +25,17 @@ public class ProductoPrecioStockService {
         return repo.save(pps);
     }
 
-    public ProductoPrecioStock obtener(Long productoGeneralId) {
+    public ProductoPrecioStock getProductogeneralId (Long productoGeneralId) {
         return repo.findByProductoId(productoGeneralId)
                 .orElseThrow(() -> new RuntimeException("No hay control local para el producto general ID: " + productoGeneralId));
     }
 
-    public List<ProductoPrecioStock> listar() {
+    public List<ProductoPrecioStock> getAll() {
         return repo.findAll();
     }
 
-    public void eliminar(Long productoGeneralId) {
-        ProductoPrecioStock pps = obtener(productoGeneralId);
+    public void delete(Long productoGeneralId) {
+        ProductoPrecioStock pps = getProductogeneralId(productoGeneralId);
         repo.delete(pps);
     }
 }
