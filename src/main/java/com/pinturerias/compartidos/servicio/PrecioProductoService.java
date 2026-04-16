@@ -37,15 +37,11 @@ public class PrecioProductoService {
     }
 
     public Double calcularPrecioRecomendadoGeneral(Producto producto) {
-        double precio = valorSeguro(producto.getPrecioBase());
-
         if (producto instanceof ProductoPinturaGeneral pintura) {
-            precio = calcularPrecioFinalSucursal(precio, obtenerPorcentajeTipoPintura(pintura));
-            precio = calcularPrecioFinalSucursal(precio, obtenerPorcentajeColorBase(pintura));
-            precio = calcularPrecioFinalSucursal(precio, obtenerPorcentajeTamanoEnvase(pintura));
+            return calcularPrecioBasePintura(pintura);
         }
 
-        return precio;
+        return valorSeguro(producto.getPrecioBase());
     }
 
     public Double calcularPrecioFinalSucursal(Long productoId, Tipo tipoProducto) {
@@ -99,16 +95,18 @@ public class PrecioProductoService {
         throw new RecursoNoEncontradoException("Tipo de producto general no soportado");
     }
 
-    private Double obtenerPorcentajeTipoPintura(ProductoPinturaGeneral pintura) {
-        return pintura.getTipoPintura() != null ? pintura.getTipoPintura().getPorcentajeAumento() : 0D;
-    }
+    private Double calcularPrecioBasePintura(ProductoPinturaGeneral pintura) {
+        double valorColorBasePorLitro = pintura.getColorBase() != null
+                ? valorSeguro(pintura.getColorBase().getValorFijoPorLitro())
+                : 0D;
+        double litros = pintura.getTamanoEnv() != null
+                ? valorSeguro(pintura.getTamanoEnv().getCapacidad())
+                : 0D;
+        double valorTipoPinturaPorLitro = pintura.getTipoPintura() != null
+                ? valorSeguro(pintura.getTipoPintura().getValorFijoPorLitro())
+                : 0D;
 
-    private Double obtenerPorcentajeColorBase(ProductoPinturaGeneral pintura) {
-        return pintura.getColorBase() != null ? pintura.getColorBase().getPorcentajeAumento() : 0D;
-    }
-
-    private Double obtenerPorcentajeTamanoEnvase(ProductoPinturaGeneral pintura) {
-        return pintura.getTamanoEnv() != null ? pintura.getTamanoEnv().getPorcentajeAumento() : 0D;
+        return valorColorBasePorLitro * litros * valorTipoPinturaPorLitro;
     }
 
     private Double valorSeguro(Double valor) {

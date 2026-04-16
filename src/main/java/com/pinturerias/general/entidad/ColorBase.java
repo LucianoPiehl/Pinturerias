@@ -24,7 +24,8 @@ public class ColorBase {
 
     private String nombre;
     private String formula;
-    private Double porcentajeAumento;
+    private Double valorFijoPorLitro;
+
 
 
 }

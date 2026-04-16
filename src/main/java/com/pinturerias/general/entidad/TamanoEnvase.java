@@ -25,7 +25,6 @@ public class TamanoEnvase {
 
     private String nombre;
     private Double capacidad;
-    private Double porcentajeAumento;
 
 }
 

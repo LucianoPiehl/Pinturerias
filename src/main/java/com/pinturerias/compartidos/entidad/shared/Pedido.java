@@ -47,6 +47,7 @@ public class Pedido {
     @Column(nullable = false, length = 20)
     private EstadoPedido estado = EstadoPedido.INICIADO;
 
+
     @Column(nullable = false)
     private LocalDate fecha;
 

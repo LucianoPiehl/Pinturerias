@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class TipoPinturaDTO {
     private Long id;
-    private Double porcentajeAumento;
+    private Double valorFijoPorLitro;
     private Double rendimientoMT2;
 }
 

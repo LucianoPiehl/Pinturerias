@@ -7,7 +7,6 @@ public class TamanoEnvaseDTO {
     private Long id;
     private String nombre;
     private Double capacidad;
-    private Double porcentajeAumento;
 }
 
 

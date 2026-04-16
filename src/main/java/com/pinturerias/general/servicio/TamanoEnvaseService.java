@@ -33,7 +33,6 @@ public class TamanoEnvaseService {
 
         e.setNombre(dto.getNombre());
         e.setCapacidad(dto.getCapacidad());
-        e.setPorcentajeAumento(dto.getPorcentajeAumento());
 
         return toDTO(repository.save(e));
     }
@@ -47,7 +46,6 @@ public class TamanoEnvaseService {
         dto.setId(e.getId());
         dto.setNombre(e.getNombre());
         dto.setCapacidad(e.getCapacidad());
-        dto.setPorcentajeAumento(e.getPorcentajeAumento());
         return dto;
     }
 
@@ -55,7 +53,6 @@ public class TamanoEnvaseService {
         TamanoEnvase e = new TamanoEnvase();
         e.setNombre(dto.getNombre());
         e.setCapacidad(dto.getCapacidad());
-        e.setPorcentajeAumento(dto.getPorcentajeAumento());
         return e;
     }
 

@@ -14,7 +14,8 @@ CREATE TABLE producto_precio_stock (
     tipo_producto VARCHAR(20) NOT NULL,
     porcentaje_ajuste DOUBLE NOT NULL,
     stock INT NOT NULL,
-    INDEX idx_prod_id (producto_id)
+    INDEX idx_prod_id (producto_id),
+    UNIQUE INDEX uk_producto_precio_stock (producto_id, tipo_producto)
 );
 
 CREATE TABLE pedido (
@@ -44,6 +45,3 @@ CREATE TABLE pedido_producto (
     CONSTRAINT fk_pedido_producto_pedido_sucursal
         FOREIGN KEY (pedido_id) REFERENCES pedido(id)
 );
-
-CREATE UNIQUE INDEX uk_producto_precio_stock
-    ON producto_precio_stock (producto_id, tipo_producto);

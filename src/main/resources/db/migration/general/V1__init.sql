@@ -12,20 +12,19 @@ CREATE TABLE color_general (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     formula VARCHAR(255),
-    porcentaje_aumento DOUBLE
+    valor_fijo_por_litro DOUBLE
 );
 
 CREATE TABLE tipo_pintura_general (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    porcentaje_aumento DOUBLE,
+    valor_fijo_por_litro DOUBLE,
     rendimientomt2 DOUBLE
 );
 
 CREATE TABLE tamano_envase_general (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255),
-    capacidad DOUBLE,
-    porcentaje_aumento DOUBLE
+    capacidad DOUBLE
 );
 
 CREATE TABLE producto_otro_general (
@@ -55,13 +54,6 @@ CREATE TABLE producto_pintura_general (
         FOREIGN KEY (tam_env_id) REFERENCES tamano_envase_general(id)
 );
 
-CREATE TABLE producto_stock_general (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    producto_id BIGINT NOT NULL,
-    tipo_producto VARCHAR(20) NOT NULL,
-    stock INT NOT NULL
-);
-
 CREATE TABLE pedido (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     mail VARCHAR(120),
@@ -89,6 +81,3 @@ CREATE TABLE pedido_producto (
     CONSTRAINT fk_pedido_producto_pedido_general
         FOREIGN KEY (pedido_id) REFERENCES pedido(id)
 );
-
-CREATE UNIQUE INDEX uk_producto_stock_general
-    ON producto_stock_general (producto_id, tipo_producto);

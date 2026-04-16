@@ -35,7 +35,7 @@ public class ColorBaseService {
 
         entity.setNombre(dto.getNombre());
         entity.setFormula(dto.getFormula());
-        entity.setPorcentajeAumento(dto.getPorcentajeAumento());
+        entity.setValorFijoPorLitro(dto.getValorFijoPorLitro());
 
         return toDTO(repository.save(entity));
     }
@@ -49,7 +49,7 @@ public class ColorBaseService {
         dto.setId(e.getId());
         dto.setNombre(e.getNombre());
         dto.setFormula(e.getFormula());
-        dto.setPorcentajeAumento(e.getPorcentajeAumento());
+        dto.setValorFijoPorLitro(e.getValorFijoPorLitro());
         return dto;
     }
 
@@ -57,7 +57,7 @@ public class ColorBaseService {
         ColorBase e = new ColorBase();
         e.setNombre(dto.getNombre());
         e.setFormula(dto.getFormula());
-        e.setPorcentajeAumento(dto.getPorcentajeAumento());
+        e.setValorFijoPorLitro(dto.getValorFijoPorLitro());
         return e;
     }
 }

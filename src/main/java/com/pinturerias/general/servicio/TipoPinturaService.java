@@ -31,7 +31,7 @@ public class TipoPinturaService {
         TipoPintura e = repository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("TipoPintura no encontrado"));
 
-        e.setPorcentajeAumento(dto.getPorcentajeAumento());
+        e.setValorFijoPorLitro(dto.getValorFijoPorLitro());
         e.setRendimientoMT2(dto.getRendimientoMT2());
 
         return toDTO(repository.save(e));
@@ -44,14 +44,14 @@ public class TipoPinturaService {
     private TipoPinturaDTO toDTO(TipoPintura e) {
         TipoPinturaDTO dto = new TipoPinturaDTO();
         dto.setId(e.getId());
-        dto.setPorcentajeAumento(e.getPorcentajeAumento());
+        dto.setValorFijoPorLitro(e.getValorFijoPorLitro());
         dto.setRendimientoMT2(e.getRendimientoMT2());
         return dto;
     }
 
     private TipoPintura toEntity(TipoPinturaDTO dto) {
         TipoPintura e = new TipoPintura();
-        e.setPorcentajeAumento(dto.getPorcentajeAumento());
+        e.setValorFijoPorLitro(dto.getValorFijoPorLitro());
         e.setRendimientoMT2(dto.getRendimientoMT2());
         return e;
     }

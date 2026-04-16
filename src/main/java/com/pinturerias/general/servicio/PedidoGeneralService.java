@@ -5,15 +5,15 @@ import com.pinturerias.compartidos.entidad.shared.Pedido;
 import com.pinturerias.compartidos.entidad.shared.PedidoProducto;
 import com.pinturerias.compartidos.enumeracion.EstadoPedido;
 import com.pinturerias.compartidos.servicio.PedidoMapper;
-import com.pinturerias.compartidos.servicio.PrecioProductoService;
 import com.pinturerias.compartidos.servicio.PedidoValidationService;
+import com.pinturerias.compartidos.servicio.PrecioProductoService;
 import com.pinturerias.configuracion.TenantExecutor;
 import com.pinturerias.general.entidad.Sucursal;
 import com.pinturerias.general.repositorio.PedidoGeneralRepository;
 import com.pinturerias.general.repositorio.SucursalRepository;
-import com.pinturerias.sucursal.servicio.ProductoPrecioStockService;
 import com.pinturerias.excepciones.ExcepcionApi;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
+import com.pinturerias.sucursal.servicio.ProductoPrecioStockService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +25,6 @@ public class PedidoGeneralService {
     private final PedidoGeneralRepository pedidoRepository;
     private final PedidoMapper mapper;
     private final PedidoValidationService validationService;
-    private final ProductoStockGeneralService productoStockGeneralService;
     private final SucursalRepository sucursalRepository;
     private final TenantExecutor tenantExecutor;
     private final ProductoPrecioStockService productoPrecioStockService;
@@ -35,7 +34,6 @@ public class PedidoGeneralService {
             PedidoGeneralRepository pedidoRepository,
             PedidoMapper mapper,
             PedidoValidationService validationService,
-            ProductoStockGeneralService productoStockGeneralService,
             SucursalRepository sucursalRepository,
             TenantExecutor tenantExecutor,
             ProductoPrecioStockService productoPrecioStockService,
@@ -44,7 +42,6 @@ public class PedidoGeneralService {
         this.pedidoRepository = pedidoRepository;
         this.mapper = mapper;
         this.validationService = validationService;
-        this.productoStockGeneralService = productoStockGeneralService;
         this.sucursalRepository = sucursalRepository;
         this.tenantExecutor = tenantExecutor;
         this.productoPrecioStockService = productoPrecioStockService;
@@ -96,11 +93,6 @@ public class PedidoGeneralService {
 
         for (PedidoProducto producto : pedido.getProductos()) {
             validationService.validarProductoGeneral(producto);
-            productoStockGeneralService.descontar(
-                    producto.getIdProducto(),
-                    producto.getTipoProducto(),
-                    producto.getCantidad()
-            );
 
             tenantExecutor.ejecutarEnTenant(sucursal.getCodigo(), () -> {
                 productoPrecioStockService.acreditarStock(

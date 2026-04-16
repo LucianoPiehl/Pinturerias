@@ -46,7 +46,7 @@ public class ProductoPinturaBuilder implements ProductoBuilderBase {
 
     @Override
     public void setPrecioFinal(Double precioBase) {
-        producto.setPrecioBase(precioBase);
+        // El precio de pintura se calcula desde sus atributos relacionados.
     }
 
     @Override
