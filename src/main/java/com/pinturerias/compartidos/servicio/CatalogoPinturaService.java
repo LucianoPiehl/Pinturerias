@@ -5,6 +5,7 @@ import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.configuracion.TenantExecutor;
+import com.pinturerias.general.entidad.EtiquetaGeneral;
 import com.pinturerias.general.servicio.ProductoGeneralService;
 import com.pinturerias.sucursal.entidad.ProductoPrecioStock;
 import com.pinturerias.sucursal.servicio.ProductoPrecioStockService;
@@ -37,9 +38,6 @@ public class CatalogoPinturaService {
     public List<ProductoPinturaDTO> listarProductosPintura(String tenantId) {
         List<ProductoPinturaDTO> productosGeneral = tenantExecutor.ejecutarEnTenant(null, () ->
                 productoGeneralService.getAllProductosPintura()
-                        .stream()
-                        .map(this::mapToDTO)
-                        .toList()
         );
 
         List<ProductoPrecioStock> controlesLocales = tenantExecutor.ejecutarEnTenant(tenantId, () ->
@@ -50,12 +48,11 @@ public class CatalogoPinturaService {
         return productosGeneral;
     }
 
-    private ProductoPinturaDTO mapToDTO(ProductoPinturaGeneral producto) {
+    public ProductoPinturaDTO mapToDTO(ProductoPinturaGeneral producto) {
         ProductoPinturaDTO dto = new ProductoPinturaDTO();
         dto.setIdProducto(producto.getId());
         dto.setNombre(producto.getNombre());
         dto.setDescripcion(producto.getDescripcion());
-        dto.setEtiquetas(producto.getEtiquetas());
         dto.setPrecioFinal(precioProductoService.calcularPrecioRecomendadoGeneral(producto));
         dto.setMarca(producto.getMarca());
         dto.setTipo(Tipo.PINTURA);
@@ -64,10 +61,22 @@ public class CatalogoPinturaService {
         dto.setTamanoEnv(producto.getTamanoEnv());
         dto.setColorBase(producto.getColorBase());
         dto.setStock(0);
+        dto.setEtiquetas(
+                producto.getEtiquetas().stream()
+                        .map(EtiquetaGeneral::getValor)
+                        .sorted(String.CASE_INSENSITIVE_ORDER)
+                        .toList()
+        );
+        dto.setEtiquetasGeneralesIds(
+                producto.getEtiquetas().stream()
+                        .map(EtiquetaGeneral::getId)
+                        .toList()
+        );
         return dto;
     }
 
-    private void asociarControlesLocales(List<ProductoPrecioStock> controlesLocales, List<ProductoPinturaDTO> productosGeneral) {
+    private void asociarControlesLocales(List<ProductoPrecioStock> controlesLocales,
+                                         List<ProductoPinturaDTO> productosGeneral) {
         Map<Long, ProductoPinturaDTO> mapaDto = productosGeneral.stream()
                 .collect(Collectors.toMap(ProductoPinturaDTO::getIdProducto, dto -> dto));
 

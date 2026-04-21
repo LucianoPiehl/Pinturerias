@@ -1,27 +1,24 @@
 package com.pinturerias.compartidos.constructor.sucursal;
 
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 import com.pinturerias.compartidos.entidad.sucursal.ProductoOtroSucursal;
 import com.pinturerias.general.entidad.ColorBase;
 import com.pinturerias.general.entidad.TamanoEnvase;
 import com.pinturerias.general.entidad.TipoPintura;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ProductoOtroSucursalBuilder implements ProductoBuilderBase {
 
     private ProductoOtroSucursal producto;
 
+    public ProductoOtroSucursalBuilder() {
+        reset();
+    }
+
     @Override
     public String tipo() {
         return "OTRO_SUCURSAL";
-    }
-
-    public ProductoOtroSucursalBuilder() {
-        reset();
     }
 
     @Override
@@ -48,40 +45,26 @@ public class ProductoOtroSucursalBuilder implements ProductoBuilderBase {
     public void setPrecioFinal(Double precioFinal) {
         producto.setPrecioFinal(precioFinal);
     }
-    
+
     @Override
-    public void setEtiqueta(List<String> etiqueta){
-        producto.setEtiquetas(etiqueta);
+    public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
     }
 
+    @Override
+    public void setColor(ColorBase color) {
+    }
+
+    @Override
+    public void setTipoPintura(TipoPintura tipoPintura) {
+    }
 
     @Override
     public void setStock(int stock) {
         producto.setStock(stock);
     }
 
-
     @Override
     public ProductoOtroSucursal build() {
         return producto;
     }
-
-
-    @Override
-    public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
-        // No aplica para productos "otro" de sucursal.
-    }
-
-    @Override
-    public void setColor(ColorBase color) {
-        // No aplica para productos "otro" de sucursal.
-    }
-
-    @Override
-    public void setTipoPintura(TipoPintura tipoPintura) {
-        // No aplica para productos "otro" de sucursal.
-    }
 }
-
-
-

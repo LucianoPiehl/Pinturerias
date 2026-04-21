@@ -32,7 +32,6 @@ public class ProductoDirector {
         constructor.setDescripcion(dto.getDescripcion());
         constructor.setMarca(dto.getMarca());
         constructor.setPrecioFinal(dto.getPrecioFinal());
-        constructor.setEtiqueta(dto.getEtiquetas());
         constructor.setTamanoEnvase(dto.getTamanoEnv());
         constructor.setTipoPintura(dto.getTipoPintura());
         constructor.setColor(dto.getColorBase());
@@ -41,4 +40,3 @@ public class ProductoDirector {
         return constructor.build();
     }
 }
-

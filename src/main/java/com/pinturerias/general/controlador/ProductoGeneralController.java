@@ -1,25 +1,13 @@
 package com.pinturerias.general.controlador;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.pinturerias.compartidos.dto.ProductoOtroDTO;
 import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
-import com.pinturerias.compartidos.entidad.Producto;
-import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
-import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.general.servicio.ProductoGeneralService;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/general/productos")
@@ -27,45 +15,55 @@ public class ProductoGeneralController {
 
     private final ProductoGeneralService servicio;
 
-    // LISTAR
+    public ProductoGeneralController(ProductoGeneralService servicio) {
+        this.servicio = servicio;
+    }
+
     @GetMapping("/otro")
-    public List<ProductoOtroGeneral> getAllProductosOtro() {
+    public List<ProductoOtroDTO> getAllProductosOtro() {
         return servicio.getAllProductosOtro();
     }
 
     @GetMapping("/pintura")
-    public List<ProductoPinturaGeneral> getAllProductosPintura() {
+    public List<ProductoPinturaDTO> getAllProductosPintura() {
         return servicio.getAllProductosPintura();
     }
 
-    // CREAR
     @PostMapping("/otro")
-    public Producto createProductoOtro(@RequestBody ProductoOtroDTO dto) {
+    public ProductoOtroDTO createProductoOtro(@RequestBody ProductoOtroDTO dto) {
         dto.setContexto(Contexto.GENERAL);
         dto.setTipo(Tipo.OTRO);
+        dto.setEtiquetasSucursalIds(List.of());
         return servicio.createProductoOtro(dto);
     }
 
     @PostMapping("/pintura")
-    public Producto createProductoPintura(@RequestBody ProductoPinturaDTO dto) {
+    public ProductoPinturaDTO createProductoPintura(@RequestBody ProductoPinturaDTO dto) {
         dto.setContexto(Contexto.GENERAL);
         dto.setTipo(Tipo.PINTURA);
+        dto.setEtiquetasSucursalIds(List.of());
         return servicio.createProductoPintura(dto);
     }
 
     @PutMapping("/pintura/{id}")
-    public ProductoPinturaGeneral updateProductoPintura(
+    public ProductoPinturaDTO updateProductoPintura(
             @PathVariable Long id,
-            @RequestBody ProductoPinturaDTO dto) {
-
+            @RequestBody ProductoPinturaDTO dto
+    ) {
+        dto.setContexto(Contexto.GENERAL);
+        dto.setTipo(Tipo.PINTURA);
+        dto.setEtiquetasSucursalIds(List.of());
         return servicio.updateProductoPintura(id, dto);
     }
 
     @PutMapping("/otro/{id}")
-    public ProductoOtroGeneral updateProductoOtro(
+    public ProductoOtroDTO updateProductoOtro(
             @PathVariable Long id,
-            @RequestBody ProductoOtroDTO dto) {
-
+            @RequestBody ProductoOtroDTO dto
+    ) {
+        dto.setContexto(Contexto.GENERAL);
+        dto.setTipo(Tipo.OTRO);
+        dto.setEtiquetasSucursalIds(List.of());
         return servicio.updateProductoOtro(id, dto);
     }
 
@@ -78,13 +76,4 @@ public class ProductoGeneralController {
     public void deleteProductoPintura(@PathVariable Long id) {
         servicio.deleteProductoPintura(id);
     }
-
-
-    public ProductoGeneralController(ProductoGeneralService servicio) {
-        this.servicio = servicio;
-    }
-    
 }
-
-
-

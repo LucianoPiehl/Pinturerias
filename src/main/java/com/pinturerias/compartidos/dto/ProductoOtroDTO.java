@@ -4,18 +4,24 @@ import com.pinturerias.general.entidad.ColorBase;
 import com.pinturerias.general.entidad.TamanoEnvase;
 import com.pinturerias.general.entidad.TipoPintura;
 
-public class ProductoOtroDTO extends ProductoDTO{
-    public TamanoEnvase getTamanoEnv(){
-        return new TamanoEnvase();
+public class ProductoOtroDTO extends ProductoDTO {
+
+    @Override
+    public TamanoEnvase getTamanoEnv() {
+        return null;
     }
-    public TipoPintura getTipoPintura(){
-        return new TipoPintura();
+
+    @Override
+    public TipoPintura getTipoPintura() {
+        return null;
     }
-    public ColorBase getColorBase(){
-        return new ColorBase();
+
+    @Override
+    public ColorBase getColorBase() {
+        return null;
     }
+
     public ProductoOtroDTO() {
+        super();
     }
 }
-
-

@@ -1,14 +1,9 @@
 package com.pinturerias.compartidos.entidad;
 
-import com.pinturerias.compartidos.persistencia.StringListJsonConverter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -30,17 +25,6 @@ public abstract class Producto {
     protected String marca;
     protected Double precioFinal;
 
-    @Convert(converter = StringListJsonConverter.class)
-    @Column(columnDefinition = "TEXT")
-    protected List<String> etiquetas;
-
-
-    public void agregarEtiqueta(String etiqueta) {
-        if (this.etiquetas != null) {
-            this.etiquetas.add(etiqueta);
-        }
-    }
-
     public Double getPrecioBase() {
         return this.precioFinal;
     }
@@ -49,7 +33,3 @@ public abstract class Producto {
         this.precioFinal = precioBase;
     }
 }
-
-
-
-

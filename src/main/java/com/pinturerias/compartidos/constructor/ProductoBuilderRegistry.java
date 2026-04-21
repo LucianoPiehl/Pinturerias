@@ -1,11 +1,10 @@
-
 package com.pinturerias.compartidos.constructor;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
-
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 
 @Component
@@ -24,6 +23,3 @@ public class ProductoBuilderRegistry {
         return builders.get(key);
     }
 }
-
-
-

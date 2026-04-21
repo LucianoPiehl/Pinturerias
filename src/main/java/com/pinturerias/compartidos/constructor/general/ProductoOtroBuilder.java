@@ -1,10 +1,6 @@
 package com.pinturerias.compartidos.constructor.general;
 
-
-import java.util.List;
-
 import org.springframework.stereotype.Component;
-
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
 import com.pinturerias.general.entidad.ColorBase;
@@ -12,7 +8,8 @@ import com.pinturerias.general.entidad.TamanoEnvase;
 import com.pinturerias.general.entidad.TipoPintura;
 
 @Component
-public class ProductoOtroBuilder implements ProductoBuilderBase  {
+public class ProductoOtroBuilder implements ProductoBuilderBase {
+
     private ProductoOtroGeneral producto;
 
     public ProductoOtroBuilder() {
@@ -50,32 +47,19 @@ public class ProductoOtroBuilder implements ProductoBuilderBase  {
     }
 
     @Override
-    public void setEtiqueta(List<String> etiquetas){
-        producto.setEtiquetas(etiquetas);
-    }
-
-    
-    @Override
     public ProductoOtroGeneral build() {
         return producto;
     }
 
-
     @Override
     public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
-       //ESTO ROMPE SOLID :D
     }
 
     @Override
     public void setColor(ColorBase colorBase) {
-       //ESTO ROMPE SOLID :D
     }
 
     @Override
     public void setTipoPintura(TipoPintura tipoPintura) {
-        //ESTO ROMPE SOLID :D
     }
 }
- 
-
-

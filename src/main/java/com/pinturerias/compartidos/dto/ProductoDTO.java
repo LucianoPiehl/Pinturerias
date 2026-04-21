@@ -1,16 +1,17 @@
 package com.pinturerias.compartidos.dto;
 
-import java.util.List;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.general.entidad.ColorBase;
 import com.pinturerias.general.entidad.TamanoEnvase;
 import com.pinturerias.general.entidad.TipoPintura;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,7 +24,14 @@ public abstract class ProductoDTO {
     private String descripcion;
     private Double precioFinal;
     private String marca;
-    private List<String> etiquetas; //nombre : color
+
+    // Nombres visibles para respuesta
+    private List<String> etiquetas = new ArrayList<>();
+
+    // IDs para request/response
+    private List<Long> etiquetasGeneralesIds = new ArrayList<>();
+    private List<Long> etiquetasSucursalIds = new ArrayList<>();
+
     private Tipo tipo;
     private Contexto contexto;
     private int stock;
@@ -31,7 +39,4 @@ public abstract class ProductoDTO {
     public abstract TamanoEnvase getTamanoEnv();
     public abstract TipoPintura getTipoPintura();
     public abstract ColorBase getColorBase();
-
 }
-
-
