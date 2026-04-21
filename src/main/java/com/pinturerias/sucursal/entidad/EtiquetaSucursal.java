@@ -25,4 +25,7 @@ public class EtiquetaSucursal {
 
     @Column(nullable = false, length = 120)
     private String valor;
+
+    @Column(name = "clave_normalizada", nullable = false, length = 120, unique = true)
+    private String claveNormalizada;
 }

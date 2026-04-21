@@ -3,7 +3,8 @@ package com.pinturerias.general.servicio;
 import com.pinturerias.compartidos.dto.EtiquetaCreateDTO;
 import com.pinturerias.compartidos.dto.EtiquetaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
-import com.pinturerias.excepciones.ExcepcionApi;
+import com.pinturerias.compartidos.servicio.NormalizadorEtiquetaService;
+import com.pinturerias.compartidos.servicio.ValidadorDuplicidadEtiquetaService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.general.entidad.EtiquetaGeneral;
 import com.pinturerias.general.repositorio.EtiquetaGeneralRepository;
@@ -15,9 +16,15 @@ import java.util.List;
 public class EtiquetaGeneralService {
 
     private final EtiquetaGeneralRepository repository;
+    private final NormalizadorEtiquetaService normalizadorEtiquetaService;
+    private final ValidadorDuplicidadEtiquetaService validadorDuplicidadEtiquetaService;
 
-    public EtiquetaGeneralService(EtiquetaGeneralRepository repository) {
+    public EtiquetaGeneralService(EtiquetaGeneralRepository repository,
+                                  NormalizadorEtiquetaService normalizadorEtiquetaService,
+                                  ValidadorDuplicidadEtiquetaService validadorDuplicidadEtiquetaService) {
         this.repository = repository;
+        this.normalizadorEtiquetaService = normalizadorEtiquetaService;
+        this.validadorDuplicidadEtiquetaService = validadorDuplicidadEtiquetaService;
     }
 
     public List<EtiquetaDTO> listar() {
@@ -27,14 +34,13 @@ public class EtiquetaGeneralService {
     }
 
     public EtiquetaDTO crear(EtiquetaCreateDTO dto) {
-        String valorNormalizado = normalizar(dto.getValor());
-
-        if (repository.existsByValorIgnoreCase(valorNormalizado)) {
-            throw new ExcepcionApi(400, "Ya existe una etiqueta general con ese valor");
-        }
+        String valorVisible = normalizadorEtiquetaService.normalizarValorVisible(dto.getValor());
+        String claveNormalizada = normalizadorEtiquetaService.generarClaveNormalizada(valorVisible);
+        validadorDuplicidadEtiquetaService.validarClaveLibreEnTodoElSistema(claveNormalizada);
 
         EtiquetaGeneral etiqueta = new EtiquetaGeneral();
-        etiqueta.setValor(valorNormalizado);
+        etiqueta.setValor(valorVisible);
+        etiqueta.setClaveNormalizada(claveNormalizada);
 
         return toDTO(repository.save(etiqueta));
     }
@@ -52,12 +58,5 @@ public class EtiquetaGeneralService {
                 etiqueta.getValor(),
                 Contexto.GENERAL
         );
-    }
-
-    private String normalizar(String valor) {
-        if (valor == null || valor.isBlank()) {
-            throw new ExcepcionApi(400, "El valor de la etiqueta no puede estar vacío");
-        }
-        return valor.trim();
     }
 }

@@ -3,6 +3,7 @@ package com.pinturerias.sucursal.controlador;
 import com.pinturerias.compartidos.dto.EtiquetaCreateDTO;
 import com.pinturerias.compartidos.dto.EtiquetaDTO;
 import com.pinturerias.compartidos.servicio.CatalogoEtiquetaService;
+import com.pinturerias.configuracion.TenantContext;
 import com.pinturerias.sucursal.servicio.EtiquetaSucursalService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class EtiquetaSucursalController {
 
     @GetMapping("/disponibles")
     public List<EtiquetaDTO> listarDisponibles(@PathVariable String sucursalId) {
-        return catalogoEtiquetaService.listarEtiquetasDisponibles(sucursalId);
+        return catalogoEtiquetaService.listarEtiquetasDisponibles(TenantContext.getTenantId());
     }
 
     @PostMapping

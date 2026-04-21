@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface EtiquetaSucursalRepository extends JpaRepository<EtiquetaSucursal, Long> {
     Optional<EtiquetaSucursal> findByValorIgnoreCase(String valor);
     boolean existsByValorIgnoreCase(String valor);
+    Optional<EtiquetaSucursal> findByClaveNormalizada(String claveNormalizada);
+    boolean existsByClaveNormalizada(String claveNormalizada);
 }

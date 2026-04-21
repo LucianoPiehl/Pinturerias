@@ -1,6 +1,7 @@
 package com.pinturerias.general.servicio;
 
 import com.pinturerias.compartidos.director.ProductoDirector;
+import com.pinturerias.compartidos.dto.EtiquetasProductoDTO;
 import com.pinturerias.compartidos.dto.ProductoOtroDTO;
 import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.entidad.Producto;
@@ -10,34 +11,33 @@ import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.PrecioProductoService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
-import com.pinturerias.general.entidad.EtiquetaGeneral;
-import com.pinturerias.general.repositorio.EtiquetaGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoOtroGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoPinturaGeneralRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductoGeneralService {
 
     private final ProductoOtroGeneralRepository repoOtro;
     private final ProductoPinturaGeneralRepository repoPintura;
-    private final EtiquetaGeneralRepository etiquetaGeneralRepository;
     private final ProductoDirector director;
     private final PrecioProductoService precioProductoService;
+    private final ProductoEtiquetaGeneralService productoEtiquetaGeneralService;
 
     public ProductoGeneralService(ProductoDirector director,
                                   ProductoOtroGeneralRepository repoOtro,
                                   ProductoPinturaGeneralRepository repoPintura,
-                                  EtiquetaGeneralRepository etiquetaGeneralRepository,
-                                  PrecioProductoService precioProductoService) {
+                                  PrecioProductoService precioProductoService,
+                                  ProductoEtiquetaGeneralService productoEtiquetaGeneralService) {
         this.repoOtro = repoOtro;
         this.repoPintura = repoPintura;
-        this.etiquetaGeneralRepository = etiquetaGeneralRepository;
         this.director = director;
         this.precioProductoService = precioProductoService;
+        this.productoEtiquetaGeneralService = productoEtiquetaGeneralService;
     }
 
     public List<ProductoOtroDTO> getAllProductosOtro() {
@@ -53,33 +53,36 @@ public class ProductoGeneralService {
                 .toList();
     }
 
+    @Transactional("generalTransactionManager")
     public ProductoOtroDTO createProductoOtro(ProductoOtroDTO dto) {
-        Producto producto = director.construirProducto(dto);
-        ProductoOtroGeneral productoOtro = (ProductoOtroGeneral) producto;
-        productoOtro.setEtiquetas(resolverEtiquetasGenerales(dto.getEtiquetasGeneralesIds()));
-
+        ProductoOtroGeneral productoOtro = (ProductoOtroGeneral) director.construirProducto(dto);
         ProductoOtroGeneral guardado = repoOtro.save(productoOtro);
+        productoEtiquetaGeneralService.sincronizar(guardado.getId(), Tipo.OTRO, dto.getEtiquetasGeneralesIds());
         return toOtroDTO(guardado);
     }
 
+    @Transactional("generalTransactionManager")
     public ProductoPinturaDTO createProductoPintura(ProductoPinturaDTO dto) {
-        Producto producto = director.construirProducto(dto);
-        ProductoPinturaGeneral productoPintura = (ProductoPinturaGeneral) producto;
-        productoPintura.setEtiquetas(resolverEtiquetasGenerales(dto.getEtiquetasGeneralesIds()));
-
+        ProductoPinturaGeneral productoPintura = (ProductoPinturaGeneral) director.construirProducto(dto);
         actualizarPrecioBasePintura(productoPintura);
         ProductoPinturaGeneral guardado = repoPintura.save(productoPintura);
+        productoEtiquetaGeneralService.sincronizar(guardado.getId(), Tipo.PINTURA, dto.getEtiquetasGeneralesIds());
         return toPinturaDTO(guardado);
     }
 
+    @Transactional("generalTransactionManager")
     public void deleteProductoOtro(Long id) {
+        productoEtiquetaGeneralService.eliminar(id, Tipo.OTRO);
         repoOtro.deleteById(id);
     }
 
+    @Transactional("generalTransactionManager")
     public void deleteProductoPintura(Long id) {
+        productoEtiquetaGeneralService.eliminar(id, Tipo.PINTURA);
         repoPintura.deleteById(id);
     }
 
+    @Transactional("generalTransactionManager")
     public ProductoPinturaDTO updateProductoPintura(Long id, ProductoPinturaDTO dto) {
         ProductoPinturaGeneral producto = repoPintura.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Producto pintura no encontrado"));
@@ -90,12 +93,14 @@ public class ProductoGeneralService {
         producto.setTipoPintura(dto.getTipoPintura());
         producto.setColorBase(dto.getColorBase());
         producto.setTamanoEnv(dto.getTamanoEnv());
-        producto.setEtiquetas(resolverEtiquetasGenerales(dto.getEtiquetasGeneralesIds()));
 
         actualizarPrecioBasePintura(producto);
-        return toPinturaDTO(repoPintura.save(producto));
+        ProductoPinturaGeneral guardado = repoPintura.save(producto);
+        productoEtiquetaGeneralService.sincronizar(id, Tipo.PINTURA, dto.getEtiquetasGeneralesIds());
+        return toPinturaDTO(guardado);
     }
 
+    @Transactional("generalTransactionManager")
     public ProductoOtroDTO updateProductoOtro(Long id, ProductoOtroDTO dto) {
         ProductoOtroGeneral producto = repoOtro.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Producto otro no encontrado"));
@@ -104,27 +109,10 @@ public class ProductoGeneralService {
         producto.setDescripcion(dto.getDescripcion());
         producto.setMarca(dto.getMarca());
         producto.setPrecioFinal(dto.getPrecioFinal());
-        producto.setEtiquetas(resolverEtiquetasGenerales(dto.getEtiquetasGeneralesIds()));
 
-        return toOtroDTO(repoOtro.save(producto));
-    }
-
-    private Set<EtiquetaGeneral> resolverEtiquetasGenerales(List<Long> ids) {
-        if (ids == null || ids.isEmpty()) {
-            return new HashSet<>();
-        }
-
-        Set<Long> idsUnicos = ids.stream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-
-        List<EtiquetaGeneral> encontradas = etiquetaGeneralRepository.findAllById(idsUnicos);
-
-        if (encontradas.size() != idsUnicos.size()) {
-            throw new RecursoNoEncontradoException("Una o más etiquetas generales no existen");
-        }
-
-        return new HashSet<>(encontradas);
+        ProductoOtroGeneral guardado = repoOtro.save(producto);
+        productoEtiquetaGeneralService.sincronizar(id, Tipo.OTRO, dto.getEtiquetasGeneralesIds());
+        return toOtroDTO(guardado);
     }
 
     private ProductoPinturaGeneral actualizarPrecioBasePintura(ProductoPinturaGeneral producto) {
@@ -143,17 +131,9 @@ public class ProductoGeneralService {
         dto.setContexto(Contexto.GENERAL);
         dto.setStock(0);
 
-        List<Long> ids = producto.getEtiquetas().stream()
-                .map(EtiquetaGeneral::getId)
-                .toList();
-
-        List<String> nombres = producto.getEtiquetas().stream()
-                .map(EtiquetaGeneral::getValor)
-                .sorted(String.CASE_INSENSITIVE_ORDER)
-                .toList();
-
-        dto.setEtiquetasGeneralesIds(ids);
-        dto.setEtiquetas(nombres);
+        EtiquetasProductoDTO etiquetas = productoEtiquetaGeneralService.obtener(producto.getId(), Tipo.OTRO);
+        dto.setEtiquetas(etiquetas.getEtiquetas());
+        dto.setEtiquetasGeneralesIds(etiquetas.getEtiquetasGeneralesIds());
         dto.setEtiquetasSucursalIds(new ArrayList<>());
         return dto;
     }
@@ -172,17 +152,9 @@ public class ProductoGeneralService {
         dto.setColorBase(producto.getColorBase());
         dto.setTamanoEnv(producto.getTamanoEnv());
 
-        List<Long> ids = producto.getEtiquetas().stream()
-                .map(EtiquetaGeneral::getId)
-                .toList();
-
-        List<String> nombres = producto.getEtiquetas().stream()
-                .map(EtiquetaGeneral::getValor)
-                .sorted(String.CASE_INSENSITIVE_ORDER)
-                .toList();
-
-        dto.setEtiquetasGeneralesIds(ids);
-        dto.setEtiquetas(nombres);
+        EtiquetasProductoDTO etiquetas = productoEtiquetaGeneralService.obtener(producto.getId(), Tipo.PINTURA);
+        dto.setEtiquetas(etiquetas.getEtiquetas());
+        dto.setEtiquetasGeneralesIds(etiquetas.getEtiquetasGeneralesIds());
         dto.setEtiquetasSucursalIds(new ArrayList<>());
         return dto;
     }

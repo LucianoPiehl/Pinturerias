@@ -1,15 +1,12 @@
 package com.pinturerias.compartidos.entidad.sucursal;
 
 import com.pinturerias.compartidos.entidad.Producto;
-import com.pinturerias.sucursal.entidad.EtiquetaSucursal;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "producto_otro_sucursal")
@@ -20,20 +17,4 @@ import java.util.Set;
 public class ProductoOtroSucursal extends Producto {
 
     private int stock;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "producto_otro_sucursal_etiqueta_sucursal",
-            joinColumns = @JoinColumn(name = "producto_id"),
-            inverseJoinColumns = @JoinColumn(name = "etiqueta_id")
-    )
-    private Set<EtiquetaSucursal> etiquetasSucursal = new HashSet<>();
-
-    @ElementCollection
-    @CollectionTable(
-            name = "producto_otro_sucursal_etiqueta_general",
-            joinColumns = @JoinColumn(name = "producto_id")
-    )
-    @Column(name = "etiqueta_general_id", nullable = false)
-    private Set<Long> etiquetasGeneralesIds = new HashSet<>();
 }
