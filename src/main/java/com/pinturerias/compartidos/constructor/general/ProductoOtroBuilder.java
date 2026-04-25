@@ -1,65 +1,55 @@
 package com.pinturerias.compartidos.constructor.general;
 
+import com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.compartidos.dto.ProductoOtroDTO;
+import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.entidad.Producto;
+import com.pinturerias.compartidos.enumeracion.Contexto;
+import com.pinturerias.compartidos.enumeracion.Tipo;
 import org.springframework.stereotype.Component;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
-import com.pinturerias.general.entidad.ColorBase;
-import com.pinturerias.general.entidad.TamanoEnvase;
-import com.pinturerias.general.entidad.TipoPintura;
 
 @Component
-public class ProductoOtroBuilder implements ProductoBuilderBase {
-
-    private ProductoOtroGeneral producto;
-
-    public ProductoOtroBuilder() {
-        reset();
+public class ProductoOtroBuilder implements ProductoBuilderBase<ProductoOtroDTO> {
+    @Override
+    public boolean supports(ProductoDTO dto) {
+        return dto instanceof ProductoPinturaDTO
+                && dto.getTipo() == Tipo.OTRO
+                && dto.getContexto() == Contexto.GENERAL;
     }
 
     @Override
-    public String tipo() {
-        return "OTRO_GENERAL";
+    public Class<ProductoOtroDTO> getDtoClass() {
+        return ProductoOtroDTO.class;
     }
 
     @Override
-    public void reset() {
-        producto = new ProductoOtroGeneral();
+    public Tipo getTipo() {
+        return Tipo.OTRO;
     }
 
     @Override
-    public void setNombre(String nombre) {
-        producto.setNombre(nombre);
+    public Contexto getContexto() {
+        return Contexto.GENERAL;
     }
 
     @Override
-    public void setDescripcion(String descripcion) {
-        producto.setDescripcion(descripcion);
-    }
+    public Producto build(ProductoOtroDTO dto) {
 
-    @Override
-    public void setMarca(String marca) {
-        producto.setMarca(marca);
-    }
+        if (dto == null) {
+            throw new IllegalArgumentException("El DTO no puede ser null");
+        }
 
-    @Override
-    public void setPrecioFinal(Double precioBase) {
-        producto.setPrecioBase(precioBase);
-    }
+        ProductoOtroGeneral producto = new ProductoOtroGeneral();
 
-    @Override
-    public ProductoOtroGeneral build() {
+        // comunes
+        producto.setNombre(dto.getNombre());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setMarca(dto.getMarca());
+        producto.setPrecioFinal(dto.getPrecioFinal());
+
+
         return producto;
-    }
-
-    @Override
-    public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
-    }
-
-    @Override
-    public void setColor(ColorBase colorBase) {
-    }
-
-    @Override
-    public void setTipoPintura(TipoPintura tipoPintura) {
     }
 }

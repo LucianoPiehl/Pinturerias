@@ -1,5 +1,10 @@
 package com.pinturerias.compartidos.constructor.general;
 
+import com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.entidad.Producto;
+import com.pinturerias.compartidos.enumeracion.Contexto;
+import com.pinturerias.compartidos.enumeracion.Tipo;
 import org.springframework.stereotype.Component;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
@@ -8,61 +13,52 @@ import com.pinturerias.general.entidad.TamanoEnvase;
 import com.pinturerias.general.entidad.TipoPintura;
 
 @Component
-public class ProductoPinturaBuilder implements ProductoBuilderBase {
-
-    private ProductoPinturaGeneral producto;
+public class ProductoPinturaBuilder implements ProductoBuilderBase<ProductoPinturaDTO> {
 
     @Override
-    public String tipo() {
-        return "PINTURA_GENERAL";
-    }
-
-    public ProductoPinturaBuilder() {
-        reset();
+    public boolean supports(ProductoDTO dto) {
+        return dto instanceof ProductoPinturaDTO
+                && dto.getTipo() == Tipo.PINTURA
+                && dto.getContexto() == Contexto.GENERAL;
     }
 
     @Override
-    public void reset() {
-        producto = new ProductoPinturaGeneral();
+    public Class<ProductoPinturaDTO> getDtoClass() {
+        return ProductoPinturaDTO.class;
     }
 
     @Override
-    public void setNombre(String nombre) {
-        producto.setNombre(nombre);
+    public Tipo getTipo() {
+        return Tipo.PINTURA;
     }
 
     @Override
-    public void setDescripcion(String descripcion) {
-        producto.setDescripcion(descripcion);
+    public Contexto getContexto() {
+        return Contexto.GENERAL;
     }
 
     @Override
-    public void setMarca(String marca) {
-        producto.setMarca(marca);
-    }
+    public Producto build(ProductoPinturaDTO dto) {
 
-    @Override
-    public void setPrecioFinal(Double precioBase) {
-        // El precio de pintura se calcula aparte
-    }
+        if (dto == null) {
+            throw new IllegalArgumentException("El DTO no puede ser null");
+        }
 
-    @Override
-    public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
-        producto.setTamanoEnv(tamanoEnvase);
-    }
+        ProductoPinturaGeneral producto = new ProductoPinturaGeneral();
 
-    @Override
-    public void setTipoPintura(TipoPintura tipoPintura) {
-        producto.setTipoPintura(tipoPintura);
-    }
+        // comunes
+        producto.setNombre(dto.getNombre());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setMarca(dto.getMarca());
+        producto.setPrecioFinal(dto.getPrecioFinal());
 
-    @Override
-    public void setColor(ColorBase color) {
-        producto.setColorBase(color);
-    }
+        // específicos
+        producto.setTamanoEnv(dto.getTamanoEnv());
+        producto.setTipoPintura(dto.getTipoPintura());
+        producto.setColorBase(dto.getColorBase());
 
-    @Override
-    public ProductoPinturaGeneral build() {
+
         return producto;
     }
+
 }

@@ -1,31 +1,26 @@
 package com.pinturerias.compartidos.constructor.base;
 
+import com.pinturerias.compartidos.dto.ProductoDTO;
 import com.pinturerias.compartidos.entidad.Producto;
+import com.pinturerias.compartidos.enumeracion.Contexto;
+import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.general.entidad.ColorBase;
 import com.pinturerias.general.entidad.TamanoEnvase;
 import com.pinturerias.general.entidad.TipoPintura;
 
-public interface ProductoBuilderBase {
+public interface ProductoBuilderBase<T extends ProductoDTO> {
 
-    String tipo();
+    Class<T> getDtoClass();
 
-    void reset();
+    Tipo getTipo();
 
-    void setNombre(String nombre);
+    Contexto getContexto();
 
-    void setDescripcion(String descripcion);
+    Producto build(T dto);
 
-    void setMarca(String marca);
-
-    void setPrecioFinal(Double precioFinal);
-
-    void setTamanoEnvase(TamanoEnvase tamanoEnvase);
-
-    void setColor(ColorBase color);
-
-    void setTipoPintura(TipoPintura tipoPintura);
-
-    default void setStock(int stock) {}
-
-    Producto build();
+    default boolean supports(ProductoDTO dto) {
+        return getDtoClass().isInstance(dto)
+                && getTipo() == dto.getTipo()
+                && getContexto() == dto.getContexto();
+    }
 }

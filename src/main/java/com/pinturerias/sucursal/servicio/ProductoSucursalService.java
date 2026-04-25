@@ -31,7 +31,7 @@ public class ProductoSucursalService {
 
     @Transactional("tenantTransactionManager")
     public ProductoOtroDTO crearOtro(ProductoOtroDTO dto) {
-        ProductoOtroSucursal productoSucursal = (ProductoOtroSucursal) director.construirProducto(dto);
+        ProductoOtroSucursal productoSucursal = (ProductoOtroSucursal) director.construir(dto);
         ProductoOtroSucursal guardado = repoOtro.save(productoSucursal);
 
         productoEtiquetaSucursalService.sincronizar(
@@ -86,6 +86,8 @@ public class ProductoSucursalService {
 
     public void descontarStock(Long productoId, Integer cantidad) {
         ProductoOtroSucursal producto = obtenerProducto(productoId);
+
+        //que pasa si descontas stock de un productogeneral, osea productoPrecioStock?
 
         if (producto.getStock() < cantidad) {
             throw new ExcepcionApi(400, "Stock insuficiente para el producto de sucursal " + productoId);

@@ -4,39 +4,32 @@ import com.pinturerias.compartidos.constructor.ProductoBuilderRegistry;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 import com.pinturerias.compartidos.dto.ProductoDTO;
 import com.pinturerias.compartidos.entidad.Producto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ProductoDirector {
 
-    private final ProductoBuilderRegistry registroConstructores;
+    private final ProductoBuilderRegistry registry;
 
-    public ProductoDirector(ProductoBuilderRegistry registroConstructores) {
-        this.registroConstructores = registroConstructores;
-    }
+    public Producto construir(ProductoDTO dto) {
 
-    public Producto construirProducto(ProductoDTO dto) {
-        ProductoBuilderBase constructor = registroConstructores.getBuilder(
-                dto.getTipo().name(),
-                dto.getContexto().name()
-        );
-
-        if (constructor == null) {
-            throw new IllegalArgumentException(
-                    "No existe constructor para tipo " + dto.getTipo() + " y contexto " + dto.getContexto()
-            );
+        if (dto == null) {
+            throw new IllegalArgumentException("El DTO no puede ser null");
         }
 
-        constructor.reset();
-        constructor.setNombre(dto.getNombre());
-        constructor.setDescripcion(dto.getDescripcion());
-        constructor.setMarca(dto.getMarca());
-        constructor.setPrecioFinal(dto.getPrecioFinal());
-        constructor.setTamanoEnvase(dto.getTamanoEnv());
-        constructor.setTipoPintura(dto.getTipoPintura());
-        constructor.setColor(dto.getColorBase());
-        constructor.setStock(dto.getStock());
+        ProductoBuilderBase builder = registry.getBuilder(dto);
 
-        return constructor.build();
+        // cast seguro porque supports ya validó
+        return buildSafe(builder, dto);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends ProductoDTO> Producto buildSafe(
+            ProductoBuilderBase<T> builder,
+            ProductoDTO dto
+    ) {
+        return builder.build((T) dto);
     }
 }

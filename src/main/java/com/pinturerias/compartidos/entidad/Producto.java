@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @MappedSuperclass
 @Getter
 @Setter
@@ -32,4 +34,6 @@ public abstract class Producto {
     public void setPrecioBase(Double precioBase) {
         this.precioFinal = precioBase;
     }
+
+
 }

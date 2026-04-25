@@ -1,25 +1,29 @@
 package com.pinturerias.compartidos.constructor;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.pinturerias.compartidos.dto.ProductoDTO;
 import org.springframework.stereotype.Component;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 
 @Component
 public class ProductoBuilderRegistry {
 
-    private final Map<String, ProductoBuilderBase> builders = new HashMap<>();
+    private final List<ProductoBuilderBase<?>> builders;
 
-    public ProductoBuilderRegistry(List<ProductoBuilderBase> buildersList) {
-        for (ProductoBuilderBase b : buildersList) {
-            builders.put(b.tipo(), b);
-        }
+    public ProductoBuilderRegistry(List<ProductoBuilderBase<?>> builders) {
+        this.builders = builders;
     }
 
-    public ProductoBuilderBase getBuilder(String tipo, String contexto) {
-        String key = tipo + "_" + contexto;
-        return builders.get(key);
+    public ProductoBuilderBase<?> getBuilder(ProductoDTO dto) {
+
+        return builders.stream()
+                .filter(b -> b.supports(dto))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "No existe builder para: tipo=" + dto.getTipo() +
+                                ", contexto=" + dto.getContexto() +
+                                ", dto=" + dto.getClass().getSimpleName()
+                ));
     }
 }

@@ -1,70 +1,55 @@
 package com.pinturerias.compartidos.constructor.sucursal;
 
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
+import com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.compartidos.dto.ProductoOtroDTO;
+import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.entidad.Producto;
 import com.pinturerias.compartidos.entidad.sucursal.ProductoOtroSucursal;
-import com.pinturerias.general.entidad.ColorBase;
-import com.pinturerias.general.entidad.TamanoEnvase;
-import com.pinturerias.general.entidad.TipoPintura;
+import com.pinturerias.compartidos.enumeracion.Contexto;
+import com.pinturerias.compartidos.enumeracion.Tipo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductoOtroSucursalBuilder implements ProductoBuilderBase {
-
-    private ProductoOtroSucursal producto;
-
-    public ProductoOtroSucursalBuilder() {
-        reset();
+public class ProductoOtroSucursalBuilder implements ProductoBuilderBase<ProductoOtroDTO> {
+    @Override
+    public boolean supports(ProductoDTO dto) {
+        return dto instanceof ProductoPinturaDTO
+                && dto.getTipo() == Tipo.OTRO
+                && dto.getContexto() == Contexto.SUCURSAL;
     }
 
     @Override
-    public String tipo() {
-        return "OTRO_SUCURSAL";
+    public Class<ProductoOtroDTO> getDtoClass() {
+        return ProductoOtroDTO.class;
     }
 
     @Override
-    public void reset() {
-        producto = new ProductoOtroSucursal();
+    public Tipo getTipo() {
+        return Tipo.OTRO;
     }
 
     @Override
-    public void setNombre(String nombre) {
-        producto.setNombre(nombre);
+    public Contexto getContexto() {
+        return Contexto.SUCURSAL;
     }
 
     @Override
-    public void setDescripcion(String descripcion) {
-        producto.setDescripcion(descripcion);
-    }
+    public Producto build(ProductoOtroDTO dto) {
 
-    @Override
-    public void setMarca(String marca) {
-        producto.setMarca(marca);
-    }
+        if (dto == null) {
+            throw new IllegalArgumentException("El DTO no puede ser null");
+        }
 
-    @Override
-    public void setPrecioFinal(Double precioFinal) {
-        producto.setPrecioFinal(precioFinal);
-    }
+        ProductoOtroSucursal producto = new ProductoOtroSucursal();
 
-    @Override
-    public void setTamanoEnvase(TamanoEnvase tamanoEnvase) {
-    }
+        // comunes
+        producto.setNombre(dto.getNombre());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setMarca(dto.getMarca());
+        producto.setPrecioFinal(dto.getPrecioFinal());
+        producto.setStock(dto.getStock());
 
-    @Override
-    public void setColor(ColorBase color) {
-    }
-
-    @Override
-    public void setTipoPintura(TipoPintura tipoPintura) {
-    }
-
-    @Override
-    public void setStock(int stock) {
-        producto.setStock(stock);
-    }
-
-    @Override
-    public ProductoOtroSucursal build() {
         return producto;
     }
 }

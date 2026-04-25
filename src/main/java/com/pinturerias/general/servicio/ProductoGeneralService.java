@@ -55,7 +55,7 @@ public class ProductoGeneralService {
 
     @Transactional("generalTransactionManager")
     public ProductoOtroDTO createProductoOtro(ProductoOtroDTO dto) {
-        ProductoOtroGeneral productoOtro = (ProductoOtroGeneral) director.construirProducto(dto);
+        ProductoOtroGeneral productoOtro = (ProductoOtroGeneral) director.construir(dto);
         ProductoOtroGeneral guardado = repoOtro.save(productoOtro);
         productoEtiquetaGeneralService.sincronizar(guardado.getId(), Tipo.OTRO, dto.getEtiquetasGeneralesIds());
         return toOtroDTO(guardado);
@@ -63,7 +63,7 @@ public class ProductoGeneralService {
 
     @Transactional("generalTransactionManager")
     public ProductoPinturaDTO createProductoPintura(ProductoPinturaDTO dto) {
-        ProductoPinturaGeneral productoPintura = (ProductoPinturaGeneral) director.construirProducto(dto);
+        ProductoPinturaGeneral productoPintura = (ProductoPinturaGeneral) director.construir(dto);
         actualizarPrecioBasePintura(productoPintura);
         ProductoPinturaGeneral guardado = repoPintura.save(productoPintura);
         productoEtiquetaGeneralService.sincronizar(guardado.getId(), Tipo.PINTURA, dto.getEtiquetasGeneralesIds());
