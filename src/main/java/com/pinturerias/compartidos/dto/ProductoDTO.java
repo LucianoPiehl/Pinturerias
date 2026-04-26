@@ -36,7 +36,4 @@ public abstract class ProductoDTO {
     private Contexto contexto;
     private int stock;
 
-    public abstract TamanoEnvase getTamanoEnv();
-    public abstract TipoPintura getTipoPintura();
-    public abstract ColorBase getColorBase();
 }
