@@ -11,6 +11,7 @@ import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.sucursal.repositorio.ProductoOtroSucursalRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 

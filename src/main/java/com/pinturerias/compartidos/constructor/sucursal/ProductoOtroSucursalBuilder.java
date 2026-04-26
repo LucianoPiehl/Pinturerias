@@ -14,9 +14,13 @@ import org.springframework.stereotype.Component;
 public class ProductoOtroSucursalBuilder implements ProductoBuilderBase<ProductoOtroDTO> {
     @Override
     public boolean supports(ProductoDTO dto) {
-        return dto instanceof ProductoPinturaDTO
-                && dto.getTipo() == Tipo.OTRO
-                && dto.getContexto() == Contexto.SUCURSAL;
+        boolean dtoMatch = getDtoClass().isAssignableFrom(dto.getClass());
+        boolean tipoMatch = getTipo() == dto.getTipo();
+        boolean contextoMatch = getContexto() == dto.getContexto();
+
+        boolean result = dtoMatch && tipoMatch && contextoMatch;
+
+        return result;
     }
 
     @Override

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sucursal/{sucursalId}/productos")
+@RequestMapping("/api/sucursal/productos")
 public class ProductoSucursalController {
 
     private final ProductoSucursalService servicio;
@@ -37,7 +37,6 @@ public class ProductoSucursalController {
 
     @PostMapping("/otro")
     public ProductoOtroDTO createProductoOtro(
-            @PathVariable Long sucursalId,
             @RequestBody ProductoOtroDTO dto
     ) {
         dto.setContexto(Contexto.SUCURSAL);
@@ -47,7 +46,6 @@ public class ProductoSucursalController {
 
     @PutMapping("/otro/{id}")
     public ProductoOtroDTO updateProductoOtro(
-            @PathVariable Long sucursalId,
             @PathVariable Long id,
             @RequestBody ProductoOtroDTO dto
     ) {

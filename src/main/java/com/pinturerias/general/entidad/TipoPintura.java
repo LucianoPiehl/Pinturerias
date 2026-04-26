@@ -20,7 +20,7 @@ public class TipoPintura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    //Falta nombre
     private Double valorFijoPorLitro;
     private Double rendimientoMT2;
 

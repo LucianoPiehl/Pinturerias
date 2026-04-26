@@ -14,10 +14,15 @@ import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
 public class ProductoOtroBuilder implements ProductoBuilderBase<ProductoOtroDTO> {
     @Override
     public boolean supports(ProductoDTO dto) {
-        return dto instanceof ProductoPinturaDTO
-                && dto.getTipo() == Tipo.OTRO
-                && dto.getContexto() == Contexto.GENERAL;
+        boolean dtoMatch = getDtoClass().isAssignableFrom(dto.getClass());
+        boolean tipoMatch = getTipo() == dto.getTipo();
+        boolean contextoMatch = getContexto() == dto.getContexto();
+
+        boolean result = dtoMatch && tipoMatch && contextoMatch;
+
+        return result;
     }
+
 
     @Override
     public Class<ProductoOtroDTO> getDtoClass() {
