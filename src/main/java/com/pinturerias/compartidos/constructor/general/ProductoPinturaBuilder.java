@@ -15,16 +15,6 @@ import com.pinturerias.general.entidad.TipoPintura;
 @Component
 public class ProductoPinturaBuilder implements ProductoBuilderBase<ProductoPinturaDTO> {
 
-    @Override
-    public boolean supports(ProductoDTO dto) {
-        boolean dtoMatch = getDtoClass().isAssignableFrom(dto.getClass());
-        boolean tipoMatch = getTipo() == dto.getTipo();
-        boolean contextoMatch = getContexto() == dto.getContexto();
-
-        boolean result = dtoMatch && tipoMatch && contextoMatch;
-
-        return result;
-    }
 
     @Override
     public Class<ProductoPinturaDTO> getDtoClass() {

@@ -18,9 +18,4 @@ public interface ProductoBuilderBase<T extends ProductoDTO> {
 
     Producto build(T dto);
 
-    default boolean supports(ProductoDTO dto) {
-        return getDtoClass().isInstance(dto)
-                && getTipo() == dto.getTipo()
-                && getContexto() == dto.getContexto();
-    }
 }

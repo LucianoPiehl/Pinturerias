@@ -15,17 +15,12 @@ public class ProductoDirector {
 
     public Producto construir(ProductoDTO dto) {
 
-        if (dto == null) {
-            throw new IllegalArgumentException("El DTO no puede ser null");
-        }
-
         ProductoBuilderBase builder = registry.getBuilder(dto);
 
-        // cast seguro porque supports ya validó
         return buildSafe(builder, dto);
     }
 
-    @SuppressWarnings("unchecked")
+   @SuppressWarnings("unchecked")
     private <T extends ProductoDTO> Producto buildSafe(
             ProductoBuilderBase<T> builder,
             ProductoDTO dto

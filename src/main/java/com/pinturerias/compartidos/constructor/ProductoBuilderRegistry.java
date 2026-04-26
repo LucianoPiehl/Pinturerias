@@ -1,40 +1,54 @@
 package com.pinturerias.compartidos.constructor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.pinturerias.compartidos.dto.ProductoDTO;
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 
 @Component
 public class ProductoBuilderRegistry {
 
-    private final List<ProductoBuilderBase<?>> builders;
+    private final Map<BuilderKey, ProductoBuilderBase<?>> registry = new HashMap<>();
 
     public ProductoBuilderRegistry(List<ProductoBuilderBase<?>> builders) {
-        this.builders = builders;
+
+        for (ProductoBuilderBase<?> builder : builders) {
+
+            BuilderKey key = new BuilderKey(
+                    builder.getDtoClass(),
+                    builder.getTipo(),
+                    builder.getContexto()
+            );
+
+            if (registry.containsKey(key)) {
+                throw new IllegalStateException(
+                        "Builder duplicado para: " + key
+                );
+            }
+
+            registry.put(key, builder);
+        }
     }
 
     public ProductoBuilderBase<?> getBuilder(ProductoDTO dto) {
 
-        return builders.stream()
-                .filter(b -> b.supports(dto))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "No existe builder para: tipo=" + dto.getTipo() +
-                                ", contexto=" + dto.getContexto() +
-                                ", dto=" + dto.getClass().getSimpleName()
-                ));
-    }
-    @PostConstruct
-    public void debugBuilders() {
-        System.out.println("=== BUILDERS REGISTRADOS ===");
-        builders.forEach(b -> System.out.println(
-                b.getClass().getSimpleName() + " | DTO=" +
-                        b.getDtoClass().getSimpleName() + " | " +
-                        b.getTipo() + " | " +
-                        b.getContexto()
-        ));
+        BuilderKey key = new BuilderKey(
+                dto.getClass(),
+                dto.getTipo(),
+                dto.getContexto()
+        );
+
+        ProductoBuilderBase<?> builder = registry.get(key);
+
+        if (builder == null) {
+            throw new IllegalArgumentException(
+                    "No existe builder para: " + key
+            );
+        }
+
+        return builder;
     }
 }

@@ -4,6 +4,7 @@ import com.pinturerias.compartidos.dto.ProductoOtroDTO;
 import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
+import com.pinturerias.compartidos.servicio.CatalogoOtroService;
 import com.pinturerias.compartidos.servicio.CatalogoPinturaService;
 import com.pinturerias.configuracion.TenantContext;
 import com.pinturerias.sucursal.servicio.ProductoSucursalService;
@@ -17,16 +18,20 @@ public class ProductoSucursalController {
 
     private final ProductoSucursalService servicio;
     private final CatalogoPinturaService catalogoPinturaService;
+    private final CatalogoOtroService catalogoOtroService;
 
     public ProductoSucursalController(ProductoSucursalService servicio,
-                                      CatalogoPinturaService catalogoPinturaService) {
+                                      CatalogoPinturaService catalogoPinturaService, CatalogoOtroService catalogoOtroService) {
         this.servicio = servicio;
         this.catalogoPinturaService = catalogoPinturaService;
+        this.catalogoOtroService = catalogoOtroService;
     }
 
     @GetMapping("/otro")
     public List<ProductoOtroDTO> getAllProductoOtro() {
-        return servicio.listarProductosOtro();
+        String tenantId = TenantContext.getTenantId();
+        return catalogoOtroService.listarProductosOtro(tenantId);
+
     }
 
     @GetMapping("/pintura")
