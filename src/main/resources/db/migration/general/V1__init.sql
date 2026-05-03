@@ -33,7 +33,8 @@ CREATE TABLE producto_otro_general (
     descripcion VARCHAR(255),
     marca VARCHAR(255),
     precio_final DOUBLE,
-    etiquetas TEXT
+    etiquetas TEXT,
+    habilitado BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE producto_pintura_general (
@@ -46,6 +47,7 @@ CREATE TABLE producto_pintura_general (
     tipo_pintura_id BIGINT,
     color_id BIGINT,
     tam_env_id BIGINT,
+    habilitado BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT fk_producto_pintura_general_tipo
         FOREIGN KEY (tipo_pintura_id) REFERENCES tipo_pintura_general(id),
     CONSTRAINT fk_producto_pintura_general_color

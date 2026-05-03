@@ -6,7 +6,8 @@ CREATE TABLE producto_otro_sucursal (
     precio_final DOUBLE NOT NULL,
     version BIGINT NOT NULL DEFAULT 0,
     etiquetas TEXT,
-    stock INT NOT NULL
+    stock INT NOT NULL,
+    habilitado BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE producto_precio_stock (
