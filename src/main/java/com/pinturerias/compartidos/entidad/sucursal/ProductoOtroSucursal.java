@@ -3,6 +3,7 @@ package com.pinturerias.compartidos.entidad.sucursal;
 import com.pinturerias.compartidos.entidad.Producto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,7 @@ import lombok.Setter;
 public class ProductoOtroSucursal extends Producto {
 
     private int stock;
+
+    @Version
+    private Long version;
 }

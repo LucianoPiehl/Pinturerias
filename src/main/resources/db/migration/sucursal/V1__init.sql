@@ -4,6 +4,7 @@ CREATE TABLE producto_otro_sucursal (
     descripcion VARCHAR(255),
     marca VARCHAR(255),
     precio_final DOUBLE NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     etiquetas TEXT,
     stock INT NOT NULL
 );
@@ -14,6 +15,7 @@ CREATE TABLE producto_precio_stock (
     tipo_producto VARCHAR(20) NOT NULL,
     porcentaje_ajuste DOUBLE NOT NULL,
     stock INT NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     INDEX idx_prod_id (producto_id),
     UNIQUE INDEX uk_producto_precio_stock (producto_id, tipo_producto)
 );
