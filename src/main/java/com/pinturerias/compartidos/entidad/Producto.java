@@ -25,15 +25,13 @@ public abstract class Producto {
     protected String nombre;
     protected String descripcion;
     protected String marca;
+    protected boolean habilitado = true;
     protected Double precioFinal;
 
     public Double getPrecioBase() {
         return this.precioFinal;
     }
-
     public void setPrecioBase(Double precioBase) {
         this.precioFinal = precioBase;
     }
-
-
 }
