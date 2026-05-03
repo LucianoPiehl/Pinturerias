@@ -1,9 +1,11 @@
 package com.pinturerias.general.controlador;
 
+import com.pinturerias.compartidos.dto.EtiquetaDTO;
 import com.pinturerias.compartidos.dto.ProductoOtroDTO;
 import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
+import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
 import com.pinturerias.general.servicio.ProductoGeneralService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +16,11 @@ import java.util.List;
 public class ProductoGeneralController {
 
     private final ProductoGeneralService servicio;
+    private final ProductoEtiquetaService productoEtiquetaService;
 
-    public ProductoGeneralController(ProductoGeneralService servicio) {
+    public ProductoGeneralController(ProductoGeneralService servicio, ProductoEtiquetaService productoEtiquetaService) {
         this.servicio = servicio;
+        this.productoEtiquetaService = productoEtiquetaService;
     }
 
     @GetMapping("/otro")
@@ -75,5 +79,15 @@ public class ProductoGeneralController {
     @DeleteMapping("/pintura/{id}")
     public void deleteProductoPintura(@PathVariable Long id) {
         servicio.deleteProductoPintura(id);
+    }
+
+    @GetMapping("/otro/{id}/etiquetas")
+    public List<EtiquetaDTO> obtenerEtiquetasProductoOtro(@PathVariable Long id){
+        return productoEtiquetaService.obtenerEtiquetasGeneral(id, Tipo.OTRO);
+    }
+
+    @GetMapping("/pintura/{id}/etiquetas")
+    public List<EtiquetaDTO> obtenerEtiquetasProductoPintura(@PathVariable Long id){
+        return productoEtiquetaService.obtenerEtiquetasGeneral(id, Tipo.PINTURA);
     }
 }

@@ -26,7 +26,7 @@ public abstract class ProductoDTO {
     private String marca;
 
     // Nombres visibles para respuesta
-    private List<String> etiquetas = new ArrayList<>();
+    private List<EtiquetaDTO> etiquetas = new ArrayList<>();
 
     // IDs para request/response
     private List<Long> etiquetasGeneralesIds = new ArrayList<>();

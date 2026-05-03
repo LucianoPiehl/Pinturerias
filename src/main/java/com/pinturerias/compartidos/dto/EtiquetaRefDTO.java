@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EtiquetaDTO {
+public class EtiquetaRefDTO {
     private Long id;
-    private String valor;
     private Contexto contexto;
+
 }

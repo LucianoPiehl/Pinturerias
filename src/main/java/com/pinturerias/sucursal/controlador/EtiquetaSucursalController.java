@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sucursal/{sucursalId}/etiquetas")
+@RequestMapping("/api/sucursal/etiquetas")
 public class EtiquetaSucursalController {
 
     private final EtiquetaSucursalService service;
@@ -28,12 +28,14 @@ public class EtiquetaSucursalController {
     }
 
     @GetMapping("/disponibles")
-    public List<EtiquetaDTO> listarDisponibles(@PathVariable String sucursalId) {
+    public List<EtiquetaDTO> listarDisponibles() {
         return catalogoEtiquetaService.listarEtiquetasDisponibles(TenantContext.getTenantId());
     }
 
+
     @PostMapping
     public EtiquetaDTO crear(@RequestBody EtiquetaCreateDTO dto) {
+
         return service.crear(dto);
     }
 

@@ -1,11 +1,13 @@
 package com.pinturerias.sucursal.controlador;
 
+import com.pinturerias.compartidos.dto.EtiquetaDTO;
 import com.pinturerias.compartidos.dto.ProductoOtroDTO;
 import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.CatalogoOtroService;
 import com.pinturerias.compartidos.servicio.CatalogoPinturaService;
+import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
 import com.pinturerias.configuracion.TenantContext;
 import com.pinturerias.sucursal.servicio.ProductoSucursalService;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +21,14 @@ public class ProductoSucursalController {
     private final ProductoSucursalService servicio;
     private final CatalogoPinturaService catalogoPinturaService;
     private final CatalogoOtroService catalogoOtroService;
+    private final ProductoEtiquetaService productoEtiquetaService;
 
     public ProductoSucursalController(ProductoSucursalService servicio,
-                                      CatalogoPinturaService catalogoPinturaService, CatalogoOtroService catalogoOtroService) {
+                                      CatalogoPinturaService catalogoPinturaService, CatalogoOtroService catalogoOtroService, ProductoEtiquetaService productoEtiquetaService) {
         this.servicio = servicio;
         this.catalogoPinturaService = catalogoPinturaService;
         this.catalogoOtroService = catalogoOtroService;
+        this.productoEtiquetaService = productoEtiquetaService;
     }
 
     @GetMapping("/otro")
@@ -62,5 +66,15 @@ public class ProductoSucursalController {
     @DeleteMapping("/otro/{id}")
     public void deleteProductoOtro(@PathVariable Long id) {
         servicio.eliminarProductoOtro(id);
+    }
+
+    @GetMapping("/otro/{id}/etiquetas")
+    public List<EtiquetaDTO> obtenerEtiquetasProductoOtro(@PathVariable Long id){
+        return productoEtiquetaService.obtenerEtiquetasSucursal(id, Tipo.OTRO);
+    }
+
+    @GetMapping("/pintura/{id}/etiquetas")
+    public List<EtiquetaDTO> obtenerEtiquetasProductoPintura(@PathVariable Long id){
+        return productoEtiquetaService.obtenerEtiquetasSucursal(id, Tipo.PINTURA);
     }
 }

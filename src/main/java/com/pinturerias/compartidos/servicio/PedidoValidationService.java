@@ -5,9 +5,11 @@ import com.pinturerias.compartidos.entidad.shared.PedidoProducto;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.excepciones.ExcepcionApi;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PedidoValidationService {
 
     public void validarPedido(Pedido pedido, boolean requiereSucursalDestino) {

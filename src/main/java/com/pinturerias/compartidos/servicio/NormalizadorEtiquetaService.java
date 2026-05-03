@@ -1,6 +1,7 @@
 package com.pinturerias.compartidos.servicio;
 
 import com.pinturerias.excepciones.ExcepcionApi;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
@@ -9,6 +10,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class NormalizadorEtiquetaService {
 
     public String normalizarValorVisible(String valor) {

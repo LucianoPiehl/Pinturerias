@@ -6,7 +6,7 @@ import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.servicio.NormalizadorEtiquetaService;
 import com.pinturerias.compartidos.servicio.ValidadorDuplicidadEtiquetaService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
-import com.pinturerias.sucursal.entidad.EtiquetaSucursal;
+import com.pinturerias.compartidos.entidad.shared.Etiqueta;
 import com.pinturerias.sucursal.repositorio.EtiquetaSucursalRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +34,12 @@ public class EtiquetaSucursalService {
     }
 
     public EtiquetaDTO crear(EtiquetaCreateDTO dto) {
+        System.out.println("Entro en creacion {dto}");
         String valorVisible = normalizadorEtiquetaService.normalizarValorVisible(dto.getValor());
         String claveNormalizada = normalizadorEtiquetaService.generarClaveNormalizada(valorVisible);
-        validadorDuplicidadEtiquetaService.validarClaveLibreEnTodoElSistema(claveNormalizada);
+        validadorDuplicidadEtiquetaService.validarClaveLibreSucursal(claveNormalizada);
 
-        EtiquetaSucursal etiqueta = new EtiquetaSucursal();
+        Etiqueta etiqueta = new Etiqueta();
         etiqueta.setValor(valorVisible);
         etiqueta.setClaveNormalizada(claveNormalizada);
 
@@ -52,7 +53,7 @@ public class EtiquetaSucursalService {
         repository.deleteById(id);
     }
 
-    private EtiquetaDTO toDTO(EtiquetaSucursal etiqueta) {
+    private EtiquetaDTO toDTO(Etiqueta etiqueta) {
         return new EtiquetaDTO(
                 etiqueta.getId(),
                 etiqueta.getValor(),

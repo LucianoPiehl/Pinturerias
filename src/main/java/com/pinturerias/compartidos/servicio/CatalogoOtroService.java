@@ -1,8 +1,6 @@
 package com.pinturerias.compartidos.servicio;
 
-import com.pinturerias.compartidos.dto.EtiquetasProductoDTO;
-import com.pinturerias.compartidos.dto.ProductoOtroDTO;
-import com.pinturerias.compartidos.enumeracion.Contexto;
+import com.pinturerias.compartidos.dto.ProductoOtroDTO;;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.configuracion.TenantExecutor;
 import com.pinturerias.general.servicio.ProductoGeneralService;
@@ -10,6 +8,8 @@ import com.pinturerias.sucursal.entidad.ProductoPrecioStock;
 import com.pinturerias.sucursal.servicio.ProductoEtiquetaSucursalService;
 import com.pinturerias.sucursal.servicio.ProductoPrecioStockService;
 import com.pinturerias.sucursal.servicio.ProductoSucursalService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,28 +20,14 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CatalogoOtroService {
     private final ProductoGeneralService productoGeneralService;
     private final ProductoPrecioStockService productoPrecioStockService;
-    private final ProductoEtiquetaSucursalService productoEtiquetaSucursalService;
     private final TenantExecutor tenantExecutor;
     private final PrecioProductoService precioProductoService;
     private final ProductoSucursalService productoSucursalService;
 
-    public CatalogoOtroService(
-            ProductoGeneralService productoGeneralService,
-            ProductoPrecioStockService productoPrecioStockService,
-            ProductoEtiquetaSucursalService productoEtiquetaSucursalService,
-            TenantExecutor tenantExecutor,
-            PrecioProductoService precioProductoService, ProductoSucursalService productoSucursalService
-    ) {
-        this.productoGeneralService = productoGeneralService;
-        this.productoPrecioStockService = productoPrecioStockService;
-        this.productoEtiquetaSucursalService = productoEtiquetaSucursalService;
-        this.tenantExecutor = tenantExecutor;
-        this.precioProductoService = precioProductoService;
-        this.productoSucursalService = productoSucursalService;
-    }
 
     public List<ProductoOtroDTO> listarProductosOtro(String tenantId) {
         List<ProductoOtroDTO> productosGeneral = tenantExecutor.ejecutarEnTenant(null,
@@ -53,7 +39,6 @@ public class CatalogoOtroService {
         List<ProductoOtroDTO> productosSucursal = productoSucursalService.listarProductosOtro();
 
         asociarControlesLocales(controlesLocales, productosGeneral);
-        asociarEtiquetasLocales(tenantId, productosGeneral);
         List<ProductoOtroDTO> productosOtro = Stream.concat(productosSucursal.stream(), productosGeneral.stream())
                 .collect(Collectors.toList());
         return productosOtro;
@@ -80,19 +65,4 @@ public class CatalogoOtroService {
         }
     }
 
-    private void asociarEtiquetasLocales(String tenantId, List<ProductoOtroDTO> productosGeneral) {
-        tenantExecutor.ejecutarEnTenant(tenantId, () -> {
-            for (ProductoOtroDTO dto : productosGeneral) {
-                EtiquetasProductoDTO etiquetas = productoEtiquetaSucursalService.obtenerVisibles(
-                        dto.getIdProducto(),
-                        Contexto.GENERAL,
-                        Tipo.OTRO
-                );
-                dto.setEtiquetas(etiquetas.getEtiquetas());
-                dto.setEtiquetasGeneralesIds(etiquetas.getEtiquetasGeneralesIds());
-                dto.setEtiquetasSucursalIds(etiquetas.getEtiquetasSucursalIds());
-            }
-            return null;
-        });
-    }
 }

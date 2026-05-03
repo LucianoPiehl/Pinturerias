@@ -4,13 +4,18 @@ import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.sucursal.entidad.ProductoEtiquetaSucursal;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import java.util.Optional;
 
 public interface ProductoEtiquetaSucursalRepository extends JpaRepository<ProductoEtiquetaSucursal, Long> {
-    Optional<ProductoEtiquetaSucursal> findByProductoIdAndContextoProductoAndTipoProducto(
+
+    List<ProductoEtiquetaSucursal> findByProductoIdAndTipo(Long productoId,Tipo tipo);
+
+    boolean existsByProductoIdAndEtiquetaIdAndContexto(
             Long productoId,
-            Contexto contextoProducto,
-            Tipo tipoProducto
+            Long etiquetaId,
+            Contexto contexto
     );
+
+    ProductoEtiquetaSucursal findByProductoIdAndEtiquetaId(Long id, Long etiquetaId);
 }

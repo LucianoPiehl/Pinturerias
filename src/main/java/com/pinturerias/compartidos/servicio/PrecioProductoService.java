@@ -10,27 +10,17 @@ import com.pinturerias.general.repositorio.ProductoOtroGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoPinturaGeneralRepository;
 import com.pinturerias.sucursal.repositorio.ProductoOtroSucursalRepository;
 import com.pinturerias.sucursal.repositorio.ProductoPrecioStockRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PrecioProductoService {
 
     private final ProductoOtroGeneralRepository productoOtroGeneralRepository;
     private final ProductoPinturaGeneralRepository productoPinturaGeneralRepository;
     private final ProductoPrecioStockRepository productoPrecioStockRepository;
     private final ProductoOtroSucursalRepository productoOtroSucursalRepository;
-
-    public PrecioProductoService(
-            ProductoOtroGeneralRepository productoOtroGeneralRepository,
-            ProductoPinturaGeneralRepository productoPinturaGeneralRepository,
-            ProductoPrecioStockRepository productoPrecioStockRepository,
-            ProductoOtroSucursalRepository productoOtroSucursalRepository
-    ) {
-        this.productoOtroGeneralRepository = productoOtroGeneralRepository;
-        this.productoPinturaGeneralRepository = productoPinturaGeneralRepository;
-        this.productoPrecioStockRepository = productoPrecioStockRepository;
-        this.productoOtroSucursalRepository = productoOtroSucursalRepository;
-    }
 
     public Double calcularPrecioRecomendadoGeneral(Long productoId, Tipo tipoProducto) {
         return calcularPrecioRecomendadoGeneral(obtenerProductoGeneral(productoId, tipoProducto));

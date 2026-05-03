@@ -1,26 +1,27 @@
 package com.pinturerias.general.servicio;
 
 import com.pinturerias.compartidos.director.ProductoDirector;
-import com.pinturerias.compartidos.dto.EtiquetasProductoDTO;
+import com.pinturerias.compartidos.dto.EtiquetaDTO;
 import com.pinturerias.compartidos.dto.ProductoOtroDTO;
 import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
-import com.pinturerias.compartidos.entidad.Producto;
 import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
 import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.PrecioProductoService;
+import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.general.repositorio.ProductoOtroGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoPinturaGeneralRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductoGeneralService {
 
     private final ProductoOtroGeneralRepository repoOtro;
@@ -28,18 +29,7 @@ public class ProductoGeneralService {
     private final ProductoDirector director;
     private final PrecioProductoService precioProductoService;
     private final ProductoEtiquetaGeneralService productoEtiquetaGeneralService;
-
-    public ProductoGeneralService(ProductoDirector director,
-                                  ProductoOtroGeneralRepository repoOtro,
-                                  ProductoPinturaGeneralRepository repoPintura,
-                                  PrecioProductoService precioProductoService,
-                                  ProductoEtiquetaGeneralService productoEtiquetaGeneralService) {
-        this.repoOtro = repoOtro;
-        this.repoPintura = repoPintura;
-        this.director = director;
-        this.precioProductoService = precioProductoService;
-        this.productoEtiquetaGeneralService = productoEtiquetaGeneralService;
-    }
+    private final ProductoEtiquetaService productoEtiquetaService;
 
     public List<ProductoOtroDTO> getAllProductosOtro() {
         return repoOtro.findAll().stream()
@@ -132,10 +122,7 @@ public class ProductoGeneralService {
         dto.setContexto(Contexto.GENERAL);
         dto.setStock(0);
 
-        EtiquetasProductoDTO etiquetas = productoEtiquetaGeneralService.obtener(producto.getId(), Tipo.OTRO);
-        dto.setEtiquetas(etiquetas.getEtiquetas());
-        dto.setEtiquetasGeneralesIds(etiquetas.getEtiquetasGeneralesIds());
-        dto.setEtiquetasSucursalIds(new ArrayList<>());
+        dto.setEtiquetas( productoEtiquetaService.obtenerEtiquetasGeneral(producto.getId(),Tipo.OTRO));
         return dto;
     }
 
@@ -153,10 +140,8 @@ public class ProductoGeneralService {
         dto.setColorBase(producto.getColorBase());
         dto.setTamanoEnv(producto.getTamanoEnv());
 
-        EtiquetasProductoDTO etiquetas = productoEtiquetaGeneralService.obtener(producto.getId(), Tipo.PINTURA);
-        dto.setEtiquetas(etiquetas.getEtiquetas());
-        dto.setEtiquetasGeneralesIds(etiquetas.getEtiquetasGeneralesIds());
-        dto.setEtiquetasSucursalIds(new ArrayList<>());
+        dto.setEtiquetas(productoEtiquetaService.obtenerEtiquetasGeneral(producto.getId(), Tipo.PINTURA));
+
         return dto;
     }
 }

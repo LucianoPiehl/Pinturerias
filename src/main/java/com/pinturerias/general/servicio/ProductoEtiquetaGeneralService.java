@@ -1,100 +1,101 @@
 package com.pinturerias.general.servicio;
 
-import com.pinturerias.compartidos.dto.EtiquetasProductoDTO;
+import com.pinturerias.compartidos.dto.EtiquetaRefDTO;
+import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.excepciones.RecursoNoEncontradoException;
-import com.pinturerias.general.entidad.EtiquetaGeneral;
+import com.pinturerias.compartidos.servicio.ValidadorAsignacionEtiquetaService;
 import com.pinturerias.general.entidad.ProductoEtiquetaGeneral;
-import com.pinturerias.general.repositorio.EtiquetaGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoEtiquetaGeneralRepository;
+import com.pinturerias.sucursal.entidad.ProductoEtiquetaSucursal;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
+
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class ProductoEtiquetaGeneralService {
 
-    private final ProductoEtiquetaGeneralRepository repositorio;
-    private final EtiquetaGeneralRepository etiquetaGeneralRepository;
+    private final ValidadorAsignacionEtiquetaService validadorAsignacionEtiquetaService;
+    private final ProductoEtiquetaGeneralRepository repository;
 
-    public ProductoEtiquetaGeneralService(ProductoEtiquetaGeneralRepository repositorio,
-                                         EtiquetaGeneralRepository etiquetaGeneralRepository) {
-        this.repositorio = repositorio;
-        this.etiquetaGeneralRepository = etiquetaGeneralRepository;
-    }
+    @Transactional
+    public void sincronizar(
+            Long productoId,
+            Tipo tipo,
+            List<Long> etiquetasGeneralesIds
+    ) {
 
-    public EtiquetasProductoDTO obtener(Long productoId, Tipo tipoProducto) {
-        List<Long> ids = repositorio.findByProductoIdAndTipoProducto(productoId, tipoProducto)
-                .map(ProductoEtiquetaGeneral::getEtiquetasGeneralesIds)
-                .map(ArrayList::new)
-                .orElseGet(ArrayList::new);
+        // 🔹 Normalizar null → lista vacía
+        etiquetasGeneralesIds = etiquetasGeneralesIds == null ? List.of() : etiquetasGeneralesIds;
 
-        return construirRespuesta(ids);
-    }
+        // 🔹 Evitar duplicados
+        Set<Long> generalSet = new HashSet<>(etiquetasGeneralesIds);
 
-    public EtiquetasProductoDTO guardar(Long productoId, Tipo tipoProducto, EtiquetasProductoDTO dto) {
-        Set<Long> idsNormalizados = normalizarIds(dto.getEtiquetasGeneralesIds());
-        validarEtiquetasGenerales(idsNormalizados);
-
-        ProductoEtiquetaGeneral asignacion = repositorio.findByProductoIdAndTipoProducto(productoId, tipoProducto)
-                .orElseGet(ProductoEtiquetaGeneral::new);
-
-        asignacion.setProductoId(productoId);
-        asignacion.setTipoProducto(tipoProducto);
-        asignacion.setEtiquetasGeneralesIds(idsNormalizados);
-
-        ProductoEtiquetaGeneral guardada = repositorio.save(asignacion);
-        return construirRespuesta(new ArrayList<>(guardada.getEtiquetasGeneralesIds()));
-    }
-
-    public void sincronizar(Long productoId, Tipo tipoProducto, List<Long> etiquetasGeneralesIds) {
-        EtiquetasProductoDTO dto = new EtiquetasProductoDTO();
-        dto.setEtiquetasGeneralesIds(etiquetasGeneralesIds);
-        guardar(productoId, tipoProducto, dto);
-    }
-
-    public void eliminar(Long productoId, Tipo tipoProducto) {
-        repositorio.findByProductoIdAndTipoProducto(productoId, tipoProducto)
-                .ifPresent(repositorio::delete);
-    }
-
-    private EtiquetasProductoDTO construirRespuesta(List<Long> etiquetasGeneralesIds) {
-        List<Long> ids = new ArrayList<>(normalizarIds(etiquetasGeneralesIds));
-        List<String> nombres = etiquetaGeneralRepository.findAllById(ids).stream()
-                .map(EtiquetaGeneral::getValor)
-                .sorted(String.CASE_INSENSITIVE_ORDER)
-                .toList();
-
-        EtiquetasProductoDTO dto = new EtiquetasProductoDTO();
-        dto.setEtiquetasGeneralesIds(ids);
-        dto.setEtiquetasSucursalIds(new ArrayList<>());
-        dto.setEtiquetas(nombres);
-        return dto;
-    }
-
-    private void validarEtiquetasGenerales(Set<Long> ids) {
-        if (ids.isEmpty()) {
-            return;
+        // 🔹 Validar existencia
+        for (Long id : generalSet) {
+            validadorAsignacionEtiquetaService.validarAsignacionEnGeneral(
+                    new EtiquetaRefDTO(id, Contexto.GENERAL)
+            );
         }
 
-        List<EtiquetaGeneral> etiquetas = etiquetaGeneralRepository.findAllById(ids);
-        if (etiquetas.size() != ids.size()) {
-            throw new RecursoNoEncontradoException("Una o más etiquetas generales no existen");
+
+        // 🔹 Traer estado actual
+        List<ProductoEtiquetaGeneral> actuales =
+                repository.findByProductoIdAndTipo(productoId, tipo);
+
+        Set<String> actualesKeys = actuales.stream()
+                .map(e -> e.getEtiquetaId() + "-" + e.getContexto())
+                .collect(Collectors.toSet());
+
+        Set<String> nuevosKeys = new HashSet<>();
+
+        // 🔹 Armar estado nuevo
+        generalSet.forEach(id ->
+                nuevosKeys.add(id + "-" + Contexto.GENERAL)
+        );
+
+
+        // ELIMINAR LOS QUE SOBRAN
+        for (ProductoEtiquetaGeneral actual : actuales) {
+
+            String key = actual.getEtiquetaId() + "-" + actual.getContexto();
+
+            if (!nuevosKeys.contains(key)) {
+                repository.delete(actual);
+            }
         }
+
+        // INSERTAR LOS NUEVOS
+        for (String key : nuevosKeys) {
+
+            if (!actualesKeys.contains(key)) {
+
+                String[] parts = key.split("-");
+                Long etiquetaId = Long.valueOf(parts[0]);
+                Contexto ctx = Contexto.valueOf(parts[1]);
+
+                repository.save(
+                        ProductoEtiquetaGeneral.builder()
+                                .productoId(productoId)
+                                .etiquetaId(etiquetaId)
+                                .contexto(ctx)
+                                .tipo(tipo)
+                                .build()
+                );
+            }
+        }
+
     }
 
-    private Set<Long> normalizarIds(List<Long> ids) {
-        if (ids == null) {
-            return new TreeSet<>();
-        }
-
-        return ids.stream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(TreeSet::new));
+    public void eliminar(Long id, Tipo tipo) {
     }
 }

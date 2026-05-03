@@ -2,45 +2,50 @@ package com.pinturerias.general.servicio;
 
 import com.pinturerias.compartidos.dto.EtiquetaCreateDTO;
 import com.pinturerias.compartidos.dto.EtiquetaDTO;
+import com.pinturerias.compartidos.entidad.shared.Etiqueta;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.servicio.NormalizadorEtiquetaService;
 import com.pinturerias.compartidos.servicio.ValidadorDuplicidadEtiquetaService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
-import com.pinturerias.general.entidad.EtiquetaGeneral;
 import com.pinturerias.general.repositorio.EtiquetaGeneralRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EtiquetaGeneralService {
 
     private final EtiquetaGeneralRepository repository;
-    private final NormalizadorEtiquetaService normalizadorEtiquetaService;
-    private final ValidadorDuplicidadEtiquetaService validadorDuplicidadEtiquetaService;
-
-    public EtiquetaGeneralService(EtiquetaGeneralRepository repository,
-                                  NormalizadorEtiquetaService normalizadorEtiquetaService,
-                                  ValidadorDuplicidadEtiquetaService validadorDuplicidadEtiquetaService) {
-        this.repository = repository;
-        this.normalizadorEtiquetaService = normalizadorEtiquetaService;
-        this.validadorDuplicidadEtiquetaService = validadorDuplicidadEtiquetaService;
-    }
+    private final NormalizadorEtiquetaService normalizador;
+    private final ValidadorDuplicidadEtiquetaService validador;
 
     public List<EtiquetaDTO> listar() {
-        return repository.findAll().stream()
+        return repository.findAll()
+                .stream()
                 .map(this::toDTO)
                 .toList();
     }
 
-    public EtiquetaDTO crear(EtiquetaCreateDTO dto) {
-        String valorVisible = normalizadorEtiquetaService.normalizarValorVisible(dto.getValor());
-        String claveNormalizada = normalizadorEtiquetaService.generarClaveNormalizada(valorVisible);
-        validadorDuplicidadEtiquetaService.validarClaveLibreEnTodoElSistema(claveNormalizada);
+    public boolean etiquetaExistente(String claveNormalizada) {
+        return repository.existsByClaveNormalizada(claveNormalizada);
+    }
 
-        EtiquetaGeneral etiqueta = new EtiquetaGeneral();
-        etiqueta.setValor(valorVisible);
-        etiqueta.setClaveNormalizada(claveNormalizada);
+    public EtiquetaDTO crear(EtiquetaCreateDTO dto) {
+
+        //Normalización
+        String valorVisible = normalizador.normalizarValorVisible(dto.getValor());
+        String claveNormalizada = normalizador.generarClaveNormalizada(valorVisible);
+
+        //Validación
+        validador.validarClaveLibreGeneral(claveNormalizada);
+
+        //Creación
+        Etiqueta etiqueta = Etiqueta.builder()
+                .valor(valorVisible)
+                .claveNormalizada(claveNormalizada)
+                .build();
 
         return toDTO(repository.save(etiqueta));
     }
@@ -49,14 +54,16 @@ public class EtiquetaGeneralService {
         if (!repository.existsById(id)) {
             throw new RecursoNoEncontradoException("Etiqueta general no encontrada");
         }
+
+        // después vamos a mejorar esto (validar uso en productos)
         repository.deleteById(id);
     }
 
-    private EtiquetaDTO toDTO(EtiquetaGeneral etiqueta) {
-        return new EtiquetaDTO(
-                etiqueta.getId(),
-                etiqueta.getValor(),
-                Contexto.GENERAL
-        );
+    private EtiquetaDTO toDTO(Etiqueta etiqueta) {
+        return EtiquetaDTO.builder()
+                .id(etiqueta.getId())
+                .valor(etiqueta.getValor())
+                .contexto(Contexto.GENERAL)
+                .build();
     }
 }
