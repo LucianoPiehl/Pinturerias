@@ -11,6 +11,7 @@ import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.PrecioProductoService;
 import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
+import com.pinturerias.general.repositorio.PedidoGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoOtroGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoPinturaGeneralRepository;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class ProductoGeneralService {
     private final PrecioProductoService precioProductoService;
     private final ProductoEtiquetaGeneralService productoEtiquetaGeneralService;
     private final ProductoEtiquetaService productoEtiquetaService;
+    private final PedidoGeneralRepository pedidoGeneralRepository;
 
     public List<ProductoOtroDTO> getAllProductosOtro() {
         return repoOtro.findAll().stream()
@@ -63,14 +65,31 @@ public class ProductoGeneralService {
 
     @Transactional("generalTransactionManager")
     public void deleteProductoOtro(Long id) {
-        productoEtiquetaGeneralService.eliminar(id, Tipo.OTRO);
-        repoOtro.deleteById(id);
+        ProductoOtroGeneral producto = repoOtro.findById(id).orElseThrow();
+
+        boolean existeEnPedidos = pedidoGeneralRepository.existsByProductos_IdProducto(id);
+        productoEtiquetaGeneralService.sincronizar(id, Tipo.OTRO, new ArrayList<Long>());
+        if (existeEnPedidos) {
+            producto.setHabilitado(false);
+            repoOtro.save(producto);
+        } else {
+            repoOtro.delete(producto);
+        }
     }
 
     @Transactional("generalTransactionManager")
     public void deleteProductoPintura(Long id) {
-        productoEtiquetaGeneralService.eliminar(id, Tipo.PINTURA);
+        ProductoPinturaGeneral producto = repoPintura.findById(id).orElseThrow();
+
+        boolean existeEnPedidos = pedidoGeneralRepository.existsByProductos_IdProducto(id);
+        productoEtiquetaGeneralService.sincronizar(id, Tipo.PINTURA, new ArrayList<Long>());
+        if (existeEnPedidos) {
+            producto.setHabilitado(false);
+            repoPintura.save(producto);
+        }
+        else {
         repoPintura.deleteById(id);
+        }
     }
 
     @Transactional("generalTransactionManager")
@@ -84,7 +103,7 @@ public class ProductoGeneralService {
         producto.setTipoPintura(dto.getTipoPintura());
         producto.setColorBase(dto.getColorBase());
         producto.setTamanoEnv(dto.getTamanoEnv());
-
+        producto.setHabilitado(dto.getHabilitado());
         actualizarPrecioBasePintura(producto);
         ProductoPinturaGeneral guardado = repoPintura.save(producto);
         productoEtiquetaGeneralService.sincronizar(id, Tipo.PINTURA, dto.getEtiquetasGeneralesIds());
@@ -100,7 +119,7 @@ public class ProductoGeneralService {
         producto.setDescripcion(dto.getDescripcion());
         producto.setMarca(dto.getMarca());
         producto.setPrecioFinal(dto.getPrecioFinal());
-
+        producto.setHabilitado(dto.getHabilitado());
         ProductoOtroGeneral guardado = repoOtro.save(producto);
         productoEtiquetaGeneralService.sincronizar(id, Tipo.OTRO, dto.getEtiquetasGeneralesIds());
         return toOtroDTO(guardado);
@@ -121,8 +140,8 @@ public class ProductoGeneralService {
         dto.setTipo(Tipo.OTRO);
         dto.setContexto(Contexto.GENERAL);
         dto.setStock(0);
-
         dto.setEtiquetas( productoEtiquetaService.obtenerEtiquetasGeneral(producto.getId(),Tipo.OTRO));
+        dto.setHabilitado(producto.getHabilitado());
         return dto;
     }
 
@@ -139,7 +158,7 @@ public class ProductoGeneralService {
         dto.setTipoPintura(producto.getTipoPintura());
         dto.setColorBase(producto.getColorBase());
         dto.setTamanoEnv(producto.getTamanoEnv());
-
+        dto.setHabilitado(producto.getHabilitado());
         dto.setEtiquetas(productoEtiquetaService.obtenerEtiquetasGeneral(producto.getId(), Tipo.PINTURA));
 
         return dto;

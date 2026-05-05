@@ -35,5 +35,9 @@ public abstract class ProductoDTO {
     private Tipo tipo;
     private Contexto contexto;
     private int stock;
+    private boolean habilitado;
 
+    public boolean getHabilitado() {
+        return habilitado;
+    }
 }

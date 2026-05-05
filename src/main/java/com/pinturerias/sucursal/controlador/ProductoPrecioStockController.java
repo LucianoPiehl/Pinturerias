@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sucursal/{sucursalId}/productos-general")
+@RequestMapping("/api/sucursal/productos-general")
 public class ProductoPrecioStockController {
 
     private final ProductoPrecioStockService servicio;
+
+    public ProductoPrecioStockController(ProductoPrecioStockService servicio) {
+        this.servicio = servicio;
+    }
 
     @GetMapping
     public List<ProductoPrecioStock> getAll(@PathVariable Long sucursalId) {
@@ -20,7 +24,6 @@ public class ProductoPrecioStockController {
 
     @GetMapping("/{productoGeneralId}")
     public ProductoPrecioStock getProductoGeneralId(
-            @PathVariable Long sucursalId,
             @PathVariable Long productoGeneralId,
             @RequestParam Tipo tipoProducto) {
 
@@ -29,36 +32,33 @@ public class ProductoPrecioStockController {
 
     @PostMapping("/{productoGeneralId}")
     public ProductoPrecioStock crearOActualizar(
-            @PathVariable Long sucursalId,
             @PathVariable Long productoGeneralId,
             @RequestParam Tipo tipoProducto,
             @RequestParam(required = false) Double porcentajeAjuste,
             @RequestParam(name = "precio", required = false) Double precioFinalSucursal,
-            @RequestParam Integer stock) {
+            @RequestParam Integer stock,
+            @RequestParam Boolean habilitado) {
 
         if (porcentajeAjuste != null) {
-            return servicio.save(productoGeneralId, tipoProducto, porcentajeAjuste, stock);
+            return servicio.save(productoGeneralId, tipoProducto, porcentajeAjuste, stock, habilitado);
         }
 
         if (precioFinalSucursal != null) {
-            return servicio.saveDesdePrecioFinal(productoGeneralId, tipoProducto, precioFinalSucursal, stock);
+            return servicio.saveDesdePrecioFinal(productoGeneralId, tipoProducto, precioFinalSucursal, stock, habilitado);
         }
 
-        return servicio.save(productoGeneralId, tipoProducto, 0D, stock);
+        return servicio.save(productoGeneralId, tipoProducto, 0D, stock, habilitado);
     }
 
     @DeleteMapping("/{productoGeneralId}")
     public void delete(
-            @PathVariable Long sucursalId,
             @PathVariable Long productoGeneralId,
             @RequestParam Tipo tipoProducto) {
 
         servicio.delete(productoGeneralId, tipoProducto);
     }
 
-    public ProductoPrecioStockController(ProductoPrecioStockService servicio) {
-        this.servicio = servicio;
-    }
+
 }
 
 

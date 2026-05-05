@@ -34,4 +34,5 @@ public abstract class Producto {
     public void setPrecioBase(Double precioBase) {
         this.precioFinal = precioBase;
     }
+    public boolean getHabilitado(){return habilitado;}
 }

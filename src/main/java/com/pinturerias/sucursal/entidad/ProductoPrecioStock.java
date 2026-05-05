@@ -40,11 +40,14 @@ public class ProductoPrecioStock {
     @Transient
     private Double precioFinalSucursal;
 
-    public ProductoPrecioStock(Long productoGeneralId, Tipo tipoProducto, Double porcentajeAjuste, Integer stock) {
+    private boolean habilitado;
+
+    public ProductoPrecioStock(Long productoGeneralId, Tipo tipoProducto, Double porcentajeAjuste, Integer stock, boolean habilitado) {
         this.productoId = productoGeneralId;
         this.tipoProducto = tipoProducto;
         this.porcentajeAjuste = porcentajeAjuste != null ? porcentajeAjuste : 0D;
         this.stock = stock != null ? stock : 0;
+        this.habilitado = habilitado;
     }
 }
 

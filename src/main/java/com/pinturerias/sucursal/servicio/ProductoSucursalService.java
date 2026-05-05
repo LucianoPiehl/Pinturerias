@@ -8,31 +8,25 @@ import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
 import com.pinturerias.excepciones.ExcepcionApi;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
+import com.pinturerias.sucursal.repositorio.PedidoSucursalRepository;
 import com.pinturerias.sucursal.repositorio.ProductoOtroSucursalRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductoSucursalService {
 
     private final ProductoDirector director;
     private final ProductoOtroSucursalRepository repoOtro;
     private final ProductoEtiquetaSucursalService productoEtiquetaSucursalService;
     private final ProductoEtiquetaService productoEtiquetaQueryService;
+    private final PedidoSucursalRepository pedidoSucursalRepository;
 
-    public ProductoSucursalService(
-            ProductoDirector director,
-            ProductoOtroSucursalRepository repoOtro,
-            ProductoEtiquetaSucursalService productoEtiquetaSucursalService,
-            ProductoEtiquetaService productoEtiquetaQueryService
-    ) {
-        this.director = director;
-        this.repoOtro = repoOtro;
-        this.productoEtiquetaSucursalService = productoEtiquetaSucursalService;
-        this.productoEtiquetaQueryService = productoEtiquetaQueryService;
-    }
 
     @Transactional("tenantTransactionManager")
     public ProductoOtroDTO crearOtro(ProductoOtroDTO dto) {
@@ -85,8 +79,17 @@ public class ProductoSucursalService {
 
     @Transactional("tenantTransactionManager")
     public void eliminarProductoOtro(Long id) {
-        //falta implementar
-        repoOtro.deleteById(id);
+
+        ProductoOtroSucursal producto = repoOtro.findById(id).orElseThrow();
+
+        boolean existeEnPedidos = pedidoSucursalRepository.existsByProductos_IdProducto(id);
+        productoEtiquetaSucursalService.sincronizar(id,Contexto.SUCURSAL,Tipo.OTRO,new ArrayList<Long>(),new ArrayList<Long>());
+        if (existeEnPedidos) {
+            producto.setHabilitado(false);
+            repoOtro.save(producto);
+        } else {
+            repoOtro.delete(producto);
+        }
     }
 
     public Double obtenerPrecioVenta(Long productoId) {

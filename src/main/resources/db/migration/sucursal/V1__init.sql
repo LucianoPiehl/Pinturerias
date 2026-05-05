@@ -17,6 +17,7 @@ CREATE TABLE producto_precio_stock (
     porcentaje_ajuste DOUBLE NOT NULL,
     stock INT NOT NULL,
     version BIGINT NOT NULL DEFAULT 0,
+    habilitado BOOLEAN NOT NULL DEFAULT TRUE,
     INDEX idx_prod_id (producto_id),
     UNIQUE INDEX uk_producto_precio_stock (producto_id, tipo_producto)
 );

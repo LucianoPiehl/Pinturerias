@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.lang.Boolean.TRUE;
+
 @Service
 public class ProductoPrecioStockService {
     private final ProductoPrecioStockRepository repo;
@@ -21,31 +23,32 @@ public class ProductoPrecioStockService {
         this.precioProductoService = precioProductoService;
     }
 
-    public ProductoPrecioStock save(Long productoGeneralId, Tipo tipoProducto, Double porcentajeAjuste, Integer stock) {
+    public ProductoPrecioStock save(Long productoGeneralId, Tipo tipoProducto, Double porcentajeAjuste, Integer stock, Boolean habilitado) {
         ProductoPrecioStock pps = repo.findByProductoIdAndTipoProducto(productoGeneralId, tipoProducto)
-                .orElse(new ProductoPrecioStock(productoGeneralId, tipoProducto, porcentajeAjuste, stock));
+                .orElse(new ProductoPrecioStock(productoGeneralId, tipoProducto, porcentajeAjuste, stock, habilitado));
 
         pps.setPorcentajeAjuste(normalizarPorcentaje(porcentajeAjuste));
         pps.setStock(stock);
-
+        pps.setHabilitado(habilitado);
         return enriquecerRespuesta(repo.save(pps));
     }
 
     public ProductoPrecioStock saveDesdePrecioFinal(Long productoGeneralId,
                                                     Tipo tipoProducto,
                                                     Double precioFinalSucursal,
-                                                    Integer stock) {
+                                                    Integer stock,
+                                                    Boolean habilitado) {
         Double porcentajeAjuste = precioProductoService.calcularPorcentajeAjuste(
                 productoGeneralId,
                 tipoProducto,
                 precioFinalSucursal
         );
-        return save(productoGeneralId, tipoProducto, porcentajeAjuste, stock);
+        return save(productoGeneralId, tipoProducto, porcentajeAjuste, stock, habilitado);
     }
 
     public ProductoPrecioStock acreditarStock(Long productoGeneralId, Tipo tipoProducto, Integer cantidad) {
         ProductoPrecioStock pps = repo.findByProductoIdAndTipoProducto(productoGeneralId, tipoProducto)
-                .orElse(new ProductoPrecioStock(productoGeneralId, tipoProducto, 0D, 0));
+                .orElse(new ProductoPrecioStock(productoGeneralId, tipoProducto, 0D, 0, TRUE));
 
         pps.setStock(pps.getStock() + cantidad);
         return repo.save(pps);
