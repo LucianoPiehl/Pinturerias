@@ -9,6 +9,7 @@ import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.compartidos.entidad.shared.Etiqueta;
 import com.pinturerias.sucursal.repositorio.EtiquetaSucursalRepository;
 import com.pinturerias.sucursal.repositorio.ProductoEtiquetaSucursalRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,14 @@ public class EtiquetaSucursalService {
     private final ValidadorDuplicidadEtiquetaService validadorDuplicidadEtiquetaService;
     private final ProductoEtiquetaSucursalRepository productoEtiquetaSucursalRepository;
 
+    @Transactional
     public List<EtiquetaDTO> listarLocales() {
         return repository.findAll().stream()
                 .map(this::toDTO)
                 .toList();
     }
 
+    @Transactional
     public EtiquetaDTO crear(EtiquetaCreateDTO dto) {
         String valorVisible = normalizadorEtiquetaService.normalizarValorVisible(dto.getValor());
         String claveNormalizada = normalizadorEtiquetaService.generarClaveNormalizada(valorVisible);
@@ -41,6 +44,7 @@ public class EtiquetaSucursalService {
         return toDTO(repository.save(etiqueta));
     }
 
+    @Transactional
     public void eliminar(Long id) {
         if (!repository.existsById(id)) {
             throw new RecursoNoEncontradoException("Etiqueta de sucursal no encontrada");
@@ -52,6 +56,7 @@ public class EtiquetaSucursalService {
         repository.deleteById(id);
     }
 
+    @Transactional
     private EtiquetaDTO toDTO(Etiqueta etiqueta) {
         return new EtiquetaDTO(
                 etiqueta.getId(),

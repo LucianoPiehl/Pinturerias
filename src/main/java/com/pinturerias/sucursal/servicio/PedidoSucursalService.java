@@ -43,6 +43,7 @@ public class PedidoSucursalService {
         this.precioProductoService = precioProductoService;
     }
 
+    @Transactional
     public List<PedidoDTO> listar() {
         return repositorio.findAll().stream()
                 .map(mapper::toDto)

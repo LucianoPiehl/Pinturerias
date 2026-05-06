@@ -8,11 +8,11 @@ import com.pinturerias.compartidos.servicio.NormalizadorEtiquetaService;
 import com.pinturerias.compartidos.servicio.ValidadorDuplicidadEtiquetaService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.general.repositorio.EtiquetaGeneralRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,12 +22,15 @@ public class EtiquetaGeneralService {
     private final NormalizadorEtiquetaService normalizador;
     private final ValidadorDuplicidadEtiquetaService validador;
 
+    @Transactional
     public List<EtiquetaDTO> listar() {
         return repository.findAll()
                 .stream()
                 .map(this::toDTO)
                 .toList();
     }
+
+    @Transactional
     public List<EtiquetaDTO> listarDisponibles() {
         return repository.findByHabilitadoTrue()
                 .stream()
@@ -38,6 +41,7 @@ public class EtiquetaGeneralService {
         return repository.existsByClaveNormalizada(claveNormalizada);
     }
 
+    @Transactional
     public EtiquetaDTO crear(EtiquetaCreateDTO dto) {
 
         //Normalización
@@ -56,6 +60,7 @@ public class EtiquetaGeneralService {
         return toDTO(repository.save(etiqueta));
     }
 
+    @Transactional
     public void deshabilitar(Long id) {
         if (!repository.existsById(id)) {
             throw new RecursoNoEncontradoException("Etiqueta general no encontrada");

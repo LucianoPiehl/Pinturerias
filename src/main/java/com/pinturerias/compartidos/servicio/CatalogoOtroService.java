@@ -8,6 +8,7 @@ import com.pinturerias.sucursal.entidad.ProductoPrecioStock;
 import com.pinturerias.sucursal.servicio.ProductoEtiquetaSucursalService;
 import com.pinturerias.sucursal.servicio.ProductoPrecioStockService;
 import com.pinturerias.sucursal.servicio.ProductoSucursalService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class CatalogoOtroService {
     private final PrecioProductoService precioProductoService;
     private final ProductoSucursalService productoSucursalService;
 
-
+    @Transactional
     public List<ProductoOtroDTO> listarProductosOtro(String tenantId) {
         List<ProductoOtroDTO> productosGeneral = tenantExecutor.ejecutarEnTenant(null,
                 productoGeneralService::getAllProductosOtro);

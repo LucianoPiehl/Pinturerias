@@ -8,6 +8,7 @@ import com.pinturerias.general.servicio.ProductoGeneralService;
 import com.pinturerias.sucursal.entidad.ProductoPrecioStock;
 import com.pinturerias.sucursal.servicio.ProductoEtiquetaSucursalService;
 import com.pinturerias.sucursal.servicio.ProductoPrecioStockService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class CatalogoPinturaService {
     private final TenantExecutor tenantExecutor;
     private final PrecioProductoService precioProductoService;
 
-
+    @Transactional
     public List<ProductoPinturaDTO> listarProductosPintura(String tenantId) {
         List<ProductoPinturaDTO> productosGeneral = tenantExecutor.ejecutarEnTenant(null,
                 productoGeneralService::getAllProductosPintura);
@@ -33,6 +34,7 @@ public class CatalogoPinturaService {
         List<ProductoPrecioStock> controlesLocales = tenantExecutor.ejecutarEnTenant(tenantId,
                 () -> productoPrecioStockService.getAllByTipoProducto(Tipo.PINTURA));
 
+        asociarControlesLocales(controlesLocales, productosGeneral);
         return productosGeneral;
     }
 

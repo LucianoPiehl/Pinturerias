@@ -12,6 +12,7 @@ import com.pinturerias.sucursal.entidad.ProductoEtiquetaSucursal;
 import com.pinturerias.sucursal.repositorio.EtiquetaSucursalRepository;
 import com.pinturerias.sucursal.repositorio.ProductoEtiquetaSucursalRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class ProductoEtiquetaService {
     /*
       Para productos de SUCURSAL
      */
-
+    @Transactional
     public List<EtiquetaDTO> obtenerEtiquetasSucursal(Long productoId, Tipo tipo) {
 
         List<ProductoEtiquetaSucursal> relaciones =
@@ -78,6 +79,7 @@ public class ProductoEtiquetaService {
     /*
       Para productos GENERAL
      */
+    @Transactional
     public List<EtiquetaDTO> obtenerEtiquetasGeneral(Long productoId, Tipo tipo) {
 
         return tenantExecutor.ejecutarEnTenant(null, () -> {
