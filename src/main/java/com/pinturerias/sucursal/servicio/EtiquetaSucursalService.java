@@ -8,24 +8,20 @@ import com.pinturerias.compartidos.servicio.ValidadorDuplicidadEtiquetaService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.compartidos.entidad.shared.Etiqueta;
 import com.pinturerias.sucursal.repositorio.EtiquetaSucursalRepository;
+import com.pinturerias.sucursal.repositorio.ProductoEtiquetaSucursalRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class EtiquetaSucursalService {
 
     private final EtiquetaSucursalRepository repository;
     private final NormalizadorEtiquetaService normalizadorEtiquetaService;
     private final ValidadorDuplicidadEtiquetaService validadorDuplicidadEtiquetaService;
-
-    public EtiquetaSucursalService(EtiquetaSucursalRepository repository,
-                                   NormalizadorEtiquetaService normalizadorEtiquetaService,
-                                   ValidadorDuplicidadEtiquetaService validadorDuplicidadEtiquetaService) {
-        this.repository = repository;
-        this.normalizadorEtiquetaService = normalizadorEtiquetaService;
-        this.validadorDuplicidadEtiquetaService = validadorDuplicidadEtiquetaService;
-    }
+    private final ProductoEtiquetaSucursalRepository productoEtiquetaSucursalRepository;
 
     public List<EtiquetaDTO> listarLocales() {
         return repository.findAll().stream()
@@ -34,7 +30,6 @@ public class EtiquetaSucursalService {
     }
 
     public EtiquetaDTO crear(EtiquetaCreateDTO dto) {
-        System.out.println("Entro en creacion {dto}");
         String valorVisible = normalizadorEtiquetaService.normalizarValorVisible(dto.getValor());
         String claveNormalizada = normalizadorEtiquetaService.generarClaveNormalizada(valorVisible);
         validadorDuplicidadEtiquetaService.validarClaveLibreSucursal(claveNormalizada);
@@ -50,6 +45,10 @@ public class EtiquetaSucursalService {
         if (!repository.existsById(id)) {
             throw new RecursoNoEncontradoException("Etiqueta de sucursal no encontrada");
         }
+        // eliminar TODAS las relaciones
+        productoEtiquetaSucursalRepository.deleteByEtiquetaIdAndContexto(id, Contexto.SUCURSAL);
+
+        // eliminar la etiqueta
         repository.deleteById(id);
     }
 
@@ -57,7 +56,8 @@ public class EtiquetaSucursalService {
         return new EtiquetaDTO(
                 etiqueta.getId(),
                 etiqueta.getValor(),
-                Contexto.SUCURSAL
+                Contexto.SUCURSAL,
+                etiqueta.getHabilitado()
         );
     }
 }

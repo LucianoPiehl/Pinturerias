@@ -19,7 +19,7 @@ public class EtiquetaGeneralController {
 
     @GetMapping
     public List<EtiquetaDTO> listar() {
-        return service.listar();
+        return service.listarDisponibles();
     }
 
     @PostMapping
@@ -27,8 +27,8 @@ public class EtiquetaGeneralController {
         return service.crear(dto);
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        service.eliminar(id);
+    @PutMapping("/{id}/deshabilitar")
+    public void deshabilitar(@PathVariable Long id) {
+        service.deshabilitar(id);
     }
 }

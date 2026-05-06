@@ -12,4 +12,5 @@ public class EtiquetaDTO {
     private Long id;
     private String valor;
     private Contexto contexto;
+    private boolean habilitado;
 }

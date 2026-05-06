@@ -21,4 +21,11 @@ public class Etiqueta {
 
     @Column(nullable = false, unique = true)
     private String claveNormalizada;
+
+    @Column(nullable = false)
+    private boolean habilitado = true;
+
+    public boolean getHabilitado() {
+        return habilitado;
+    }
 }

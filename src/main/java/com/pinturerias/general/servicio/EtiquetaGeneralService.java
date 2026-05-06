@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,12 @@ public class EtiquetaGeneralService {
                 .map(this::toDTO)
                 .toList();
     }
-
+    public List<EtiquetaDTO> listarDisponibles() {
+        return repository.findByHabilitadoTrue()
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
     public boolean etiquetaExistente(String claveNormalizada) {
         return repository.existsByClaveNormalizada(claveNormalizada);
     }
@@ -50,13 +56,15 @@ public class EtiquetaGeneralService {
         return toDTO(repository.save(etiqueta));
     }
 
-    public void eliminar(Long id) {
+    public void deshabilitar(Long id) {
         if (!repository.existsById(id)) {
             throw new RecursoNoEncontradoException("Etiqueta general no encontrada");
         }
+        Etiqueta etiqueta = repository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("..."));
+        etiqueta.setHabilitado(Boolean.parseBoolean("false"));
+        repository.save(etiqueta);
 
-        // después vamos a mejorar esto (validar uso en productos)
-        repository.deleteById(id);
     }
 
     private EtiquetaDTO toDTO(Etiqueta etiqueta) {
@@ -64,6 +72,7 @@ public class EtiquetaGeneralService {
                 .id(etiqueta.getId())
                 .valor(etiqueta.getValor())
                 .contexto(Contexto.GENERAL)
+                .habilitado(etiqueta.getHabilitado())
                 .build();
     }
 }

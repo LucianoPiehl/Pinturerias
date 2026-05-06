@@ -60,7 +60,7 @@ public class ProductoEtiquetaService {
                     () -> etiquetaGeneralRepo.findAllById(idsGeneral)
             );
             etiquetasGenerales.forEach(e -> resultado.add(
-                    new EtiquetaDTO(e.getId(), e.getValor(), Contexto.GENERAL)
+                    new EtiquetaDTO(e.getId(), e.getValor(), Contexto.GENERAL, e.getHabilitado())
             ));
         }
 
@@ -68,7 +68,7 @@ public class ProductoEtiquetaService {
         if (!idsSucursal.isEmpty()) {
             etiquetaSucursalRepo.findAllById(idsSucursal)
                     .forEach(e -> resultado.add(
-                            new EtiquetaDTO(e.getId(), e.getValor(), Contexto.SUCURSAL)
+                            new EtiquetaDTO(e.getId(), e.getValor(), Contexto.SUCURSAL, e.getHabilitado())
                     ));
         }
 
@@ -94,7 +94,8 @@ public class ProductoEtiquetaService {
                                 new EtiquetaDTO(
                                         e.getId(),
                                         e.getValor(),
-                                        Contexto.GENERAL
+                                        Contexto.GENERAL,
+                                        e.getHabilitado()
                                 )
                         ));
             }
