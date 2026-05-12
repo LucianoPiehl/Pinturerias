@@ -1,9 +1,7 @@
 package com.pinturerias.compartidos.constructor.sucursal;
 
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
-import com.pinturerias.compartidos.dto.ProductoDTO;
-import com.pinturerias.compartidos.dto.ProductoOtroDTO;
-import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;
 import com.pinturerias.compartidos.entidad.Producto;
 import com.pinturerias.compartidos.entidad.sucursal.ProductoOtroSucursal;
 import com.pinturerias.compartidos.enumeracion.Contexto;

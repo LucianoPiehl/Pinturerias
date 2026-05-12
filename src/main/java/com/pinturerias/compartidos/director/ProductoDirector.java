@@ -2,7 +2,7 @@ package com.pinturerias.compartidos.director;
 
 import com.pinturerias.compartidos.constructor.ProductoBuilderRegistry;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
-import com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoDTO;
 import com.pinturerias.compartidos.entidad.Producto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,8 @@
 package com.pinturerias.general.servicio;
 
 import com.pinturerias.compartidos.director.ProductoDirector;
-import com.pinturerias.compartidos.dto.EtiquetaDTO;
-import com.pinturerias.compartidos.dto.ProductoOtroDTO;
-import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
 import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
 import com.pinturerias.compartidos.enumeracion.Contexto;

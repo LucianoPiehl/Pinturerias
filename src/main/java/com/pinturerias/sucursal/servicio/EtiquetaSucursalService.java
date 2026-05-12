@@ -1,7 +1,7 @@
 package com.pinturerias.sucursal.servicio;
 
-import com.pinturerias.compartidos.dto.EtiquetaCreateDTO;
-import com.pinturerias.compartidos.dto.EtiquetaDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaCreateDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.servicio.NormalizadorEtiquetaService;
 import com.pinturerias.compartidos.servicio.ValidadorDuplicidadEtiquetaService;

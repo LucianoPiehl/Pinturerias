@@ -1,4 +1,4 @@
-package com.pinturerias.configuracion;
+package com.pinturerias.configuracion.tenant;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

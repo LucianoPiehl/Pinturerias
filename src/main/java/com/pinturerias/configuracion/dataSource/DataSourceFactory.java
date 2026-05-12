@@ -1,4 +1,4 @@
-package com.pinturerias.configuracion;
+package com.pinturerias.configuracion.dataSource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

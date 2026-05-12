@@ -1,6 +1,6 @@
 package com.pinturerias.general.servicio;
 
-import com.pinturerias.configuracion.TenantRegistry;
+import com.pinturerias.configuracion.tenant.TenantRegistry;
 import com.pinturerias.general.entidad.Sucursal;
 import com.pinturerias.general.repositorio.SucursalRepository;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;

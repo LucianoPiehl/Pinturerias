@@ -1,4 +1,4 @@
-package com.pinturerias.compartidos.dto;
+package com.pinturerias.compartidos.dto.etiqueta;
 
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import lombok.*;
@@ -8,9 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EtiquetaDTO {
+public class EtiquetaRefDTO {
     private Long id;
-    private String valor;
     private Contexto contexto;
-    private boolean habilitado;
+
 }

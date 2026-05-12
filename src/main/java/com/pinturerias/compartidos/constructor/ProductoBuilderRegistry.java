@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.pinturerias.compartidos.dto.ProductoDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoDTO;
 import org.springframework.stereotype.Component;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 

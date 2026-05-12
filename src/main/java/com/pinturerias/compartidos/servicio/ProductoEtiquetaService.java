@@ -1,10 +1,10 @@
 package com.pinturerias.compartidos.servicio;
 
-import com.pinturerias.compartidos.dto.EtiquetaDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaDTO;
 import com.pinturerias.compartidos.entidad.shared.Etiqueta;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.configuracion.TenantExecutor;
+import com.pinturerias.configuracion.tenant.TenantExecutor;
 import com.pinturerias.general.entidad.ProductoEtiquetaGeneral;
 import com.pinturerias.general.repositorio.EtiquetaGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoEtiquetaGeneralRepository;

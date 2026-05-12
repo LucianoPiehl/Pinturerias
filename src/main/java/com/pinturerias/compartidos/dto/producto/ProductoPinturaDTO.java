@@ -1,4 +1,4 @@
-package com.pinturerias.compartidos.dto;
+package com.pinturerias.compartidos.dto.producto;
 
 import com.pinturerias.general.entidad.ColorBase;
 import com.pinturerias.general.entidad.TamanoEnvase;

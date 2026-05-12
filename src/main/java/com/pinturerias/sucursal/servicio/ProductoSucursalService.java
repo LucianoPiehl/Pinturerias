@@ -1,7 +1,7 @@
 package com.pinturerias.sucursal.servicio;
 
 import com.pinturerias.compartidos.director.ProductoDirector;
-import com.pinturerias.compartidos.dto.ProductoOtroDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;
 import com.pinturerias.compartidos.entidad.sucursal.ProductoOtroSucursal;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;

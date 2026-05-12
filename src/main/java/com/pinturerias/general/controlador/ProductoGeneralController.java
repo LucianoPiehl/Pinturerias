@@ -1,8 +1,8 @@
 package com.pinturerias.general.controlador;
 
-import com.pinturerias.compartidos.dto.EtiquetaDTO;
-import com.pinturerias.compartidos.dto.ProductoOtroDTO;
-import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;

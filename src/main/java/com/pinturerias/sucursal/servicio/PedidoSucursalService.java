@@ -1,12 +1,12 @@
 package com.pinturerias.sucursal.servicio;
 
-import com.pinturerias.compartidos.dto.PedidoDTO;
+import com.pinturerias.compartidos.dto.pedido.PedidoDTO;
 import com.pinturerias.compartidos.entidad.shared.Pedido;
 import com.pinturerias.compartidos.entidad.shared.PedidoProducto;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.EstadoPedido;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.compartidos.servicio.PedidoMapper;
+import com.pinturerias.compartidos.mapper.PedidoMapper;
 import com.pinturerias.compartidos.servicio.PrecioProductoService;
 import com.pinturerias.compartidos.servicio.PedidoValidationService;
 import com.pinturerias.sucursal.repositorio.PedidoSucursalRepository;

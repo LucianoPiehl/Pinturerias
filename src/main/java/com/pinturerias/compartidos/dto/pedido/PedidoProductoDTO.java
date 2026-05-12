@@ -1,4 +1,4 @@
-package com.pinturerias.compartidos.dto;
+package com.pinturerias.compartidos.dto.pedido;
 
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;

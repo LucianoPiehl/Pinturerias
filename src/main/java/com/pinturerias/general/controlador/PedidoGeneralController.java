@@ -1,6 +1,6 @@
 package com.pinturerias.general.controlador;
 
-import com.pinturerias.compartidos.dto.PedidoDTO;
+import com.pinturerias.compartidos.dto.pedido.PedidoDTO;
 import com.pinturerias.compartidos.enumeracion.EstadoPedido;
 import com.pinturerias.general.servicio.PedidoGeneralService;
 import org.springframework.web.bind.annotation.GetMapping;

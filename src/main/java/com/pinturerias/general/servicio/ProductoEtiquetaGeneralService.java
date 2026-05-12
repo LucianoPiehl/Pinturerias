@@ -1,12 +1,11 @@
 package com.pinturerias.general.servicio;
 
-import com.pinturerias.compartidos.dto.EtiquetaRefDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaRefDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.ValidadorAsignacionEtiquetaService;
 import com.pinturerias.general.entidad.ProductoEtiquetaGeneral;
 import com.pinturerias.general.repositorio.ProductoEtiquetaGeneralRepository;
-import com.pinturerias.sucursal.entidad.ProductoEtiquetaSucursal;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

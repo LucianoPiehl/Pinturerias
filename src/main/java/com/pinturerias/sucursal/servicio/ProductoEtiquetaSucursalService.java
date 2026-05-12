@@ -1,6 +1,6 @@
 package com.pinturerias.sucursal.servicio;
 
-import com.pinturerias.compartidos.dto.EtiquetaRefDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaRefDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.ValidadorAsignacionEtiquetaService;

@@ -1,7 +1,7 @@
-package com.pinturerias.compartidos.servicio;
+package com.pinturerias.compartidos.mapper;
 
-import com.pinturerias.compartidos.dto.PedidoDTO;
-import com.pinturerias.compartidos.dto.PedidoProductoDTO;
+import com.pinturerias.compartidos.dto.pedido.PedidoDTO;
+import com.pinturerias.compartidos.dto.pedido.PedidoProductoDTO;
 import com.pinturerias.compartidos.entidad.shared.Pedido;
 import com.pinturerias.compartidos.entidad.shared.PedidoProducto;
 import org.springframework.stereotype.Component;

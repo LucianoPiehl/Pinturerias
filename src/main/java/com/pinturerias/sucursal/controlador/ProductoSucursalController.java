@@ -1,14 +1,14 @@
 package com.pinturerias.sucursal.controlador;
 
-import com.pinturerias.compartidos.dto.EtiquetaDTO;
-import com.pinturerias.compartidos.dto.ProductoOtroDTO;
-import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.servicio.CatalogoOtroService;
 import com.pinturerias.compartidos.servicio.CatalogoPinturaService;
 import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
-import com.pinturerias.configuracion.TenantContext;
+import com.pinturerias.configuracion.tenant.TenantContext;
 import com.pinturerias.sucursal.servicio.ProductoSucursalService;
 import org.springframework.web.bind.annotation.*;
 

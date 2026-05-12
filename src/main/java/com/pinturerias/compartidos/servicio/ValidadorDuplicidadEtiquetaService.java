@@ -1,9 +1,8 @@
 package com.pinturerias.compartidos.servicio;
 
-import com.pinturerias.configuracion.TenantContext;
-import com.pinturerias.configuracion.TenantExecutor;
+import com.pinturerias.configuracion.tenant.TenantContext;
+import com.pinturerias.configuracion.tenant.TenantExecutor;
 import com.pinturerias.excepciones.ExcepcionApi;
-import com.pinturerias.general.repositorio.SucursalRepository;
 import com.pinturerias.general.repositorio.EtiquetaGeneralRepository;
 import com.pinturerias.sucursal.repositorio.EtiquetaSucursalRepository;
 import lombok.RequiredArgsConstructor;

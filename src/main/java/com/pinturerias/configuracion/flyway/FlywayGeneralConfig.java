@@ -1,4 +1,4 @@
-package com.pinturerias.configuracion;
+package com.pinturerias.configuracion.flyway;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Bean;

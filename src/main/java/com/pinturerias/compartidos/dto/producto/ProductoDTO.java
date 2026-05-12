@@ -1,10 +1,8 @@
-package com.pinturerias.compartidos.dto;
+package com.pinturerias.compartidos.dto.producto;
 
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.general.entidad.ColorBase;
-import com.pinturerias.general.entidad.TamanoEnvase;
-import com.pinturerias.general.entidad.TipoPintura;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;

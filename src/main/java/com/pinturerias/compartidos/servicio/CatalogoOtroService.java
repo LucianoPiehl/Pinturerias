@@ -1,15 +1,13 @@
 package com.pinturerias.compartidos.servicio;
 
-import com.pinturerias.compartidos.dto.ProductoOtroDTO;;
+import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.configuracion.TenantExecutor;
+import com.pinturerias.configuracion.tenant.TenantExecutor;
 import com.pinturerias.general.servicio.ProductoGeneralService;
 import com.pinturerias.sucursal.entidad.ProductoPrecioStock;
-import com.pinturerias.sucursal.servicio.ProductoEtiquetaSucursalService;
 import com.pinturerias.sucursal.servicio.ProductoPrecioStockService;
 import com.pinturerias.sucursal.servicio.ProductoSucursalService;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

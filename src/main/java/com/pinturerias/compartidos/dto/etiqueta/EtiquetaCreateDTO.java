@@ -1,4 +1,4 @@
-package com.pinturerias.compartidos.dto;
+package com.pinturerias.compartidos.dto.etiqueta;
 
 import lombok.*;
 

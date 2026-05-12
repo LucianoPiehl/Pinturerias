@@ -1,14 +1,13 @@
 package com.pinturerias.compartidos.servicio;
 
-import com.pinturerias.compartidos.dto.EtiquetaDTO;
-import com.pinturerias.configuracion.TenantExecutor;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaDTO;
+import com.pinturerias.configuracion.tenant.TenantExecutor;
 import com.pinturerias.general.servicio.EtiquetaGeneralService;
 import com.pinturerias.sucursal.servicio.EtiquetaSucursalService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 

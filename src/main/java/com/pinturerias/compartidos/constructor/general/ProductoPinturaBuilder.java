@@ -1,16 +1,12 @@
 package com.pinturerias.compartidos.constructor.general;
 
-import com.pinturerias.compartidos.dto.ProductoDTO;
-import com.pinturerias.compartidos.dto.ProductoPinturaDTO;
+import com.pinturerias.compartidos.dto.producto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.entidad.Producto;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import org.springframework.stereotype.Component;
 import com.pinturerias.compartidos.constructor.base.ProductoBuilderBase;
 import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
-import com.pinturerias.general.entidad.ColorBase;
-import com.pinturerias.general.entidad.TamanoEnvase;
-import com.pinturerias.general.entidad.TipoPintura;
 
 @Component
 public class ProductoPinturaBuilder implements ProductoBuilderBase<ProductoPinturaDTO> {

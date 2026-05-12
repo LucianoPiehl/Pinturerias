@@ -1,7 +1,7 @@
 package com.pinturerias.general.controlador;
 
-import com.pinturerias.compartidos.dto.EtiquetaCreateDTO;
-import com.pinturerias.compartidos.dto.EtiquetaDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaCreateDTO;
+import com.pinturerias.compartidos.dto.etiqueta.EtiquetaDTO;
 import com.pinturerias.general.servicio.EtiquetaGeneralService;
 import org.springframework.web.bind.annotation.*;
 

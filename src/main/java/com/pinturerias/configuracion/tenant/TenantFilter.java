@@ -1,7 +1,5 @@
-package com.pinturerias.configuracion;
+package com.pinturerias.configuracion.tenant;
 
-import com.pinturerias.general.entidad.Sucursal;
-import com.pinturerias.general.repositorio.SucursalRepository;
 import com.pinturerias.excepciones.ExcepcionApi;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -13,9 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class TenantFilter implements Filter {

@@ -1,5 +1,6 @@
-package com.pinturerias.configuracion;
+package com.pinturerias.configuracion.tenant;
 
+import com.pinturerias.configuracion.dataSource.DataSourceFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.stereotype.Component;

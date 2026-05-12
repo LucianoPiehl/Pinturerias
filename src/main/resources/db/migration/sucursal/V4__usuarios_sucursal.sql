@@ -1,0 +1,7 @@
+CREATE TABLE usuario (
+    id BIGINT PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    telefono VARCHAR(40),
+    habilitado BOOLEAN NOT NULL DEFAULT TRUE,
+    rol VARCHAR(50) NOT NULL
+);

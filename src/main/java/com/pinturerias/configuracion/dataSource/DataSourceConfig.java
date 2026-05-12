@@ -1,5 +1,6 @@
-package com.pinturerias.configuracion;
+package com.pinturerias.configuracion.dataSource;
 
+import com.pinturerias.configuracion.tenant.TenantRoutingDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.*;
