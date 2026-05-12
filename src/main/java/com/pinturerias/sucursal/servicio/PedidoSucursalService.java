@@ -7,7 +7,7 @@ import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.EstadoPedido;
 import com.pinturerias.compartidos.enumeracion.Tipo;
 import com.pinturerias.compartidos.mapper.PedidoMapper;
-import com.pinturerias.compartidos.servicio.PrecioProductoService;
+import com.pinturerias.compartidos.servicio.PrecioProductoOrquestadorService;
 import com.pinturerias.compartidos.servicio.PedidoValidationService;
 import com.pinturerias.sucursal.repositorio.PedidoSucursalRepository;
 import com.pinturerias.excepciones.ExcepcionApi;
@@ -25,7 +25,7 @@ public class PedidoSucursalService {
     private final PedidoValidationService validationService;
     private final ProductoPrecioStockService productoPrecioStockService;
     private final ProductoSucursalService productoSucursalService;
-    private final PrecioProductoService precioProductoService;
+    private final PrecioProductoOrquestadorService precioProductoOrquestadorService;
 
     public PedidoSucursalService(
             PedidoSucursalRepository repositorio,
@@ -33,14 +33,14 @@ public class PedidoSucursalService {
             PedidoValidationService validationService,
             ProductoPrecioStockService productoPrecioStockService,
             ProductoSucursalService productoSucursalService,
-            PrecioProductoService precioProductoService
+            PrecioProductoOrquestadorService precioProductoOrquestadorService
     ) {
         this.repositorio = repositorio;
         this.mapper = mapper;
         this.validationService = validationService;
         this.productoPrecioStockService = productoPrecioStockService;
         this.productoSucursalService = productoSucursalService;
-        this.precioProductoService = precioProductoService;
+        this.precioProductoOrquestadorService = precioProductoOrquestadorService;
     }
 
     @Transactional
@@ -104,7 +104,7 @@ public class PedidoSucursalService {
             if (producto.getContextoProducto() == Contexto.GENERAL) {
                 validationService.validarProductoGeneral(producto);
                 producto.setPrecioUnitario(
-                        precioProductoService.calcularPrecioFinalSucursal(
+                        precioProductoOrquestadorService.calcularPrecioFinalSucursal(
                                 producto.getIdProducto(),
                                 producto.getTipoProducto()
                         )
@@ -115,7 +115,7 @@ public class PedidoSucursalService {
             producto.setTipoProducto(Tipo.OTRO);
             validationService.validarProductoSucursal(producto);
             producto.setPrecioUnitario(
-                    precioProductoService.obtenerPrecioProductoSucursal(producto.getIdProducto())
+                    precioProductoOrquestadorService.obtenerPrecioProductoSucursal(producto.getIdProducto())
             );
         }
     }

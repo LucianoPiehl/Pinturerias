@@ -7,8 +7,8 @@ import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
 import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.compartidos.servicio.PrecioProductoService;
-import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
+import com.pinturerias.compartidos.servicio.PrecioProductoOrquestadorService;
+import com.pinturerias.compartidos.servicio.ProductoEtiquetaOrquestadorService;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.general.repositorio.PedidoGeneralRepository;
 import com.pinturerias.general.repositorio.ProductoOtroGeneralRepository;
@@ -27,9 +27,9 @@ public class ProductoGeneralService {
     private final ProductoOtroGeneralRepository repoOtro;
     private final ProductoPinturaGeneralRepository repoPintura;
     private final ProductoDirector director;
-    private final PrecioProductoService precioProductoService;
+    private final PrecioProductoOrquestadorService precioProductoOrquestadorService;
     private final ProductoEtiquetaGeneralService productoEtiquetaGeneralService;
-    private final ProductoEtiquetaService productoEtiquetaService;
+    private final ProductoEtiquetaOrquestadorService productoEtiquetaOrquestadorService;
     private final PedidoGeneralRepository pedidoGeneralRepository;
 
     public List<ProductoOtroDTO> getAllProductosOtro() {
@@ -125,7 +125,7 @@ public class ProductoGeneralService {
     }
 
     private ProductoPinturaGeneral actualizarPrecioBasePintura(ProductoPinturaGeneral producto) {
-        producto.setPrecioBase(precioProductoService.calcularPrecioRecomendadoGeneral(producto));
+        producto.setPrecioBase(precioProductoOrquestadorService.calcularPrecioRecomendadoGeneral(producto));
         return producto;
     }
 
@@ -139,7 +139,7 @@ public class ProductoGeneralService {
         dto.setTipo(Tipo.OTRO);
         dto.setContexto(Contexto.GENERAL);
         dto.setStock(0);
-        dto.setEtiquetas( productoEtiquetaService.obtenerEtiquetasGeneral(producto.getId(),Tipo.OTRO));
+        dto.setEtiquetas( productoEtiquetaOrquestadorService.obtenerEtiquetasGeneral(producto.getId(),Tipo.OTRO));
         dto.setHabilitado(producto.getHabilitado());
         return dto;
     }
@@ -158,7 +158,7 @@ public class ProductoGeneralService {
         dto.setColorBase(producto.getColorBase());
         dto.setTamanoEnv(producto.getTamanoEnv());
         dto.setHabilitado(producto.getHabilitado());
-        dto.setEtiquetas(productoEtiquetaService.obtenerEtiquetasGeneral(producto.getId(), Tipo.PINTURA));
+        dto.setEtiquetas(productoEtiquetaOrquestadorService.obtenerEtiquetasGeneral(producto.getId(), Tipo.PINTURA));
 
         return dto;
     }

@@ -6,7 +6,7 @@ import com.pinturerias.compartidos.entidad.shared.PedidoProducto;
 import com.pinturerias.compartidos.enumeracion.EstadoPedido;
 import com.pinturerias.compartidos.mapper.PedidoMapper;
 import com.pinturerias.compartidos.servicio.PedidoValidationService;
-import com.pinturerias.compartidos.servicio.PrecioProductoService;
+import com.pinturerias.compartidos.servicio.PrecioProductoOrquestadorService;
 import com.pinturerias.configuracion.tenant.TenantExecutor;
 import com.pinturerias.general.entidad.Sucursal;
 import com.pinturerias.general.repositorio.PedidoGeneralRepository;
@@ -28,7 +28,7 @@ public class PedidoGeneralService {
     private final SucursalRepository sucursalRepository;
     private final TenantExecutor tenantExecutor;
     private final ProductoPrecioStockService productoPrecioStockService;
-    private final PrecioProductoService precioProductoService;
+    private final PrecioProductoOrquestadorService precioProductoOrquestadorService;
 
     public PedidoGeneralService(
             PedidoGeneralRepository pedidoRepository,
@@ -37,7 +37,7 @@ public class PedidoGeneralService {
             SucursalRepository sucursalRepository,
             TenantExecutor tenantExecutor,
             ProductoPrecioStockService productoPrecioStockService,
-            PrecioProductoService precioProductoService
+            PrecioProductoOrquestadorService precioProductoOrquestadorService
     ) {
         this.pedidoRepository = pedidoRepository;
         this.mapper = mapper;
@@ -45,7 +45,7 @@ public class PedidoGeneralService {
         this.sucursalRepository = sucursalRepository;
         this.tenantExecutor = tenantExecutor;
         this.productoPrecioStockService = productoPrecioStockService;
-        this.precioProductoService = precioProductoService;
+        this.precioProductoOrquestadorService = precioProductoOrquestadorService;
     }
 
     public List<PedidoDTO> listar() {
@@ -109,7 +109,7 @@ public class PedidoGeneralService {
         for (PedidoProducto producto : pedido.getProductos()) {
             validationService.validarProductoGeneral(producto);
             producto.setPrecioUnitario(
-                    precioProductoService.calcularPrecioRecomendadoGeneral(
+                    precioProductoOrquestadorService.calcularPrecioRecomendadoGeneral(
                             producto.getIdProducto(),
                             producto.getTipoProducto()
                     )

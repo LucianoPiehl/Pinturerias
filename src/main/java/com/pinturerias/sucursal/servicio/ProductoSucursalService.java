@@ -5,7 +5,7 @@ import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;
 import com.pinturerias.compartidos.entidad.sucursal.ProductoOtroSucursal;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
+import com.pinturerias.compartidos.servicio.ProductoEtiquetaOrquestadorService;
 import com.pinturerias.excepciones.ExcepcionApi;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.sucursal.repositorio.PedidoSucursalRepository;
@@ -24,7 +24,7 @@ public class ProductoSucursalService {
     private final ProductoDirector director;
     private final ProductoOtroSucursalRepository repoOtro;
     private final ProductoEtiquetaSucursalService productoEtiquetaSucursalService;
-    private final ProductoEtiquetaService productoEtiquetaQueryService;
+    private final ProductoEtiquetaOrquestadorService productoEtiquetaQueryService;
     private final PedidoSucursalRepository pedidoSucursalRepository;
 
 

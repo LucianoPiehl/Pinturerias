@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CatalogoPinturaService {
+public class PinturaOrquestadorService {
 
     private final ProductoGeneralService productoGeneralService;
     private final ProductoPrecioStockService productoPrecioStockService;
     private final TenantExecutor tenantExecutor;
-    private final PrecioProductoService precioProductoService;
+    private final PrecioProductoOrquestadorService precioProductoOrquestadorService;
 
     @Transactional
     public List<ProductoPinturaDTO> listarProductosPintura(String tenantId) {
@@ -47,7 +47,7 @@ public class CatalogoPinturaService {
             }
 
             dto.setPrecioFinal(
-                    precioProductoService.calcularPrecioFinalSucursal(
+                    precioProductoOrquestadorService.calcularPrecioFinalSucursal(
                             dto.getPrecioFinal(),
                             control.getPorcentajeAjuste()
                     )

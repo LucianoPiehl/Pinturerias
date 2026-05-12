@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-public class CatalogoEtiquetaService {
+public class EtiquetaOrquestadorService {
 
     private final EtiquetaGeneralService etiquetaGeneralService;
     private final EtiquetaSucursalService etiquetaSucursalService;

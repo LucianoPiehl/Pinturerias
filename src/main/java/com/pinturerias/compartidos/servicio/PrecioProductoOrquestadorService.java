@@ -1,7 +1,6 @@
 package com.pinturerias.compartidos.servicio;
 
 import com.pinturerias.compartidos.entidad.Producto;
-import com.pinturerias.compartidos.entidad.general.ProductoOtroGeneral;
 import com.pinturerias.compartidos.entidad.general.ProductoPinturaGeneral;
 import com.pinturerias.compartidos.entidad.sucursal.ProductoOtroSucursal;
 import com.pinturerias.compartidos.enumeracion.Tipo;
@@ -15,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PrecioProductoService {
+public class PrecioProductoOrquestadorService {
 
+    //Modificar esto Esta clase es un patron orquestador, no puede acceder a los repositorios, solo puede orquestar services.
     private final ProductoOtroGeneralRepository productoOtroGeneralRepository;
     private final ProductoPinturaGeneralRepository productoPinturaGeneralRepository;
     private final ProductoPrecioStockRepository productoPrecioStockRepository;

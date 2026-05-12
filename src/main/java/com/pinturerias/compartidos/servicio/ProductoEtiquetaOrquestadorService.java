@@ -21,8 +21,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductoEtiquetaService {
+public class ProductoEtiquetaOrquestadorService {
 
+    //Modificar esto Esta clase es un patron orquestador, no puede acceder a los repositorios, solo puede orquestar services.
     private final ProductoEtiquetaSucursalRepository sucursalRelRepo;
     private final ProductoEtiquetaGeneralRepository generalRelRepo;
 

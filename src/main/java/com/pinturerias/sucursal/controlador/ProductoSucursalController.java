@@ -5,9 +5,9 @@ import com.pinturerias.compartidos.dto.producto.ProductoOtroDTO;
 import com.pinturerias.compartidos.dto.producto.ProductoPinturaDTO;
 import com.pinturerias.compartidos.enumeracion.Contexto;
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.compartidos.servicio.CatalogoOtroService;
-import com.pinturerias.compartidos.servicio.CatalogoPinturaService;
-import com.pinturerias.compartidos.servicio.ProductoEtiquetaService;
+import com.pinturerias.compartidos.servicio.OtroOrquestadorService;
+import com.pinturerias.compartidos.servicio.PinturaOrquestadorService;
+import com.pinturerias.compartidos.servicio.ProductoEtiquetaOrquestadorService;
 import com.pinturerias.configuracion.tenant.TenantContext;
 import com.pinturerias.sucursal.servicio.ProductoSucursalService;
 import org.springframework.web.bind.annotation.*;
@@ -19,29 +19,29 @@ import java.util.List;
 public class ProductoSucursalController {
 
     private final ProductoSucursalService servicio;
-    private final CatalogoPinturaService catalogoPinturaService;
-    private final CatalogoOtroService catalogoOtroService;
-    private final ProductoEtiquetaService productoEtiquetaService;
+    private final PinturaOrquestadorService pinturaOrquestadorService;
+    private final OtroOrquestadorService otroOrquestadorService;
+    private final ProductoEtiquetaOrquestadorService productoEtiquetaOrquestadorService;
 
     public ProductoSucursalController(ProductoSucursalService servicio,
-                                      CatalogoPinturaService catalogoPinturaService, CatalogoOtroService catalogoOtroService, ProductoEtiquetaService productoEtiquetaService) {
+                                      PinturaOrquestadorService pinturaOrquestadorService, OtroOrquestadorService otroOrquestadorService, ProductoEtiquetaOrquestadorService productoEtiquetaOrquestadorService) {
         this.servicio = servicio;
-        this.catalogoPinturaService = catalogoPinturaService;
-        this.catalogoOtroService = catalogoOtroService;
-        this.productoEtiquetaService = productoEtiquetaService;
+        this.pinturaOrquestadorService = pinturaOrquestadorService;
+        this.otroOrquestadorService = otroOrquestadorService;
+        this.productoEtiquetaOrquestadorService = productoEtiquetaOrquestadorService;
     }
 
     @GetMapping("/otro")
     public List<ProductoOtroDTO> getAllProductoOtro() {
         String tenantId = TenantContext.getTenantId();
-        return catalogoOtroService.listarProductosOtro(tenantId);
+        return otroOrquestadorService.listarProductosOtro(tenantId);
 
     }
 
     @GetMapping("/pintura")
     public List<ProductoPinturaDTO> getAllProductoPintura() {
         String tenantId = TenantContext.getTenantId();
-        return catalogoPinturaService.listarProductosPintura(tenantId);
+        return pinturaOrquestadorService.listarProductosPintura(tenantId);
     }
 
     @PostMapping("/otro")
@@ -70,11 +70,11 @@ public class ProductoSucursalController {
 
     @GetMapping("/otro/{id}/etiquetas")
     public List<EtiquetaDTO> obtenerEtiquetasProductoOtro(@PathVariable Long id){
-        return productoEtiquetaService.obtenerEtiquetasSucursal(id, Tipo.OTRO);
+        return productoEtiquetaOrquestadorService.obtenerEtiquetasSucursal(id, Tipo.OTRO);
     }
 
     @GetMapping("/pintura/{id}/etiquetas")
     public List<EtiquetaDTO> obtenerEtiquetasProductoPintura(@PathVariable Long id){
-        return productoEtiquetaService.obtenerEtiquetasSucursal(id, Tipo.PINTURA);
+        return productoEtiquetaOrquestadorService.obtenerEtiquetasSucursal(id, Tipo.PINTURA);
     }
 }

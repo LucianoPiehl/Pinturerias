@@ -20,11 +20,11 @@ import java.util.stream.Stream;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CatalogoOtroService {
+public class OtroOrquestadorService {
     private final ProductoGeneralService productoGeneralService;
     private final ProductoPrecioStockService productoPrecioStockService;
     private final TenantExecutor tenantExecutor;
-    private final PrecioProductoService precioProductoService;
+    private final PrecioProductoOrquestadorService precioProductoOrquestadorService;
     private final ProductoSucursalService productoSucursalService;
 
     @Transactional
@@ -55,7 +55,7 @@ public class CatalogoOtroService {
             }
 
             dto.setPrecioFinal(
-                    precioProductoService.calcularPrecioFinalSucursal(
+                    precioProductoOrquestadorService.calcularPrecioFinalSucursal(
                             dto.getPrecioFinal(),
                             control.getPorcentajeAjuste()
                     )

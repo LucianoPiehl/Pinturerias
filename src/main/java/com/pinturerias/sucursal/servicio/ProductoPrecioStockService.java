@@ -1,7 +1,7 @@
 package com.pinturerias.sucursal.servicio;
 
 import com.pinturerias.compartidos.enumeracion.Tipo;
-import com.pinturerias.compartidos.servicio.PrecioProductoService;
+import com.pinturerias.compartidos.servicio.PrecioProductoOrquestadorService;
 import com.pinturerias.excepciones.ExcepcionApi;
 import com.pinturerias.excepciones.RecursoNoEncontradoException;
 import com.pinturerias.sucursal.entidad.ProductoPrecioStock;
@@ -15,12 +15,12 @@ import static java.lang.Boolean.TRUE;
 @Service
 public class ProductoPrecioStockService {
     private final ProductoPrecioStockRepository repo;
-    private final PrecioProductoService precioProductoService;
+    private final PrecioProductoOrquestadorService precioProductoOrquestadorService;
 
     public ProductoPrecioStockService(ProductoPrecioStockRepository repo,
-                                      PrecioProductoService precioProductoService) {
+                                      PrecioProductoOrquestadorService precioProductoOrquestadorService) {
         this.repo = repo;
-        this.precioProductoService = precioProductoService;
+        this.precioProductoOrquestadorService = precioProductoOrquestadorService;
     }
 
     public ProductoPrecioStock save(Long productoGeneralId, Tipo tipoProducto, Double porcentajeAjuste, Integer stock, Boolean habilitado) {
@@ -38,7 +38,7 @@ public class ProductoPrecioStockService {
                                                     Double precioFinalSucursal,
                                                     Integer stock,
                                                     Boolean habilitado) {
-        Double porcentajeAjuste = precioProductoService.calcularPorcentajeAjuste(
+        Double porcentajeAjuste = precioProductoOrquestadorService.calcularPorcentajeAjuste(
                 productoGeneralId,
                 tipoProducto,
                 precioFinalSucursal
@@ -95,13 +95,13 @@ public class ProductoPrecioStockService {
     }
 
     private ProductoPrecioStock enriquecerRespuesta(ProductoPrecioStock control) {
-        Double precioRecomendado = precioProductoService.calcularPrecioRecomendadoGeneral(
+        Double precioRecomendado = precioProductoOrquestadorService.calcularPrecioRecomendadoGeneral(
                 control.getProductoId(),
                 control.getTipoProducto()
         );
         control.setPrecioRecomendadoGeneral(precioRecomendado);
         control.setPrecioFinalSucursal(
-                precioProductoService.calcularPrecioFinalSucursal(
+                precioProductoOrquestadorService.calcularPrecioFinalSucursal(
                         precioRecomendado,
                         control.getPorcentajeAjuste()
                 )
